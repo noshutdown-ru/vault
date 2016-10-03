@@ -1,0 +1,14 @@
+<tr class='file <%= defined?(parity) ? parity : '' %>'>
+  <%= render partial: 'shared/key_fields', locals: {key: key_file} %>
+  <td>
+    <% unless key_file.file.blank? %>
+      <%#= t('activerecord.models.key_file') %>
+      <%= link_to project_download_key_file_path(@project,key_file), class: 'keys-actions' do %>
+        <i class='fa fa-download fa-fw'></i>
+      <% end %>
+    <% end %>
+  </td>
+  <td class='buttons'>
+    <%= render partial: 'shared/key_actions', locals: {key: key_file} %>
+  </td>
+</tr>

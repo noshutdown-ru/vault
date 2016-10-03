@@ -1,0 +1,13 @@
+#keys_table a.keys-actions { color: #888; text-decoration: none; font-size: 120%; }
+#keys_table a.keys-actions:hover, a.keys-actions:active { color: #c61a1a; text-decoration: none; cursor: pointer; font-size 120%; }
+
+#tags-list { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; }
+
+#admin-menu a.vault {
+    background-image: url("/images/locked.png");
+}
+a.keys-links { color:#484848; text-decoration: none; }
+a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none; cursor: pointer; }
+
+
+

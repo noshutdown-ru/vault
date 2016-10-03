@@ -1,0 +1,10 @@
+---
+tags_001:
+  id: 1
+  name: ssh
+tags_002:
+  id: 2
+  name: cisco
+tags_003:
+  id: 3
+  name: ftp

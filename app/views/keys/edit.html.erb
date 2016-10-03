@@ -1,0 +1,45 @@
+<h1><%= t('keys.edit.title') %></h1>
+
+<%= render partial: 'form', locals: { key: @key.becomes(Vault::Key), action: :update } %>
+
+<%= link_to t('button_back'), project_keys_path(@project) %>
+
+<script>
+  $(function() {
+    var availableTags = <%= raw(Vault::Tag.tags_list(@project.id).to_json) %>;
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#vault_key_tags" )
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTags, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          terms.pop();
+          terms.push( ui.item.value );
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      });
+  });
+  </script>

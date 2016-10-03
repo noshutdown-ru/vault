@@ -1,0 +1,60 @@
+ru:
+  label_vault: 'Vault'
+  label_vault_settings: 'Настройки Vault'
+  settings:
+    redmine_encryption_notice: "Рекомендуется. Не забудьте установить свой ключ в database_cipher_key в config/configuration.yml. ВАЖНО! Выполните rake redmine:plugins:vault:convert полсе того, как измените это значение."
+    key_notice: "Используется только встроенным методом шифрования Vault"
+  keys_module: "keys"
+  keys:
+    index:
+      title: "Список ключей"
+      sidebar:
+        tags:
+          header: "Популярные теги"
+    new:
+      title: "Новый ключ"
+    edit:
+      title: "Редактирование ключа"
+    show:
+      title: "Информация о ключе"
+    destroy:
+      title: "Удалить ключ"
+  activerecord:
+    models:
+      key: "Ключ"
+      keys: "Ключи"
+      key_file: "Ключевой файл"
+      password: "Пароль"
+      tag: "Тег"
+      tags: "Теги"
+    attributes:
+      key:
+        lock: "Замок"
+        owner: "Владелец"
+        body: "Ключ"
+        name: "Имя"
+        login: "Пользователь"
+        url: "URL"
+        type: "Тип"
+        tags: "Теги"
+        file: "Ключевой файл"
+        comment: "Комментарий"
+  btn:
+    actions: "Действия"
+    new_key: "Новый ключ"
+    details: "Подробно"
+    download_backup:  "Скачать копию"
+    upload_backup:  "Загрузить копию и востановиться"
+  msg:
+    confirm: "Действительно удалить ключ?"
+  notice:
+    keys:
+      not_found: "Ключ не найден"
+      update:
+        success: "Ключ был успешно изменен"
+      delete:
+        success: "Ключ был успешно удален"
+      create:
+        success: "Ключ был успешно создан"
+  error:
+    key_not_set: "Ключ шифрования не установлен в настройках"

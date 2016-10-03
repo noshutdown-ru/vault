@@ -1,0 +1,24 @@
+---
+keys_001:
+  id: 1
+  project_id: 1
+  name: server1
+  login: root
+  body: 123456
+  comment: Important
+  url: root@server1
+keys_002:
+  id: 2
+  project_id: 2
+  name: server2
+  login: admin
+  body: 000000
+  comment: Remember
+  url: admin@server2
+keys_003:
+  id: 3
+  project_id: 1
+  name: ssh_access
+  type: Vault::KeyFile
+  file: server.key
+  comment: Dont forget to put actual file in place

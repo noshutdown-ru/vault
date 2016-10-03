@@ -1,0 +1,61 @@
+# English strings go here for Rails i18n
+en:
+  label_vault: 'Vault'
+  label_vault_settings: 'Vault settings'
+  settings:
+    redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
+    key_notice: "Used only by Vault encryption method"
+  keys_module: 'keys'
+  keys:
+    index:
+      title: "Listing Keys"
+      sidebar:
+        tags:
+          header: "Popular Tags"
+    new:
+      title: "New Key"
+    edit:
+      title: "Editing Key"
+    show:
+      title: "Showing Key"
+    destroy:
+      title: "Delete Key"
+  activerecord:
+    models:
+      key: "Key"
+      keys: "Keys"
+      key_file: "Key File"
+      password: "Password"
+      tag: "Tag"
+      tags: "Tags"
+    attributes:
+      key:
+        lock: "Lock"
+        owner: "Owner"
+        body: "Key"
+        name: "Name"
+        login: "Login"
+        url: "URL"
+        type: "Type"
+        tags: "Tags"
+        file: "Key File"
+        comment: "Comment"
+  btn:
+    actions: "Actions"
+    new_key: "New Key"
+    details: "Details"
+    download_backup:  "Download backup"
+    upload_backup:  "Restore from backup"
+  msg:
+      confirm: "Do you want to delete this key?"
+  notice:
+    keys:
+      not_found: "Key not found"
+      update:
+        success:  "Key was successfully modified"
+      delete:
+        success: "Key was successfully deleted"
+      create:
+        success: "Key was successfully created"
+  error:
+    key_not_set: "The encryption key is not set in the settings"
