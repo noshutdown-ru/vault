@@ -52,7 +52,7 @@
     <%  whitelisted = @key.whitelist.split(",") %>
     <p>
       <%= f.label :whitelist %>
-    <% @project.memberships.active.sort.each do |user| %>
+    <% @project.memberships.active.where(:users => {:type => 'User'}).sort.each do |user| %>
       <%= check_box_tag 'whitelist[]',user.principal.id.to_s, whitelisted.include?(user.principal.id.to_s), :id =>"whitelist_#{user.principal.id}" %>
       <%= link_to_user user.principal %><br/>
     <% end %>
