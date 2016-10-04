@@ -5,7 +5,7 @@ module Vault
     belongs_to :project
     has_and_belongs_to_many :tags
     unloadable
-    attr_accessible :project_id, :name, :body, :login, :type, :file, :project, :url, :comment
+    attr_accessible :project_id, :name, :body, :login, :type, :file, :project, :url, :comment, :whitelist
 
     #def tags=(tags_string)
     #  @tags = Vault::Tag.create_from_string(tags_string)
@@ -35,6 +35,12 @@ module Vault
             comment: rhash['comment']
         )
 
+      end
+
+      def whitelisted?(user)
+        return true if self.whitelist.blank? || user.admin
+        whitelisted = self.whitelist.split(",").include?(user.id.to_s)
+        whitelisted
       end
     end
   end

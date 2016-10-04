@@ -1,3 +1,19 @@
 = vault
 
-Description goes here
+# cd redmine/plugins
+# wget https://noshutdown.ru/download/1063/vault.tar
+# tar -xvf vault.tar
+# cd ../
+# bundle install --without development test
+# rake redmine:plugins:migrate RAILS_ENV=production
+
+
+After installing a plugin, open the settings ( http://*/settings/plugin/vault ) 
+and enter encryption key in the Encryption key field.
+Or use encryption Redmine Encryption, to do this, add the encryption key to a file ( config/configuration.yml ), 
+for example ( database_cipher_key: HediddAwkAbCunnoashtAlEcBuobdids ) and check the box on the Use Redmine Encryption. 
+
+For create backup from console use: “bundle exec rake redmine:plugins:vault:backup” in redmine root.
+Backup must be created in /tmp . 
+
+When set to Redmine 3.* add `Rails.application.config.assets.precompile += %w( zeroclipboard.js )` to `config/initializers/assets.rb` and restart your server. 

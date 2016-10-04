@@ -4,9 +4,16 @@ class KeysController < ApplicationController
   before_action :find_project_by_project_id
   before_action :authorize
   before_action :find_key, only: [ :show, :edit, :update, :destroy, :copy ]
+  before_action :authorize
 
   helper :sort
   include SortHelper
+
+  def authorize
+    if @key && !@key.whitelisted?(User.current)
+        deny_access
+    end
+  end
 
   def index
 
@@ -57,6 +64,8 @@ class KeysController < ApplicationController
       @keys = @keys.offset(@offset).limit(@limit)
     end
 
+    @keys=@keys.select{ |key| key.whitelisted?(User.current) }
+
     @keys.map(&:decrypt!)
   end
 
@@ -76,6 +85,7 @@ class KeysController < ApplicationController
 
     @key.tags = Vault::Tag.create_from_string(key_params[:tags])
 
+    self.update_wishlist
     respond_to do |format|
       if @key.save
         format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.create.success') }
@@ -88,11 +98,22 @@ class KeysController < ApplicationController
   def update
     save_file if key_params[:file]
     respond_to do |format|
+      self.update_wishlist
       if @key.update_attributes(params[:vault_key])
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
         format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.update.success') }
       else
         format.html { render action: 'edit'}
+      end
+    end
+  end
+
+  def update_wishlist
+    if params[:whitelist] && User.current.allowed_to?(:manage_whitelist_keys, @key.project)
+      if params[:whitelist].blank?
+          @key.whitelist = ""
+      else
+          @key.whitelist =  params[:whitelist].join(",")
       end
     end
   end
@@ -124,7 +145,7 @@ class KeysController < ApplicationController
   def find_key
     @key=Vault::Key.find(params[:id])
     unless @key.project_id == @project.id
-      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found') 
+      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found')
     end
   end
 
