@@ -1,3 +1,0 @@
-= vault
-
-Description goes here
