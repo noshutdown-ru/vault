@@ -14,5 +14,11 @@ class Password < Key
     self
   end
 
+  def whitelisted?(user)
+    return true if self.whitelist.blank? || user.admin
+    whitelisted = self.whitelist.split(",").include?(user.id.to_s)
+    whitelisted
+  end
+
 end
 end

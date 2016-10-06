@@ -47,12 +47,23 @@
   <% else %>
     <%= f.text_area :comment, class: 'wiki-edit',:readonly => true %></p>
   <% end %>
+
+  <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
+    <%  whitelisted = @key.whitelist.split(",") %>
+    <p>
+      <%= f.label :whitelist %>
+    <% @project.memberships.active.where(:users => {:type => 'User'}).sort.each do |user| %>
+      <%= check_box_tag 'whitelist[]',user.principal.id.to_s, whitelisted.include?(user.principal.id.to_s), :id =>"whitelist_#{user.principal.id}" %>
+      <%= link_to_user user.principal %><br/>
+    <% end %>
+    </p>
+  <% end %>
   </div>
 
   <% if User.current.allowed_to?(:edit_keys, @project) %>
     <%= f.submit t('button_save') %>
   <% else %>
-    
+
   <% end %>
 
 <% end %>

@@ -16,6 +16,7 @@ Redmine::Plugin.register :vault do
     permission :download_keys, key_files: [ :download ]
     permission :edit_keys, keys: [ :index, :new, :create, :edit, :show, :update, :destroy, :copy ]
     permission :export_keys, keys: [ :keys_to_pdf ]
+    permission :manage_whitelist_keys, keys: [:create, :edit, :show, :update, :copy ]
   end
 
   menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('activerecord.models.keys')}, after: :activity, param: :project_id
