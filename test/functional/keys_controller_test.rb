@@ -25,7 +25,8 @@ class KeysControllerTest < Vault::ControllerTest
 
   def test_index_search
     @request.session[:user_id] = 2
-    get :index, project_id: 1, query: '1'
+
+    get :index, project_id: 1, query: '1', search_fild: 'name'
 
     assert_not_nil assigns(:keys)
     assert_equal 1, assigns(:keys).length

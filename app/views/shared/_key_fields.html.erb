@@ -6,12 +6,10 @@
     <% else %>
       <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
     <% end %>
-    <a class='keys-actions' data-clipboard-target='url_<%=key.id%>' id='d_clip_button_url<%=key.id%>' title='Copy to clipboard'><i class="fa fa-clipboard fa-fw"></i></a>
   <% end %>
 </td>
 <td>
   <% unless key.login.blank? %>
   <label id="login_<%=key.id%>"><%= key.login %></label>
-  <a class='keys-actions' data-clipboard-target='login_<%=key.id%>' id='d_clip_button_login<%=key.id%>' title='Copy to clipboard'><i class="fa fa-clipboard fa-fw"></i></a>
   <% end %>
 </td>

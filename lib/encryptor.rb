@@ -38,13 +38,32 @@ module Encryptor
 
     @csv_string = CSV.generate do |csv|
       csv << Vault::Key.attribute_names
-      Vault::Key.all.each do |user|
-        csv << user.attributes.values
+      Vault::Key.all.each do |key|
+        csv << key.attributes.values
       end
     end
 
-    fname = "keys_#{DateTime.now.to_s}.csv"
-    File.write("/tmp/#{fname}",@csv_string)
+    @csv_tag_string = CSV.generate do |csv|
+      csv << Vault::Tag.attribute_names
+      Vault::Tag.all.each do |tag|
+        csv << tag.attributes.values
+      end
+    end
+
+    @csv_tag_keys_string = CSV.generate do |csv|
+      csv << Vault::KeysVaultTags.attribute_names
+      Vault::KeysVaultTags.all.each do |tag|
+        csv << tag.attributes.values
+      end
+    end
+
+    fname = "/tmp/backup-#{DateTime.now.to_s}.zip"
+
+    Zip::File.open(fname, Zip::File::CREATE) do |zip_file|
+      zip_file.file.open('keys.csv', 'w') { |f1| f1 << @csv_string }
+      zip_file.file.open('tags.csv', 'w') { |f2| f2 << @csv_tag_string }
+      zip_file.file.open('keys_tags.csv', 'w') { |f3| f3 << @csv_tag_keys_string }
+    end
 
   end
 end

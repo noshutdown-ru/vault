@@ -1,4 +1,7 @@
-<tr class='file <%= defined?(parity) ? parity : '' %>'>
+<tr class='hascontextmenu file <%= defined?(parity) ? parity : '' %>'>
+  <td class='checkbox hide-when-print'>
+    <%= check_box_tag('ids[]', key_file.id, false, id: nil) %>
+  </td>
   <%= render partial: 'shared/key_fields', locals: {key: key_file} %>
   <td>
     <% unless key_file.file.blank? %>

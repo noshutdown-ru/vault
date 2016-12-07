@@ -1,11 +1,14 @@
-#keys_table a.keys-actions { color: #888; text-decoration: none; font-size: 120%; }
-#keys_table a.keys-actions:hover, a.keys-actions:active { color: #c61a1a; text-decoration: none; cursor: pointer; font-size 120%; }
+#keys_table a.keys-actions { color: #888; text-decoration: none; font-size: 120%; padding: 0; }
 
+#keys_table a.keys-actions:hover, a.keys-actions:active { color: #c61a1a; text-decoration: none; cursor: pointer; font-size: 120%; }
 #tags-list { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; }
+#admin-menu a.vault { background-image: url("/images/locked.png"); }
 
-#admin-menu a.vault {
-    background-image: url("/images/locked.png");
-}
+#vault_context_menu li.conext_menu { color: #888; text-decoration: none; font-size: 100%; padding: 0; }
+#vault_context_menu a.conext_menu { color: #888; text-decoration: none; font-size: 100%; padding: 0; }
+#vault_whitelist table.whitelist_users { margin: 0; padding: 3px 0 3px 0; padding-left: 180px; min-height: 1.8em; clear:left; overflow:hidden;}
+#vault_whitelist label.whitelist_users { margin: 0; padding: 3px 0 3px 0; min-height: 1.8em; clear:left; overflow:hidden;}
+
 a.keys-links { color:#484848; text-decoration: none; }
 a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none; cursor: pointer; }
 

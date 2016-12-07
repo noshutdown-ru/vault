@@ -27,7 +27,9 @@ class Tag < ActiveRecord::Base
   end
 
   def Tag::tags_list(pid)
-    tags_with_score = Vault::Tag.joins(:keys).where(keys: {project_id: pid}).group('vault_tags.name').map(&:name) #OPTIMIZE_ME!
+    tags_with_score = Vault::Tag.joins(:keys).where(
+        keys: {project_id: pid}
+    ).group('vault_tags.name').group('vault_tags.id').map(&:name) #OPTIMIZE_ME!
   end
 
 end

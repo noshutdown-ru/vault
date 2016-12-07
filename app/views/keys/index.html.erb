@@ -31,8 +31,13 @@
 <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
+<%= form_tag({}) do %>
 <table class='list' id='keys_table'>
   <thead><tr>
+    <th class="checkbox hide-when-print">
+       <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+    </th>
     <%= sort_header_tag('name', caption: t('field_name')) %>
     <th><%= t('field_url') %></th>
     <th><%= t('field_login') %></th>
@@ -45,8 +50,17 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
 
-<p class='pagination'><%= pagination_links_full @key_pages, @key_count %></p>
+<% if Redmine::VERSION.to_s.start_with?('3.3')  %>
+    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+<% elsif Redmine::VERSION.to_s.start_with?('3.2') %>
+    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+<% elsif Redmine::VERSION.to_s.start_with?('3.1') %>
+    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+<% else %>
+    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+<% end %>
 
 <% other_formats_links do |f| %>
     <%= f.link_to 'PDF', :url => params if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:export_keys, @project)%>
@@ -81,4 +95,11 @@
     });
   <% end %>
   });
+</script>
+
+<%= context_menu project_keys_context_menus_path(@project) %>
+
+<script type="text/javascript">
+  $('a[href^="http://"]').attr('target','_blank');
+  $('a[href^="https://"]').attr('target','_blank');
 </script>

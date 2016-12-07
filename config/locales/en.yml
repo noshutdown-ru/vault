@@ -6,6 +6,13 @@ en:
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
     key_notice: "Used only by Vault encryption method"
   keys_module: 'keys'
+  context_menu:
+    copy_key: "Copy Key"
+    copy_url: "Copy URL"
+    copy_login: "Copy Login"
+    delete: "Delete Key"
+    edit: "Edit Key"
+    clone: "Clone Key"
   keys:
     index:
       title: "Listing Keys"
@@ -16,10 +23,16 @@ en:
       title: "New Key"
     edit:
       title: "Editing Key"
+      selected_members: "Selected Members"
+      available_members: "Available Members"
     show:
       title: "Showing Key"
     destroy:
       title: "Delete Key"
+    copy:
+      title: "Copy Key"
+    clone:
+      title: "Clone Key"
   activerecord:
     models:
       key: "Key"

@@ -1,10 +1,12 @@
 module Vault
   require 'csv'
   require 'iconv'
+
   class Vault::Key < ActiveRecord::Base
     belongs_to :project
     has_and_belongs_to_many :tags
     unloadable
+
     attr_accessible :project_id, :name, :body, :login, :type, :file, :project, :url, :comment, :whitelist
 
     #def tags=(tags_string)
@@ -24,24 +26,32 @@ module Vault
         rhash = row.to_hash
 
         decryptb = Encryptor::decrypt(rhash['body'])
+        begin
+          Vault::Key.create(
+              project_id: rhash['project_id'],
+              name: rhash['name'],
+              body: decryptb,
+              login: rhash['login'],
+              type: rhash['type'],
+              file: rhash['file'],
+              url: rhash['url'],
+              comment: rhash['comment'],
+              whitelist: rhash['comment']
+          ).update_column(:id, rhash['id'])
+        rescue
 
-        Vault::Key.create(
-            project_id: rhash['project_id'],
-            name: rhash['name'],
-            login: rhash['login'],
-            type: rhash['type'],
-            body: decryptb,
-            url: rhash['url'],
-            comment: rhash['comment']
-        )
-
-      end
-
-      def whitelisted?(user)
-        return true if self.whitelist.blank? || user.admin
-        whitelisted = self.whitelist.split(",").include?(user.id.to_s)
-        whitelisted
+        end
       end
     end
+
+    def whitelisted?(user,project)
+      return true if user.current.admin or !user.current.allowed_to?(:whitelist_keys, project)
+      return self.whitelist.split(",").include?(user.current.id.to_s)
+    end
+
   end
+
+  class Vault::KeysVaultTags < ActiveRecord::Base
+  end
+
 end

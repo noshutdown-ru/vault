@@ -1,18 +1,2 @@
-<table>
-  <tbody>
-  <tr>
-  <th>Encryption key</th>
-    <td>
-      <input type="text" id="settings_encryption_key" value="<%= settings['encryption_key'] %>" name="settings[encryption_key]" >
-      <%= t('settings.key_notice') %>
-    </td>
-  </tr>
-  <tr>
-    <th>Use Redmine Encryption</th>
-    <td>
-      <%= check_box_tag('settings[use_redmine_encryption]',settings['use_redmine_encryption'], settings['use_redmine_encryption']) %>
-      <%= t('settings.redmine_encryption_notice') %>
-    </td>
-  </tr>
-  </tbody>
-</table>
+
+<%= link_to "Vault Settings", {:controller => 'vault_settings', :action => 'index'} %>

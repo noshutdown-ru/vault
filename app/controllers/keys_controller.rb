@@ -4,16 +4,11 @@ class KeysController < ApplicationController
   before_action :find_project_by_project_id
   before_action :authorize
   before_action :find_key, only: [ :show, :edit, :update, :destroy, :copy ]
-  before_action :authorize
+  before_action :find_keys, only: [ :context_menu ]
 
   helper :sort
   include SortHelper
-
-  def authorize
-    if @key && !@key.whitelisted?(User.current)
-        deny_access
-    end
-  end
+  helper ContextMenusHelper
 
   def index
 
@@ -64,7 +59,7 @@ class KeysController < ApplicationController
       @keys = @keys.offset(@offset).limit(@limit)
     end
 
-    @keys=@keys.select{ |key| key.whitelisted?(User.current) }
+    @keys = @keys.select { |key| key.whitelisted?(User,@project) }
 
     @keys.map(&:decrypt!)
   end
@@ -86,6 +81,7 @@ class KeysController < ApplicationController
     @key.tags = Vault::Tag.create_from_string(key_params[:tags])
 
     self.update_wishlist
+
     respond_to do |format|
       if @key.save
         format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.create.success') }
@@ -98,7 +94,9 @@ class KeysController < ApplicationController
   def update
     save_file if key_params[:file]
     respond_to do |format|
+
       self.update_wishlist
+
       if @key.update_attributes(params[:vault_key])
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
         format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.update.success') }
@@ -138,14 +136,25 @@ class KeysController < ApplicationController
     flash[:notice] = t('notice.keys.delete.success')
   end
 
-
+  def context_menu
+    #FIXME
+    @keys.map(&:decrypt!)
+    render layout: false
+  end
 
   private
 
   def find_key
     @key=Vault::Key.find(params[:id])
     unless @key.project_id == @project.id
-      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found')
+      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found') 
+    end
+  end
+
+  def find_keys
+    @keys=Vault::Key.find(params[:ids])
+    unless @keys.all? { |k| k.project_id == @project.id } 
+      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found') 
     end
   end
 

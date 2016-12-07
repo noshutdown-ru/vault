@@ -1,0 +1,64 @@
+<div id="vault_context_menu">
+  <ul>
+      <li data-copytarget="#copy_body" class="conext_menu">
+        <i class="fa fa-clipboard fa-fw" ></i>
+        <%= l('context_menu.copy_key') %>
+        <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_body" value="<%=@keys[0].body%>" />
+      </li>
+
+      <li data-copytarget="#copy_login" class="conext_menu">
+        <i class="fa fa-clipboard fa-fw"></i>
+        <%= l('context_menu.copy_login') %>
+        <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_login" value="<%=@keys[0].login%>" />
+      </li>
+      <li data-copytarget="#copy_url" class="conext_menu">
+        <i class="fa fa-clipboard fa-fw" ></i>
+        <%= l('context_menu.copy_url') %>
+        <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_url" value="<%=@keys[0].url%>" />
+      </li>
+    <% if User.current.allowed_to?(:edit_keys, @project) %>
+      <li>
+        <%= link_to project_copy_key_path(@project, @keys[0]), class: 'conext_menu' do %>
+            <i class='fa fa-files-o fa-fw'></i>
+            <%= l('context_menu.clone') %>
+        <% end if User.current.allowed_to?(:edit_keys, @project) %>
+      </li>
+      <li>
+        <%= link_to edit_project_key_path(@project, @keys[0]), class: 'conext_menu' do %>
+            <i class='fa fa-pencil fa-fw'></i>
+            <%= l('context_menu.edit') %>
+        <% end if User.current.allowed_to?(:edit_keys, @project) %>
+      </li>
+      <li>
+        <%= link_to project_key_path(@project, @keys[0]), class: 'conext_menu', data: {confirm: t('msg.confirm')}, method: :delete do %>
+            <i class='fa fa-trash fa-fw'></i>
+            <%= l('context_menu.delete') %>
+        <% end if User.current.allowed_to?(:edit_keys, @project) %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<script>
+  (function() {
+    'use strict';
+    document.body.addEventListener('click', copy, true);
+    function copy(e) {
+      var
+          t = e.target,
+          c = t.dataset.copytarget,
+          inp = (c ? document.querySelector(c) : null);
+
+      if (inp && inp.select) {
+        inp.select();
+        try {
+          document.execCommand('copy');
+          inp.blur();
+        }
+        catch (err) {
+          alert('please press Ctrl/Cmd+C to copy');
+        }
+      }
+    }
+  })();
+</script>
