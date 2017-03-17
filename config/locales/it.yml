@@ -3,8 +3,12 @@ it:
   label_vault: 'Vault'
   label_vault_settings: 'Impostazioni Vault'
   settings:
+    encryption_key: "Chiave crittografica"
+    use_redmine_encryption: "Utilizzare la crittografia di Redmine"
     redmine_encryption_notice: "Consigliato. Non dimenticare di inserire la tua chiave nella riga \"database_cipher_key\" in \"config/configuration.yml\". IMPORTANTE: eseguire \"rake redmine:plugins:vault:convert\" dopo aver cambiato questa impostazione."
     key_notice: "Usata solo con il metodo di cifratura Vault"
+    backup_keys: "Backup chiavi"
+    restore_from_backup: "Ripristinare dal backup"
   keys_module: 'chiavi'
   context_menu:
     copy_key: "Copia Chiave"

@@ -15,14 +15,14 @@
         <table>
           <tbody>
           <tr>
-            <th>Encryption key</th>
+            <th><%= t('settings.encryption_key') %></th>
             <td>
               <input type="text" id="settings_encryption_key" value="<%= Setting.plugin_vault['encryption_key'] %>" name="settings[encryption_key]" >
               <%= t('settings.key_notice') %>
             </td>
           </tr>
           <tr>
-            <th>Use Redmine Encryption</th>
+            <th><%= t('settings.use_redmine_encryption') %></th>
             <td>
               <%= check_box_tag('settings[use_redmine_encryption]',Setting.plugin_vault['use_redmine_encryption'], Setting.plugin_vault['use_redmine_encryption']) %>
               <%= t('settings.redmine_encryption_notice') %>
@@ -39,12 +39,12 @@
   <div class="box tabular settings">
     <table>
       <tr>
-        <th style="text-align:left"> Backup keys </th>
+        <th style="text-align:left"><%= t('settings.backup_keys') %></th>
         <th style="text-align:right"> <%= button_to(t('btn.download_backup'), :action => :backup)%> </th>
       </tr>
 
       <tr>
-        <th style="text-align:left"> Restore from backup </th>
+        <th style="text-align:left"><%= t('settings.restore_from_backup') %></th>
         <th style="text-align:right">
           <%= form_tag({:action => :restore}, method: 'post',multipart: true) do %>
               <%= file_field_tag :file %>
