@@ -2,8 +2,12 @@ ru:
   label_vault: 'Vault'
   label_vault_settings: 'Настройки Vault'
   settings:
+    encryption_key: "Ключ шифрования"
+    use_redmine_encryption: "Использовать шифрование Redmine"
     redmine_encryption_notice: "Рекомендуется. Не забудьте установить свой ключ в database_cipher_key в config/configuration.yml. ВАЖНО! Выполните rake redmine:plugins:vault:convert полсе того, как измените это значение."
     key_notice: "Используется только встроенным методом шифрования Vault"
+    backup_keys: "Резервные ключи"
+    restore_from_backup: "Восстановление из резервной копии"
   keys_module: "keys"
   keys:
     index:

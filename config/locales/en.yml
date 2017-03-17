@@ -3,8 +3,12 @@ en:
   label_vault: 'Vault'
   label_vault_settings: 'Vault settings'
   settings:
+    encryption_key: "Encryption key"
+    use_redmine_encryption: "Use Redmine Encryption"
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
     key_notice: "Used only by Vault encryption method"
+    backup_keys: "Backup keys"
+    restore_from_backup: "Restore from backup"
   keys_module: 'keys'
   context_menu:
     copy_key: "Copy Key"
