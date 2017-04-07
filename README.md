@@ -7,7 +7,7 @@ Allows you to store various passwords/keys in one place for the project.
 
 https://noshutdown.ru/en/redmine-plugins-vault/#about
 
-# Instalaltion
+# Installation
 
 ```
 # cd redmine/plugins 
