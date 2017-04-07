@@ -1,0 +1,74 @@
+# English strings go here for Rails i18n
+nl:
+  label_vault: 'Kluis'
+  label_vault_settings: 'Kluis instellingen'
+  settings:
+    redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sluitel in de database_cipher_key in confi/configuration toe te passen. Belangrijk: voer het commando: "rake redmine:plugins:vault:convert" nadat je deze wijzigingen hebt toegepast."
+    key_notice: "Wordt alleen gebruikt door de encryptie methode van de kluis"
+  keys_module: 'sleutels'
+  context_menu:
+    copy_key: "Kopieer sleutel"
+    copy_url: "Kopieer URL"
+    copy_login: "Kopieer inlog"
+    delete: "Verwijder sleutel"
+    edit: "Bewerk sleutel"
+    clone: "Dupliceer sleutel"
+  keys:
+    index:
+      title: "Overzicht sleutels"
+      sidebar:
+        tags:
+          header: "Populaire tags"
+    new:
+      title: "Nieuwe sleutel"
+    edit:
+      title: "Sleutel bewerken"
+      selected_members: "Geselecteerde Leden"
+      available_members: "Beschikbare Leden"
+    show:
+      title: "Weergeef sleutel"
+    destroy:
+      title: "Verwijder sleutel"
+    copy:
+      title: "Kopieer sleutel"
+    clone:
+      title: "Dupliceer sleutel"
+  activerecord:
+    models:
+      key: "Sleutel"
+      keys: "Sleutels"
+      key_file: "Sleutel Bestand"
+      password: "Wachtwoord"
+      tag: "Tag"
+      tags: "Tags"
+    attributes:
+      key:
+        lock: "Sluit"
+        owner: "Eigenaar"
+        body: "Sleutel"
+        name: "Naam"
+        login: "Login"
+        url: "URL"
+        type: "Type"
+        tags: "Tags"
+        file: "Sleutel bestand"
+        comment: "Commentaar"
+  btn:
+    actions: "Acties"
+    new_key: "Niewe Sleutel"
+    details: "Details"
+    download_backup:  "Download backup"
+    upload_backup:  "Herstel van backup"
+  msg:
+      confirm: "Weet je zeker dat je deze sleutel wilt verwijderen?"
+  notice:
+    keys:
+      not_found: "Sleutel niet gevonden"
+      update:
+        success:  "Sleutel succesvol aangepast"
+      delete:
+        success: "Sleutel succesvol verwijderd"
+      create:
+        success: "Sleutel succesvol aangemaakt"
+  error:
+    key_not_set: "De encryptie sleutel is niet gezet in de instellingen"
