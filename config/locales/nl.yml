@@ -3,7 +3,7 @@ nl:
   label_vault: 'Kluis'
   label_vault_settings: 'Kluis instellingen'
   settings:
-    redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sluitel in de database_cipher_key in confi/configuration toe te passen. Belangrijk: voer het commando: "rake redmine:plugins:vault:convert" nadat je deze wijzigingen hebt toegepast."
+    redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sluitel in de database_cipher_key in config/configuration toe te passen. Belangrijk: voer het commando: \"rake redmine:plugins:vault:convert\" nadat je deze wijzigingen hebt toegepast."
     key_notice: "Wordt alleen gebruikt door de encryptie methode van de kluis"
   keys_module: 'sleutels'
   context_menu:
