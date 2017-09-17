@@ -7,7 +7,7 @@ Redmine::Plugin.register :vault do
   name 'Vault plugin'
   author 'noshutdown.ru'
   description 'Plugin for keep keys and passwords'
-  version '0.3.1'
+  version '0.3.2'
   url 'https://noshutdown.ru/redmine-plugins-vault/'
   author_url 'https://noshutdown.ru/'
 
@@ -20,7 +20,7 @@ Redmine::Plugin.register :vault do
     permission :whitelist_keys, keys: [ :index, :edit, :show, :context_menu ]
   end
 
-  menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('activerecord.models.keys')}, after: :activity, param: :project_id
+  menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('label_module')}, after: :activity, param: :project_id
   settings :default => {
                'empty' => true
            },

@@ -14,7 +14,7 @@ class VaultSettingsController < ApplicationController
 
   def save
     Setting.send "plugin_vault=", params[:settings]
-    redirect_to '/vault_settings', notice: "Settings saved"
+    redirect_to '/vault_settings', notice: t('notice.settings.saved')
   end
 
   def backup
@@ -93,7 +93,7 @@ class VaultSettingsController < ApplicationController
       end
     end
 
-    redirect_to '/vault_settings', notice: "Products imported."
+    redirect_to '/vault_settings', notice: t('notice.settings.keys_restore')
   end
 
 end

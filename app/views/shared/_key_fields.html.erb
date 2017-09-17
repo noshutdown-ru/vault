@@ -4,12 +4,18 @@
     <% if /:\/\//.match(key.url) %>
       <%= link_to "#{key.url}", key.url, id: "url_#{key.id}"%>
     <% else %>
-      <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
+      <a align="left" class='keys-links' data-clipboard-target='url_<%=key.id%>' id='d_clip_url_<%=key.id%>'>
+        <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
+      </a>
     <% end %>
   <% end %>
 </td>
 <td>
   <% unless key.login.blank? %>
-  <label id="login_<%=key.id%>"><%= key.login %></label>
+    <a align="left" class='keys-links' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>'>
+      <label id="login_<%=key.id%>"><%= key.login %></label>
+    </a>
   <% end %>
 </td>
+
+

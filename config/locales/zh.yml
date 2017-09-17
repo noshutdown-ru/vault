@@ -1,0 +1,91 @@
+# English strings go here for Rails i18n
+en:
+  label_vault: 'Vault'
+  label_module: '密钥'
+  settings:
+    title: "Vault选项"
+    vault_title_encription_key: "密钥"
+    redmine_title_encription_key: "使用Redmine加密法"
+    vault_encription_notice: "只用Vault加密法有效"
+    redmine_encryption_notice: "推荐选项。 请记得设置密钥database_cipher_key在config/configuration.yml文件。 注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
+
+  backups:
+    title: "密钥备份"
+    title_restore: "恢复备份"
+    btn:
+      download_backup: "下载备份文件"
+      upload_backup: "上传备份文件"
+
+  export:
+    title:
+      pdf: "PDF"
+
+    pdf:
+      title: "密钥"
+
+  tag:
+      title:
+        popular: "常用标签"
+  key:
+    title:
+      delete: "删除密钥"
+      edit: "修改密钥"
+      copy: "复制密钥"
+      clone: "克隆密钥"
+      show: "密钥详细"
+      new: "新建密钥"
+      list: "密钥列表"
+
+    btn:
+      new: "新建密钥"
+      actions: "操作"
+      clipboard: "复制到剪贴板中"
+
+    attr:
+      lock: "锁"
+      owner: "所有人"
+      body: "密钥"
+      name: "名称"
+      login: "用户名"
+      url: "URL"
+      type: "类型"
+      tags: "标签"
+      file: "密钥文件"
+      comment: "备注"
+      whitelist: "访问表"
+
+    whitelist:
+      selected_members: "已选成员"
+      available_members: "可选成员"
+
+  context_menu:
+      copy_key: "复制密钥"
+      copy_url: "复制URL"
+      copy_login: "复制用户名"
+      delete: "删除密钥"
+      edit: "修改密钥"
+      clone: "克隆密钥"
+
+  alert:
+    key:
+      not_found: "密钥不存在"
+
+  confirm:
+    key:
+      delete: "确定要删除该密钥吗？"
+
+  notice:
+    settings:
+      saved: "选项已存储"
+      keys_restore: "密钥已恢复"
+    key:
+      update:
+        success:  "成功修改密钥"
+      delete:
+        success: "成功删除密钥"
+      create:
+        success: "成功新建密钥"
+
+  error:
+    key:
+      not_set: "选项钥设置加密方法及密钥"

@@ -8,7 +8,7 @@ module KeysHelper
 
   def keys_to_pdf(keys, project, query)
     pdf = ITCPDF.new(current_language, "L")
-    title = "#{project} keys"
+    title = "#{project} #{t('export.pdf.title')}"
     pdf.set_title(title)
     pdf.alias_nb_pages
     pdf.footer_date = format_date(Date.today)
@@ -31,10 +31,10 @@ module KeysHelper
     pdf.RDMCell(190,10, title)
     pdf.ln
 
-    pdf.RDMMultiCell(100,row_height,"NAME",1,"",0,0)
-    pdf.RDMMultiCell(100,row_height,"URL",1,"",0,0)
-    pdf.RDMMultiCell(30,row_height,"LOGIN",1,"",0,0)
-    pdf.RDMMultiCell(50,row_height,"PASSWORD",1,"",0,1)
+    pdf.RDMMultiCell(100,row_height,t('key.attr.name'),1,"",0,0)
+    pdf.RDMMultiCell(100,row_height,t('key.attr.url'),1,"",0,0)
+    pdf.RDMMultiCell(30,row_height,t('key.attr.login'),1,"",0,0)
+    pdf.RDMMultiCell(50,row_height,t('key.attr.body'),1,"",0,1)
 
     pdf.SetFontStyle('',8)
 

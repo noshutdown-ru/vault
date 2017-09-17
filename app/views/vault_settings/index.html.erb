@@ -1,9 +1,6 @@
-
-<h2><%= l(:label_vault_settings) %></h2>
-
+<h2><%= t('settings.title') %></h2>
 
 <% content_for :header_tags do %>
-    <%#= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" %>
     <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
     <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
     <%= stylesheet_link_tag 'vault', :plugin => 'vault' %>
@@ -15,14 +12,14 @@
         <table>
           <tbody>
           <tr>
-            <th><%= t('settings.encryption_key') %></th>
+            <th><%= t('settings.vault_title_encription_key') %></th>
             <td>
               <input type="text" id="settings_encryption_key" value="<%= Setting.plugin_vault['encryption_key'] %>" name="settings[encryption_key]" >
-              <%= t('settings.key_notice') %>
+              <%= t('settings.vault_encription_notice') %>
             </td>
           </tr>
           <tr>
-            <th><%= t('settings.use_redmine_encryption') %></th>
+            <th><%= t('settings.redmine_title_encription_key') %></th>
             <td>
               <%= check_box_tag('settings[use_redmine_encryption]',Setting.plugin_vault['use_redmine_encryption'], Setting.plugin_vault['use_redmine_encryption']) %>
               <%= t('settings.redmine_encryption_notice') %>
@@ -39,16 +36,16 @@
   <div class="box tabular settings">
     <table>
       <tr>
-        <th style="text-align:left"><%= t('settings.backup_keys') %></th>
-        <th style="text-align:right"> <%= button_to(t('btn.download_backup'), :action => :backup)%> </th>
+        <th style="text-align:left"> <%= t('backups.title') %> </th>
+        <th style="text-align:right"> <%= button_to(t('backups.btn.download_backup'), :action => :backup)%> </th>
       </tr>
 
       <tr>
-        <th style="text-align:left"><%= t('settings.restore_from_backup') %></th>
+        <th style="text-align:left"> <%= t('backups.title_restore') %> </th>
         <th style="text-align:right">
           <%= form_tag({:action => :restore}, method: 'post',multipart: true) do %>
               <%= file_field_tag :file %>
-            <%= submit_tag(t('btn.upload_backup')) %>
+            <%= submit_tag(t('backups.btn.upload_backup')) %>
           <% end %>
         </th>
       </tr>

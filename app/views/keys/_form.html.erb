@@ -1,20 +1,20 @@
 <%= form_for key, url: { controller: :keys, action: action } do |f| %>
   <div class='box tabular'>
-    <p><%= f.label :name, t('field_name') %>
+    <p><%= f.label :name, t('key.attr.name') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.text_field :name %></p>
     <% else %>
       <%= f.text_field :name,:readonly => true %></p>
     <% end %>
 
-    <p><%= f.label :login, t('field_login') %>
+    <p><%= f.label :login, t('key.attr.login') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.text_field :login %></p>
     <% else %>
       <%= f.text_field :login,:readonly => true %></p>
     <% end %>
 
-    <p><%= f.label :url, t('field_url') %>
+    <p><%= f.label :url, t('key.attr.url') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.text_field :url %></p>
     <% else %>
@@ -24,24 +24,24 @@
     <p><%= f.label :type %>
     <%= f.select :type, key_types %></p>
 
-    <p><%= f.label :body, t('activerecord.attributes.key.body') %>
+    <p><%= f.label :body, t('key.attr.body') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.text_field :body %></p>
     <% else %>
       <%= f.text_field :body,:readonly => true %></p>
     <% end %>
 
-    <p><%= f.label :tags, t('activerecord.models.tags') %>
+    <p><%= f.label :tags, t('key.attr.tags') %>
     <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %></p>
 
-    <p><%= f.label :file, t('activerecord.models.key_file') %>
+    <p><%= f.label :file, t('key.attr.file') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.file_field :file %></p>
     <% else %>
       <%= f.file_field :file,:readonly => true %></p>
     <% end %>
 
-    <p><%= f.label :comment, t('field_comments') %>
+    <p><%= f.label :comment, t('key.attr.comment') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
       <%= f.text_area :comment, class: 'wiki-edit' %></p>
     <% else %>
@@ -52,12 +52,12 @@
       <%  whitelisted = @key.whitelist.split(",") %>
  			<%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
       <div id="vault_whitelist">
-        <%= f.label :whitelist ,class: "whitelist_users"%>
+        <%= f.label t('key.attr.whitelist') ,class: "whitelist_users"%>
 
       <table class='whitelist_users'>
         <tr>
           <td style ='padding-left:0'>
-            <%= label_tag 'selected_users', t('keys.edit.selected_members'), class: "no-css" %>
+            <%= label_tag 'selected_users', t('key.whitelist.selected_members'), class: "no-css" %>
             <br />
             <%= select_tag 'whitelist',
 									options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
@@ -72,7 +72,7 @@
 					 </td>
 
           <td>
-            <%= label_tag 'available_users', t('keys.edit.available_members'), class: "no-css" %>
+            <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "no-css" %>
             <br />
             <%= select_tag 'available_users',
 									options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),

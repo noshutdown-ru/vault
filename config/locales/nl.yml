@@ -1,11 +1,63 @@
-# English strings go here for Rails i18n
+# Dutch strings go here for Rails i18n
 nl:
   label_vault: 'Kluis'
-  label_vault_settings: 'Kluis instellingen'
+  label_module: 'Keys'
   settings:
+    title: "Kluis instellingen"
+    vault_title_encription_key: "Encryptiesleutel"
+    redmine_title_encription_key: "Gebruik Redmine encryptie"
+    vault_encription_notice: "Wordt alleen gebruikt door de encryptie methode van de kluis"
     redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sluitel in de database_cipher_key in config/configuration toe te passen. Belangrijk: voer het commando: \"rake redmine:plugins:vault:convert\" nadat je deze wijzigingen hebt toegepast."
-    key_notice: "Wordt alleen gebruikt door de encryptie methode van de kluis"
-  keys_module: 'sleutels'
+
+  backups:
+    title: "Backup sleutels"
+    title_restore: "Herstel van backup"
+    btn:
+      download_backup: "Download backup"
+      upload_backup: "Herstel van backup"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "sleutels"
+
+  tag:
+    title:
+      popular: "Populaire Tags"
+
+  key:
+    title:
+      delete: "Verwijder sleutel"
+      edit: "Bewerk sleutel"
+      copy: "Kopieer sleutel"
+      clone: "Dupliceer sleutel"
+      show: "Resultaat sleutel"
+      new: "Nieuwe sleutel"
+      list: "Listing Keys"
+
+    btn:
+      new: "Nieuwe sleutel"
+      actions: "Acties"
+      clipboard: "Kopieer naar klembord"
+
+    attr:
+      lock: "Sluit"
+      owner: "Eigenaar"
+      body: "Sleutel"
+      name: "Naam"
+      login: "Login"
+      url: "URL"
+      type: "Type"
+      tags: "Tags"
+      file: "Sleutel bestand"
+      comment: "Commentaar"
+      whitelist: "Toegangslijst"
+
+    whitelist:
+      selected_members: "Geselecteerde leden"
+      available_members: "Beschikbare leden"
+
   context_menu:
     copy_key: "Kopieer sleutel"
     copy_url: "Kopieer URL"
@@ -13,62 +65,27 @@ nl:
     delete: "Verwijder sleutel"
     edit: "Bewerk sleutel"
     clone: "Dupliceer sleutel"
-  keys:
-    index:
-      title: "Overzicht sleutels"
-      sidebar:
-        tags:
-          header: "Populaire tags"
-    new:
-      title: "Nieuwe sleutel"
-    edit:
-      title: "Sleutel bewerken"
-      selected_members: "Geselecteerde Leden"
-      available_members: "Beschikbare Leden"
-    show:
-      title: "Weergeef sleutel"
-    destroy:
-      title: "Verwijder sleutel"
-    copy:
-      title: "Kopieer sleutel"
-    clone:
-      title: "Dupliceer sleutel"
-  activerecord:
-    models:
-      key: "Sleutel"
-      keys: "Sleutels"
-      key_file: "Sleutel Bestand"
-      password: "Wachtwoord"
-      tag: "Tag"
-      tags: "Tags"
-    attributes:
-      key:
-        lock: "Sluit"
-        owner: "Eigenaar"
-        body: "Sleutel"
-        name: "Naam"
-        login: "Login"
-        url: "URL"
-        type: "Type"
-        tags: "Tags"
-        file: "Sleutel bestand"
-        comment: "Commentaar"
-  btn:
-    actions: "Acties"
-    new_key: "Niewe Sleutel"
-    details: "Details"
-    download_backup:  "Download backup"
-    upload_backup:  "Herstel van backup"
-  msg:
-      confirm: "Weet je zeker dat je deze sleutel wilt verwijderen?"
-  notice:
-    keys:
+
+  alert:
+    key:
       not_found: "Sleutel niet gevonden"
+
+  confirm:
+    key:
+      delete: "Weet je zeker dat je deze sleutel wilt verwijderen?"
+
+  notice:
+    settings:
+      saved: "Settings saved"
+      keys_restore: "Keys restored"
+    key:
       update:
-        success:  "Sleutel succesvol aangepast"
+        success: "Sleutel succesvol aangepast"
       delete:
         success: "Sleutel succesvol verwijderd"
       create:
         success: "Sleutel succesvol aangemaakt"
+
   error:
-    key_not_set: "De encryptie sleutel is niet gezet in de instellingen"
+    key:
+      not_set: "De encryptie sleutel is niet gezet in de instellingen"

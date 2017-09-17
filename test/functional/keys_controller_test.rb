@@ -84,7 +84,7 @@ class KeysControllerTest < Vault::ControllerTest
     assert_redirected_to '/projects/ecookbook/keys'
 
     key = Vault::Key.find_by_name('ssh_access')
-    assert_equal nil, key
+    assert_nil key
     refute File.exists?("#{Vault::KEYFILES_DIR}/server.key")
   end
 

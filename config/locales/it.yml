@@ -1,15 +1,63 @@
 # Italian strings go here for Rails i18n
 it:
   label_vault: 'Vault'
-  label_vault_settings: 'Impostazioni Vault'
+  label_module: 'Keys'
   settings:
-    encryption_key: "Chiave crittografica"
-    use_redmine_encryption: "Utilizzare la crittografia di Redmine"
+    title: "Impostazioni Vault"
+    vault_title_encription_key: "Chiave crittografica"
+    redmine_title_encription_key: "Utilizzare la crittografia di Redmine"
+    vault_encription_notice: "Usata solo con il metodo di cifratura Vault"
     redmine_encryption_notice: "Consigliato. Non dimenticare di inserire la tua chiave nella riga \"database_cipher_key\" in \"config/configuration.yml\". IMPORTANTE: eseguire \"rake redmine:plugins:vault:convert\" dopo aver cambiato questa impostazione."
-    key_notice: "Usata solo con il metodo di cifratura Vault"
-    backup_keys: "Backup chiavi"
-    restore_from_backup: "Ripristinare dal backup"
-  keys_module: 'chiavi'
+
+  backups:
+    title: "Backup chiavi"
+    title_restore: "Ripristinare dal backup"
+    btn:
+      download_backup: "Download backup"
+      upload_backup: "Restore from backup"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "chiavi"
+
+  tag:
+    title:
+      popular: "Tag popolari"
+
+  key:
+    title:
+      delete: "Cancella Chiave"
+      edit: "Modifica Chiave"
+      copy: "Copia Chiave"
+      clone: "Clona Chiave"
+      show: "Mostra la chiave"
+      new: "Nuova Chiave"
+      list: "Elenco chiave"
+
+    btn:
+      new: "Nuova Chiave"
+      actions: "Azioni"
+      clipboard: "Copia negli appunti"
+
+    attr:
+      lock: "Blocca"
+      owner: "Proprietario"
+      body: "Chiave"
+      name: "Nome"
+      login: "Utente"
+      url: "URL"
+      type: "Tipo"
+      tags: "Tag"
+      file: "File Chiave"
+      comment: "Commento"
+      whitelist: "Elenco di accesso"
+
+    whitelist:
+      selected_members: "Membri selezionati"
+      available_members: "Membri disponibili"
+
   context_menu:
     copy_key: "Copia Chiave"
     copy_url: "Copia URL"
@@ -17,62 +65,27 @@ it:
     delete: "Cancella Chiave"
     edit: "Modifica Chiave"
     clone: "Clona Chiave"
-  keys:
-    index:
-      title: "Elenco Chiavi"
-      sidebar:
-        tags:
-          header: "Tag Popolari"
-    new:
-      title: "Nuova Chiave"
-    edit:
-      title: "Modifica Chiave"
-      selected_members: "Membri Selezionati"
-      available_members: "Membri Disponibili"
-    show:
-      title: "Visualizza Chiave"
-    destroy:
-      title: "Elimina Chiave"
-    copy:
-      title: "Copia Chiave"
-    clone:
-      title: "Clona Chiave"
-  activerecord:
-    models:
-      key: "Chiave"
-      keys: "Chiavi"
-      key_file: "File Chiave"
-      password: "Password"
-      tag: "Tag"
-      tags: "Tag"
-    attributes:
-      key:
-        lock: "Blocca"
-        owner: "Proprietario"
-        body: "Chiave"
-        name: "Nome"
-        login: "Utente"
-        url: "URL"
-        type: "Tipo"
-        tags: "Tag"
-        file: "File Chiave"
-        comment: "Commento"
-  btn:
-    actions: "Azioni"
-    new_key: "Nuova Chiave"
-    details: "Dettagli"
-    download_backup:  "Download backup"
-    upload_backup:  "Recupera da backup"
-  msg:
-      confirm: "Si desidera eliminare questa chiave?"
-  notice:
-    keys:
+
+  alert:
+    key:
       not_found: "Chiave non trovata"
+
+  confirm:
+    key:
+      delete: "Si desidera eliminare questa chiave?"
+
+  notice:
+    settings:
+      saved: "Impostazioni salvate"
+      keys_restore: "Chiave ripristinati"
+    key:
       update:
-        success:  "La Chiave è stata modificata con successo"
+        success: "La Chiave è stata modificata con successo"
       delete:
         success: "La Chiave è stata eliminata con successo"
       create:
         success: "La Chiave è stata creata con successo"
+
   error:
-    key_not_set: "La chiave crittografata non è definita nelle impostazioni"
+    key:
+      not_set: "La chiave crittografata non è definita nelle impostazioni"

@@ -19,6 +19,8 @@ keys_003:
   id: 3
   project_id: 1
   name: ssh_access
+  url: jsmith@server2
+  login: jsmith
   type: Vault::KeyFile
   file: server.key
   comment: Dont forget to put actual file in place

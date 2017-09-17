@@ -15,7 +15,7 @@ class KeysController < ApplicationController
     unless Setting.plugin_vault['use_redmine_encryption'] ||
            Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
-        render_error t("error.key_not_set")
+        render_error t("error.key.not_set")
         return
       end
     end
@@ -24,6 +24,7 @@ class KeysController < ApplicationController
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
     @query = params[:query]
+    @search_fild = params[:search_fild]
 
     if @query
       if @query.match(/#/)
@@ -84,7 +85,7 @@ class KeysController < ApplicationController
 
     respond_to do |format|
       if @key.save
-        format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.create.success') }
+        format.html { redirect_to project_keys_path(@project), notice: t('notice.key.create.success') }
       else
         format.html { render action: 'new' }
       end
@@ -99,7 +100,7 @@ class KeysController < ApplicationController
 
       if @key.update_attributes(params[:vault_key])
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
-        format.html { redirect_to project_keys_path(@project), notice: t('notice.keys.update.success') }
+        format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
       else
         format.html { render action: 'edit'}
       end
@@ -133,7 +134,7 @@ class KeysController < ApplicationController
   def destroy
     Vault::Key.find(params[:id]).destroy
     redirect_to project_keys_path(@project)
-    flash[:notice] = t('notice.keys.delete.success')
+    flash[:notice] = t('notice.key.delete.success')
   end
 
   def context_menu
@@ -147,14 +148,14 @@ class KeysController < ApplicationController
   def find_key
     @key=Vault::Key.find(params[:id])
     unless @key.project_id == @project.id
-      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found') 
+      redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end
 
   def find_keys
     @keys=Vault::Key.find(params[:ids])
     unless @keys.all? { |k| k.project_id == @project.id } 
-      redirect_to project_keys_path(@project), notice: t('notice.keys.not_found') 
+      redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end
 
@@ -168,7 +169,7 @@ class KeysController < ApplicationController
 
   def save_file
     name = SecureRandom.uuid
-    File.new("#{Vault::KEYFILES_DIR}/#{name}",'wb') << key_params[:file].read
+    File.open("#{Vault::KEYFILES_DIR}/#{name}", "wb") { |f| f.write(key_params[:file].read) }
     params['vault_key']['file'] = name
   end
 

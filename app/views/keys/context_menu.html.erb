@@ -30,7 +30,7 @@
         <% end if User.current.allowed_to?(:edit_keys, @project) %>
       </li>
       <li>
-        <%= link_to project_key_path(@project, @keys[0]), class: 'conext_menu', data: {confirm: t('msg.confirm')}, method: :delete do %>
+        <%= link_to project_key_path(@project, @keys[0]), class: 'conext_menu', data: {confirm: t('confirm.key.delete')}, method: :delete do %>
             <i class='fa fa-trash fa-fw'></i>
             <%= l('context_menu.delete') %>
         <% end if User.current.allowed_to?(:edit_keys, @project) %>
@@ -56,7 +56,6 @@
           inp.blur();
         }
         catch (err) {
-          alert('please press Ctrl/Cmd+C to copy');
         }
       }
     }

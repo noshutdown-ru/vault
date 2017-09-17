@@ -14,7 +14,7 @@ class KeyFilesController < ApplicationController
    def find_key
      @key = Vault::KeyFile.find(params[:id])
      unless @key.project_id == @project.id
-       redirect_to project_keys_path(@project), alert: 'Key not found'
+       redirect_to project_keys_path(@project), alert: t('alert.key.not_found')
        @key = nil
      end
    end

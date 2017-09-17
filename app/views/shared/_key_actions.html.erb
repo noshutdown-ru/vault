@@ -12,6 +12,6 @@
   <i class='fa fa-files-o fa-fw'></i>
 <% end if User.current.allowed_to?(:edit_keys, @project) %>
 
-<%= link_to project_key_path(@project,key), class: 'keys-actions', data: {confirm: t('msg.confirm')}, method: :delete do %>
+<%= link_to project_key_path(@project,key), class: 'keys-actions', data: {confirm: t('confirm.key.delete')}, method: :delete do %>
   <i class='fa fa-trash fa-fw'></i>
 <% end if User.current.allowed_to?(:edit_keys, @project) %>

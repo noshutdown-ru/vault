@@ -22,19 +22,17 @@ class KeyfileTest < Vault::IntegrationTest
     Setting.plugin_vault['use_null_encryption'] = 'on'
   end
 
-  #def test_index
-  #  log_user('jsmith','jsmith')
-  #  visit '/projects/1/keys'
-  #  assert page.has_css? 'table#keys_table'
-  #  within_table 'keys_table' do
-  #    assert_equal 2, all('tr').count
-  #    assert has_content? 'server1'
-  #    assert has_content? 'root@server1'
-  #    assert has_content? 'root'
-  #    assert has_content? '123456'
-  #    assert has_css? 'button#d_clip_button_1'
-  #  end
-  #end
+  def test_index
+    log_user('jsmith','jsmith')
+    visit '/projects/1/keys'
+    assert page.has_css? 'table#keys_table'
+    within_table 'keys_table' do
+      assert has_content? 'ssh_access'
+      assert has_content? 'jsmith@server2'
+      assert has_content? 'jsmith'
+      assert has_link? 'keyfile_dl_3'
+    end
+  end
 
   #def test_create_new_key
   #  log_user('jsmith','jsmith')

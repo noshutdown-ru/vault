@@ -2,7 +2,6 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 resources :projects do
-  #match '/keys/context_menu', to: 'vault_context_menus#keys', as: 'keys_context_menus', via: [:get, :post]
   match '/keys/context_menu', to: 'keys#context_menu', as: 'keys_context_menus', via: [:get, :post]
   resources :keys
   get '/key_files/:id/download', to: 'key_files#download', as: 'download_key_file'
