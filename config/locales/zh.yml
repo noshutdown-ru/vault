@@ -1,5 +1,5 @@
 # English strings go here for Rails i18n
-en:
+zh:
   label_vault: 'Vault'
   label_module: '密钥'
   settings:
