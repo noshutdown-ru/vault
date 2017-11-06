@@ -34,9 +34,9 @@ class KeysController < ApplicationController
       else
 
         if params[:search_fild] == 'name'
-          @keys = @project.keys.where('`name` LIKE ?', "%#{@query}%")
+          @keys = @project.keys.where(name: @query)
         elsif params[:search_fild] == 'url'
-          @keys = @project.keys.where('`url` LIKE ?', "%#{@query}%")
+          @keys = @project.keys.where(url: @query)
         elsif params[:search_fild] == 'tag'
           tag = Vault::Tag.find_by_name(@query)
           @keys = tag.nil? ? nil : tag.keys.where(project: @project)
