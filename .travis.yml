@@ -1,0 +1,4 @@
+language: ruby
+os: centos
+before_install:
+- whoami
