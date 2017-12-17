@@ -1,4 +1,6 @@
 language: ruby
-os: centos
-before_install:
-- whoami
+rvm:
+  - 2.3.3
+install: gem install rubocop
+script:
+  - rubocop 
