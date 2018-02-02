@@ -89,3 +89,4 @@ en:
   error:
     key:
       not_set: "The encryption key is not set in the settings"
+      not_whitelisted: "Key not allowed for you"

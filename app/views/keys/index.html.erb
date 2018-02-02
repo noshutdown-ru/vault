@@ -31,24 +31,24 @@
 </h2>
 
 <%= form_tag({}, :data => {:cm_url => project_keys_context_menus_path(@project)}) do %>
-  <table class='list' id='keys_table'>
-    <thead><tr>
-      <th class="checkbox hide-when-print">
-         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
-               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
-      </th>
-      <%= sort_header_tag('name', caption: t('key.attr.name')) %>
-      <th><%= t('key.attr.url') %></th>
-      <th><%= t('key.attr.login') %></th>
-      <th><%= t('key.attr.body') %> </th>
-      <th><%= t('key.btn.actions') %></th>
-    </tr></thead>
-    <tbody>
-      <% @keys.each do |key| %>
-        <%= render partial: key, locals: {parity: cycle('odd', 'even')} %>
-      <% end %>
-    </tbody>
-  </table>
+<table class='list' id='keys_table'>
+  <thead><tr>
+    <th class="checkbox hide-when-print">
+       <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+    </th>
+    <%= sort_header_tag('name', caption: t('key.attr.name')) %>
+    <th><%= t('key.attr.url') %></th>
+    <th><%= t('key.attr.login') %></th>
+    <th><%= t('key.attr.body') %> </th>
+    <th><%= t('key.btn.actions') %></th>
+  </tr></thead>
+  <tbody>
+    <% @keys.each do |key| %>
+      <%= render partial: key, locals: {parity: cycle('odd', 'even')} %>
+    <% end %>
+  </tbody>
+</table>
 <% end %>
 
 <% if Redmine::VERSION.to_s.start_with?('3.3')  %>

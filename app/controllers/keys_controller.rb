@@ -48,7 +48,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-
+    @keys = @keys.select { |key| key.whitelisted?(User,@project) }
     @keys = [] if @keys.nil? #hack for decryption
 
     @limit = per_page_option
@@ -59,8 +59,6 @@ class KeysController < ApplicationController
     if @key_count > 0
       @keys = @keys.offset(@offset).limit(@limit)
     end
-
-    @keys = @keys.select { |key| key.whitelisted?(User,@project) }
 
     @keys.map(&:decrypt!)
   end
@@ -118,16 +116,26 @@ class KeysController < ApplicationController
   end
 
   def edit
-    @key.decrypt!
-    respond_to do |format|
-      format.html { render action: 'edit'}
+    if !@key.whitelisted?(User,@project)
+      render_error t("error.key.not_whitelisted")
+      return
+    else
+      @key.decrypt!
+      respond_to do |format|
+        format.html { render action: 'edit'}
+      end
     end
   end
 
   def show
-    @key.decrypt!
-    respond_to do |format|
-      format.html { render action: 'show'}
+    if !@key.whitelisted?(User,@project)
+      render_error t("error.key.not_whitelisted")
+      return
+    else
+      @key.decrypt!
+      respond_to do |format|
+        format.html { render action: 'show'}
+      end
     end
   end
 

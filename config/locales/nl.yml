@@ -89,3 +89,4 @@ nl:
   error:
     key:
       not_set: "De encryptie sleutel is niet gezet in de instellingen"
+      not_whitelisted: "Sleutel niet toegestaan voor jou"
