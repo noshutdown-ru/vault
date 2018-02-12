@@ -57,7 +57,7 @@ class KeysController < ApplicationController
     @offset ||= @key_pages.offset
 
     if @key_count > 0
-      @keys = @keys.offset(@offset).limit(@limit)
+      @keys = @keys.drop(@offset).first(@limit)
     end
 
     @keys.map(&:decrypt!)
