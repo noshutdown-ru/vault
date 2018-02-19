@@ -13,7 +13,7 @@ class KeysController < ApplicationController
   def index
 
     unless Setting.plugin_vault['use_redmine_encryption'] ||
-           Setting.plugin_vault['use_null_encryption']
+        Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
         render_error t("error.key.not_set")
         return
@@ -24,7 +24,12 @@ class KeysController < ApplicationController
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
     @query = params[:query]
-    @search_fild = params[:search_fild]
+
+    if params[:search_fild] == nil
+      @search_fild = 'name'
+    else
+      @search_fild = params[:search_fild]
+    end
 
     if @query
       if @query.match(/#/)
@@ -32,7 +37,6 @@ class KeysController < ApplicationController
         tag = Vault::Tag.find_by_name(tag_string)
         @keys = tag.nil? ? nil : tag.keys.where(project: @project)
       else
-
         if params[:search_fild] == 'name'
           @keys = @project.keys.where(name: @query)
         elsif params[:search_fild] == 'url'
@@ -41,14 +45,13 @@ class KeysController < ApplicationController
           tag = Vault::Tag.find_by_name(@query)
           @keys = tag.nil? ? nil : tag.keys.where(project: @project)
         end
-
       end
     else
       @keys = @project.keys
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User,@project) }
+    @keys = @keys.select { |key| key.whitelisted?(User,@project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
 
     @limit = per_page_option
@@ -108,9 +111,9 @@ class KeysController < ApplicationController
   def update_wishlist
     if params[:whitelist] && User.current.allowed_to?(:manage_whitelist_keys, @key.project)
       if params[:whitelist].blank?
-          @key.whitelist = ""
+        @key.whitelist = ""
       else
-          @key.whitelist =  params[:whitelist].join(",")
+        @key.whitelist =  params[:whitelist].join(",")
       end
     end
   end
@@ -162,7 +165,7 @@ class KeysController < ApplicationController
 
   def find_keys
     @keys=Vault::Key.find(params[:ids])
-    unless @keys.all? { |k| k.project_id == @project.id } 
+    unless @keys.all? { |k| k.project_id == @project.id }
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end
