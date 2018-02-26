@@ -1,5 +1,5 @@
 # Portuguese - Brazil strings go here for Rails i18n
-en:
+pt-BR:
   label_vault: 'Senhas'
   label_module: 'Chaves'
   settings:
