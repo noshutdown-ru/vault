@@ -1,0 +1,92 @@
+# Portuguese - Portugal strings go here for Rails i18n
+pt:
+  label_vault: 'Senhas'
+  label_module: 'Chaves'
+  settings:
+    title: "Configuração de senhas"
+    vault_title_encription_key: "Criptografia da chave"
+    redmine_title_encription_key: "Use Criptografia Redmine"
+    vault_encription_notice: "Usado apenas pelo método de criptografia do Vault"
+    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config / configuration.yml. IMPORTANTE: execute o rake redmine: plugins: vault: converte depois de mudar este interruptor."
+
+  backups:
+    title: "Backup Chaves"
+    title_restore: "Restore de backup"
+    btn:
+      download_backup: "Download backup"
+      upload_backup: "Restore de backup"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "Chaves"
+
+  tag:
+    title:
+      popular: "Tags Populares"
+
+  key:
+    title:
+      delete: "Deletar Chave"
+      edit: "Editar Chave"
+      copy: "Copiar Chave"
+      clone: "Clonar Chave"
+      show: "Mostar Chave"
+      new: "Nova Chave"
+      list: "Listando Chaves"
+
+    btn:
+      new: "Nova Chave"
+      actions: "Ações"
+      clipboard: "Copiar para clipboard"
+
+    attr:
+      lock: "Bloqueado"
+      owner: "Proprietário"
+      body: "Chave"
+      name: "Nome"
+      login: "Login"
+      url: "URL"
+      type: "Tipo"
+      tags: "Tags"
+      file: "Chave em Arquivo"
+      comment: "Comentário"
+      whitelist: "Lista de Acesso"
+
+    whitelist:
+      selected_members: "Selecionar Membros"
+      available_members: "Membros disponíveis"
+
+  context_menu:
+    copy_key: "Copiar Chave"
+    copy_url: "Copiar URL"
+    copy_login: "Copiar Login"
+    delete: "Deletar Chave"
+    edit: "Editar Chave"
+    clone: "Clonar Chave"
+
+  alert:
+    key:
+      not_found: "Chave não encotrada"
+
+  confirm:
+    key:
+      delete: "Deseja excluir esta chave?"
+
+  notice:
+    settings:
+      saved: "Salvar Configurações"
+      keys_restore: "Chaves restauradas"
+    key:
+      update:
+        success: "A chave foi modificada com sucesso"
+      delete:
+        success: "A chave foi deletada com sucesso"
+      create:
+        success: "A chave foi criada com sucesso"
+
+  error:
+    key:
+      not_set: "A chave de criptografia não está definida nas configurações"
+      not_whitelisted: "Chave não permitida para você"
