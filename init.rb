@@ -26,5 +26,5 @@ Redmine::Plugin.register :vault do
            },
            :partial => 'settings/vault_settings'
 
-  menu :admin_menu, :vault, {:controller => 'vault_settings', :action => 'index'}, :caption => :label_vault
+  menu :admin_menu, :vault, {:controller => 'vault_settings', :action => 'index'}, :caption => :label_vault, :html => {:class => 'icon'}
 end
