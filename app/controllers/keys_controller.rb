@@ -13,7 +13,7 @@ class KeysController < ApplicationController
   def index
 
     unless Setting.plugin_vault['use_redmine_encryption'] ||
-        Setting.plugin_vault['use_null_encryption']
+           Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
         render_error t("error.key.not_set")
         return
@@ -111,9 +111,9 @@ class KeysController < ApplicationController
   def update_wishlist
     if params[:whitelist] && User.current.allowed_to?(:manage_whitelist_keys, @key.project)
       if params[:whitelist].blank?
-        @key.whitelist = ""
+          @key.whitelist = ""
       else
-        @key.whitelist =  params[:whitelist].join(",")
+          @key.whitelist =  params[:whitelist].join(",")
       end
     end
   end
@@ -165,7 +165,7 @@ class KeysController < ApplicationController
 
   def find_keys
     @keys=Vault::Key.find(params[:ids])
-    unless @keys.all? { |k| k.project_id == @project.id }
+    unless @keys.all? { |k| k.project_id == @project.id } 
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end

@@ -1,8 +1,10 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
   <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
-  <%= stylesheet_link_tag 'vault', :plugin => 'vault' %>
-<% end %>
+  <%= javascript_include_tag 'vault', :plugin => 'vault' %>
+
+  
+  <% end %>
 
 <div class="contextual">
  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:edit_keys, @project) %>
@@ -74,59 +76,6 @@
     </ul>
   </div>
 <% end %>
-
-<script>
-
-  function copyToClipboard( elementId ) {
-      var $temp = $( "<input>" ).val( $( "#" + elementId ).text() );
-      $( "body" ).append($temp);
-      $temp.select();
-      document.execCommand("copy");
-      $temp.remove();
-  }
-
-  $(document).ready(function() {
-  <% @keys.each do |key| %>
-
-    $("a.copy-key").click(function () {
-      copyToClipboard($(this).data('clipboard-target'));
-    });
-
-    $("#plain_pass_<%=key.id%>").hide();
-    $("#plain_pass_<%=key.id%>").after("<label id='hid_pass_<%=key.id%>'>******</label>");
-    $("#plain_pass_<%=key.id%>").on("click", function(){
-      $("#hid_pass_<%=key.id%>").show();
-      $("#plain_pass_<%=key.id%>").hide();
-    });
-    $("#hid_pass_<%=key.id%>").on("click", function(){
-      $("#plain_pass_<%=key.id%>").show();
-      $("#hid_pass_<%=key.id%>").hide();
-    });
-
-    $("#d_clip_login_<%=key.id%>").on("click", function(){
-        $("#d_clip_login_<%=key.id%>").css({'color':'green'});
-        setTimeout(function() {
-            $("#d_clip_login_<%=key.id%>").css({'color':'#484848'});
-        },500);
-    });
-
-    $("#d_clip_button_pass<%=key.id%>").on("click", function(){
-        $("#d_clip_button_pass<%=key.id%>").css({'color':'green'});
-        setTimeout(function() {
-            $("#d_clip_button_pass<%=key.id%>").css({'color':'#888'});
-        },500);
-    });
-
-    $("#d_clip_url_<%=key.id%>").on("click", function(){
-        $("#d_clip_url_<%=key.id%>").css({'color':'green'});
-        setTimeout(function() {
-            $("#d_clip_url_<%=key.id%>").css({'color':'#484848'});
-        },500);
-    });
-
-  <% end %>
-  });
-</script>
 
 <% if Redmine::VERSION.to_s.start_with?('3.4')  %>
     <%= context_menu %>
