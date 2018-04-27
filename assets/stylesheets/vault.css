@@ -24,5 +24,5 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
 }
 
 #vault_whitelist select {
-	width: 250px !important;
+	min-width: 250px;
 }
