@@ -1,0 +1,91 @@
+de:
+  label_vault: 'Vault'
+  label_module: 'Passwörter'
+  settings:
+    title: "Vault Einstellungen"
+    vault_title_encription_key: "Encryption key"
+    redmine_title_encription_key: "Verschlüsselung von Redmine verwenden"
+    vault_encription_notice: "Vault-eigene Verschlüsselung verwenden"
+    redmine_encryption_notice: "Empfohlen. Der Schlüssel muss unter 'database_cipher_key' in der Konfiguration config/configuration.yml hinterlegt werden. WICHTIG: führe danach »rake redmine:plugins:vault:convert« aus."
+
+  backups:
+    title: "Passwortbackup "
+    title_restore: "aus Backup wiederherstellen"
+    btn:
+      download_backup: "Backup erstellen"
+      upload_backup: "aus Backup wiederherstellen"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "Passwörter"
+
+  tag:
+    title:
+      popular: "beliebte Tags"
+
+  key:
+    title:
+      delete: "Passwort löschen"
+      edit: "Passwort bearbeiten"
+      copy: "Passwort kopieren"
+      clone: "Passwort duplizieren"
+      show: "Passwort anzeigen"
+      new: "neues Passwort"
+      list: "Übersicht Passwörter"
+
+    btn:
+      new: "neues Passwort"
+      actions: "Aktionen"
+      clipboard: "In die Zwischenablage kopieren"
+
+    attr:
+      lock: "Lock"
+      owner: "Ersteller"
+      body: "Passwort"
+      name: "Name"
+      login: "Benutzername"
+      url: "URL"
+      type: "Typ"
+      tags: "Tags"
+      file: "Schlüsseldatei"
+      comment: "Kommentar"
+      whitelist: "Zugriffsliste"
+
+    whitelist:
+      selected_members: "Benutzer mit Zugriff"
+      available_members: "verfügbare Benutzer"
+
+  context_menu:
+    copy_key: "Passwort kopieren"
+    copy_url: "URL kopieren"
+    copy_login: "Benutzername kopieren"
+    delete: "Passwort löschen"
+    edit: "Passwort bearbeiten"
+    clone: "Passwort duplizieren"
+
+  alert:
+    key:
+      not_found: "Passwort nicht gefunden"
+
+  confirm:
+    key:
+      delete: "Sicher, dass das Passwort gelöscht werden soll?"
+
+  notice:
+    settings:
+      saved: "Einstellungen gespeichert"
+      keys_restore: "Passwörter wiederhergestellt"
+    key:
+      update:
+        success: "Passwort wurde geändert"
+      delete:
+        success: "Passwort wurde gelöscht"
+      create:
+        success: "Passwort wurde erstellt"
+
+  error:
+    key:
+      not_set: "Encryption key wurde nicht in den Einstellungen hinterlegt"
+      not_whitelisted: "Kein Zugriff auf das Passwort"
