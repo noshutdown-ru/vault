@@ -61,7 +61,7 @@
             <br />
             <%= select_tag 'whitelist',
 									options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
-									id: 'selected_users', multiple: true, size: 10, style: "width:150px",
+									id: 'selected_users', multiple: true, size: 10, 
 									ondblclick: "moveOptions(this.form.selected_users, this.form.available_users)" %>
           </td>
 					<td class="buttons">
@@ -76,7 +76,7 @@
             <br />
             <%= select_tag 'available_users',
 									options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
-									id: 'available_users', multiple: true, size: 10, style: "width:150px",
+									id: 'available_users', multiple: true, size: 10,
 									ondblclick: "moveOptions(this.form.available_users, this.form.selected_users)" %>
           </td>
         </tr>
