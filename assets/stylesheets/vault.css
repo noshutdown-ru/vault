@@ -13,4 +13,16 @@ a.keys-links { color:#484848; text-decoration: none; }
 a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none; cursor: pointer; }
 
 
+.edit_vault_key .box label {
+  padding-top: .45em;
+}
+.edit_vault_key .box input[type='text'] {
+	width: 250px;
+	box-sizing: border-box;
+	padding: .25em .35em;
+	height: 28px;
+}
 
+#vault_whitelist select {
+	min-width: 250px;
+}
