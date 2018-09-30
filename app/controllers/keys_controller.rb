@@ -109,7 +109,7 @@ class KeysController < ApplicationController
   end
 
   def update_wishlist
-    if params[:whitelist] && User.current.allowed_to?(:manage_whitelist_keys, @key.project)
+    if User.current.allowed_to?(:manage_whitelist_keys, @key.project)
       if params[:whitelist].blank?
           @key.whitelist = ""
       else
