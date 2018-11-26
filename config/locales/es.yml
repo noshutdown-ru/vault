@@ -3,7 +3,7 @@ es:
   label_vault: 'Vault'
   label_module: 'Claves'
   settings:
-    title: "Vault configuración"
+    title: "Configuración de Vault"
     vault_title_encription_key: "Clave de encriptación"
     redmine_title_encription_key: "Usar criptografía de Redmine"
     vault_encription_notice: "Solo utilizada por el método criptográfico de Vault"
