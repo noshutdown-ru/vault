@@ -2,7 +2,7 @@ module RedmineCipher
   include Redmine::Ciphering
 
   def self.encrypt_text(text)
-    Redmine::Ciphering.encrypt_text(text)
+    Redmine::Ciphering.encrypt_text(text).gsub(/\n/, '')
   end
 
   def self.decrypt_text(text)
