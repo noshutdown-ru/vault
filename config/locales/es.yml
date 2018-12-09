@@ -1,0 +1,92 @@
+# Spanish strings go here for Rails i18n
+es:
+  label_vault: 'Vault'
+  label_module: 'Claves'
+  settings:
+    title: "Configuración de Vault"
+    vault_title_encription_key: "Clave de encriptación"
+    redmine_title_encription_key: "Usar criptografía de Redmine"
+    vault_encription_notice: "Solo utilizada por el método criptográfico de Vault"
+    redmine_encryption_notice: "Recomendado. No olvide de colocar su clave criptográfica en database_cipher_key en config/configuration.yml. IMPORTANTE: ejecute rake redmine:plugins:vault:convert después de cambiar esta opción."
+
+  backups:
+    title: "Copia de seguridad de las claves"
+    title_restore: "Restaurar desde la copia de seguridad"
+    btn:
+      download_backup: "Descargar copia de seguridad"
+      upload_backup: "Restaurar desde copia de seguridad"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "Claves"
+
+  tag:
+    title:
+      popular: "Etiquetas populares"
+
+  key:
+    title:
+      delete: "Eliminar Clave"
+      edit: "Editar Clave"
+      copy: "Copiar Clave"
+      clone: "Clonar Clave"
+      show: "Mostrando Claves"
+      new: "Nueva Clave"
+      list: "Listado de Claves"
+
+    btn:
+      new: "Nueva Clave"
+      actions: "Acciones"
+      clipboard: "Copiar al portapapeles"
+
+    attr:
+      lock: "Bloquear"
+      owner: "Dueño"
+      body: "Clave"
+      name: "Nombre"
+      login: "Usuario"
+      url: "URL"
+      type: "Tipo"
+      tags: "Etiquetas"
+      file: "Archivo de Clave"
+      comment: "Comentario"
+      whitelist: "Lista de accesos"
+
+    whitelist:
+      selected_members: "Miembros seleccionados"
+      available_members: "Miembros disponibles"
+
+  context_menu:
+    copy_key: "Copiar Clave"
+    copy_url: "Copiar URL"
+    copy_login: "Copiar Usuario"
+    delete: "Borrar Clave"
+    edit: "Editar Clave"
+    clone: "Clonar Clave"
+
+  alert:
+    key:
+      not_found: "Clave no encontrada"
+
+  confirm:
+    key:
+      delete: "¿Desea eliminar esta clave?"
+
+  notice:
+    settings:
+      saved: "Configuración guardada"
+      keys_restore: "Clave restaurada"
+    key:
+      update:
+        success: "La clave fue modificada exitosamente"
+      delete:
+        success: "La clave fue eliminada exitosamente"
+      create:
+        success: "La clave fue creada exitosamente"
+
+  error:
+    key:
+      not_set: "Clave de encriptación no está configurada"
+      not_whitelisted: "Usted no tiene acceso a esta clave"
