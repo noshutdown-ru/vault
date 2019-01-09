@@ -7,7 +7,7 @@ Redmine::Plugin.register :vault do
   name 'Vault plugin'
   author 'noshutdown.ru'
   description 'Plugin for keep keys and passwords'
-  version '0.3.10'
+  version '0.3.11'
   url 'https://noshutdown.ru/redmine-plugins-vault/'
   author_url 'https://noshutdown.ru/'
 

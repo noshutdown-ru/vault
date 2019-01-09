@@ -63,7 +63,7 @@
 <% end %>
 
 <% other_formats_links do |f| %>
-    <%= f.link_to t('export.title.pdf'), :url => params if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:export_keys, @project)%>
+    <%= f.link_to_with_query_parameters t('export.title.pdf') if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:export_keys, @project)%>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -77,7 +77,7 @@
   </div>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.4')  %>
+<% if Redmine::VERSION.to_s.start_with?('3.4') or Redmine::VERSION.to_s.start_with?('4.0')  %>
     <%= context_menu %>
 <% else %>
     <%= context_menu project_keys_context_menus_path(@project) %>

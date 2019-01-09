@@ -68,6 +68,8 @@ class KeysController < ApplicationController
 
   def new
     @key = Vault::Key.new(project: @project)
+    @key.whitelist = ""
+    @key
   end
 
   def copy
@@ -78,6 +80,7 @@ class KeysController < ApplicationController
   def create
     save_file if key_params[:file]
     @key = Vault::Key.new(key_params)
+
     @key.project = @project
 
     @key.tags = Vault::Tag.create_from_string(key_params[:tags])

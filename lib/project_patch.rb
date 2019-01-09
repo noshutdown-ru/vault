@@ -4,7 +4,7 @@ require_dependency "#{Rails.root}/plugins/vault/lib/vault"
 module ProjectPatch
   def self.included(base)
     base.class_eval do
-      has_many :keys, class_name: Vault::Key
+      has_many :keys, class_name: Vault::Key.to_s
     end
   end
 end

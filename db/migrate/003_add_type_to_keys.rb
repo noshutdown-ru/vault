@@ -1,4 +1,4 @@
-class AddTypeToKeys < ActiveRecord::Migration
+class AddTypeToKeys < ActiveRecord::Migration[4.2]
   def change
     add_column :keys, :type, :string, default: 'Password'
   end
