@@ -1,3 +1,5 @@
+require "#{Rails.root}/plugins/vault/lib/encryptor.rb"
+
 module Vault
   class Password < Key
 

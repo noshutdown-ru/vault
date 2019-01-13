@@ -1,3 +1,5 @@
+require_dependency "#{Rails.root}/plugins/vault/lib/redmine_cipher"
+
 module Encryptor
   require 'csv'
 
