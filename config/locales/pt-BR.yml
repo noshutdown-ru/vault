@@ -1,7 +1,6 @@
-# Portuguese - Brazil strings go here for Rails i18n
 pt-BR:
   label_vault: 'Senhas'
-  label_module: 'Chaves'
+  label_module: 'Acessos'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
@@ -10,17 +9,17 @@ pt-BR:
     redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config / configuration.yml. IMPORTANTE: execute o rake redmine: plugins: vault: converte depois de mudar este interruptor."
 
   backups:
-    title: "Backup Chaves"
-    title_restore: "Restore de backup"
+    title: "Backup acessos"
+    title_restore: "Restaurar backup"
     btn:
-      download_backup: "Download backup"
-      upload_backup: "Restore de backup"
+      download_backup: "Download"
+      upload_backup: "Restaurar"
 
   export:
     title:
       pdf: "PDF"
     pdf:
-      title: "Chaves"
+      title: "Acessos"
 
   tag:
     title:
@@ -28,65 +27,65 @@ pt-BR:
 
   key:
     title:
-      delete: "Deletar Chave"
-      edit: "Editar Chave"
-      copy: "Copiar Chave"
-      clone: "Clonar Chave"
-      show: "Mostar Chave"
-      new: "Nova Chave"
-      list: "Listando Chaves"
+      delete: "Excluir acesso"
+      edit: "Editar acesso"
+      copy: "Copiar acesso"
+      clone: "Clonar acesso"
+      show: "Mostar acesso"
+      new: "Novo acesso"
+      list: "Busca"
 
     btn:
-      new: "Nova Chave"
+      new: "Novo acesso"
       actions: "Ações"
-      clipboard: "Copiar para clipboard"
+      clipboard: "Copiar para área de transferência"
 
     attr:
       lock: "Bloqueado"
       owner: "Proprietário"
-      body: "Chave"
+      body: "Senha"
       name: "Nome"
       login: "Login"
       url: "URL"
       type: "Tipo"
-      tags: "Tags"
-      file: "Chave em Arquivo"
+      tags: "Marcadores"
+      file: "Arquivo de senha"
       comment: "Comentário"
-      whitelist: "Lista de Acesso"
+      whitelist: "Usuários"
 
     whitelist:
-      selected_members: "Selecionar Membros"
+      selected_members: "Membros selecionados"
       available_members: "Membros disponíveis"
 
   context_menu:
-    copy_key: "Copiar Chave"
+    copy_key: "Copiar senha"
     copy_url: "Copiar URL"
-    copy_login: "Copiar Login"
-    delete: "Deletar Chave"
-    edit: "Editar Chave"
-    clone: "Clonar Chave"
+    copy_login: "Copiar login"
+    delete: "Excluir acesso"
+    edit: "Excluir acesso"
+    clone: "Clonar acesso"
 
   alert:
     key:
-      not_found: "Chave não encotrada"
+      not_found: "Acesso não encotrado"
 
   confirm:
     key:
-      delete: "Deseja excluir esta chave?"
+      delete: "Deseja excluir o acesso selecionado?"
 
   notice:
     settings:
-      saved: "Salvar Configurações"
-      keys_restore: "Chaves restauradas"
+      saved: "Configurações salvas com sucesso"
+      keys_restore: "Acesso restaurados"
     key:
       update:
-        success: "A chave foi modificada com sucesso"
+        success: "O acesso foi modificado com sucesso"
       delete:
-        success: "A chave foi deletada com sucesso"
+        success: "O acesso foi excluido com sucesso"
       create:
-        success: "A chave foi criada com sucesso"
+        success: "O acesso foi criado com sucesso"
 
   error:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
-      not_whitelisted: "Chave não permitida para você"
+      not_whitelisted: "Você não possuí permissão ao acesso"
