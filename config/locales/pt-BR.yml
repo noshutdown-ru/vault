@@ -51,7 +51,7 @@ pt-BR:
       tags: "Marcadores"
       file: "Arquivo de senha"
       comment: "Comentário"
-      whitelist: "Usuários"
+      whitelist: "Membros"
 
     whitelist:
       selected_members: "Membros selecionados"
