@@ -50,7 +50,9 @@
 
     <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
       <%  whitelisted = @key.whitelist.split(",") %>
- 			<%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+ 			       <%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+       <%  all_groups = @project.memberships.active.where(:users => {:type => 'Group'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+       <%  all_users = all_groups|all_users %>
       <div id="vault_whitelist">
         <%= f.label t('key.attr.whitelist') ,class: "whitelist_users"%>
 
