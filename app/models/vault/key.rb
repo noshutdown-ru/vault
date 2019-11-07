@@ -46,6 +46,9 @@ module Vault
 
     def whitelisted?(user,project)
       return true if user.current.admin or !user.current.allowed_to?(:whitelist_keys, project)
+      self.whitelist.split(",").each do |id|
+        return true if User.in_group(id).where(:id => user.current.id).count == 1
+      end
       return self.whitelist.split(",").include?(user.current.id.to_s)
     end
 
