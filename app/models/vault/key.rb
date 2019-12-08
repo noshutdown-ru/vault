@@ -24,23 +24,44 @@ module Vault
     def self.import(file)
       CSV.foreach(file.path, headers:true) do |row|
         rhash = row.to_hash
+		decryptb = Encryptor::decrypt(rhash['body'])
+		
+		key = Vault::Key.where("name = ?", rhash['name']).first
+		
+		unless key
+			begin
+			  Vault::Key.create(
+				  project_id: rhash['project_id'],
+				  name: rhash['name'],
+				  body: decryptb,
+				  login: rhash['login'],
+				  type: rhash['type'],
+				  file: rhash['file'],
+				  url: rhash['url'],
+				  comment: rhash['comment'],
+				  whitelist: rhash['comment']
+			  ).update_column(:id, rhash['id'])
+			rescue
 
-        decryptb = Encryptor::decrypt(rhash['body'])
-        begin
-          Vault::Key.create(
-              project_id: rhash['project_id'],
-              name: rhash['name'],
-              body: decryptb,
-              login: rhash['login'],
-              type: rhash['type'],
-              file: rhash['file'],
-              url: rhash['url'],
-              comment: rhash['comment'],
-              whitelist: rhash['comment']
-          ).update_column(:id, rhash['id'])
-        rescue
+			end
+		else
+			begin
+			  Vault::Key.update(
+				key.id,
+				project_id: rhash['project_id'],
+				name: rhash['name'],
+				body: decryptb,
+				login: rhash['login'],
+				type: rhash['type'],
+				file: rhash['file'],
+				url: rhash['url'],
+				comment: rhash['comment'],
+				whitelist: rhash['comment']
+			  )
+			rescue
 
-        end
+			end
+		end
       end
     end
 
