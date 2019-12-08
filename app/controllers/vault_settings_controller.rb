@@ -48,14 +48,16 @@ class VaultSettingsController < ApplicationController
 
     fname = "backup.zip"
     temp_file = Tempfile.new(fname)
+    tmp_fname = temp_file.path
+    temp_file.close
 
-    Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip_file|
+    Zip::File.open(tmp_fname, Zip::File::CREATE) do |zip_file|
       zip_file.file.open('keys.csv', 'w') { |f1| f1 << @csv_string }
       zip_file.file.open('tags.csv', 'w') { |f2| f2 << @csv_tag_string }
       zip_file.file.open('keys_tags.csv', 'w') { |f3| f3 << @csv_tag_keys_string }
     end
 
-    zip_data = File.read(temp_file.path)
+    zip_data = IO.binread(tmp_fname)
 
     send_data zip_data,
               :type => 'application/zip',
