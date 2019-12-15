@@ -2,9 +2,7 @@
   <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
   <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
   <%= javascript_include_tag 'vault', :plugin => 'vault' %>
-
-  
-  <% end %>
+<% end %>
 
 <div class="contextual">
  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:edit_keys, @project) %>
