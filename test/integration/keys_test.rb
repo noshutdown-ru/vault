@@ -20,7 +20,7 @@ class KeysTest < Vault::IntegrationTest
     Role.find(1).add_permission! :edit_keys
     Project.find(1).enabled_module_names = [:keys]
    #Setting.plugin_vault['use_null_encryption'] = 'on'
-    Setting.plugin_vault['encryption_key'] = '54ca96689fd38466b9724067d3f616b86ad910cf'
+    Setting.plugin_vault['encryption_key'] = 'AilkyiakillEctIb'
     Encryptor.encrypt_all(Vault::Password,:body)
   end
 
@@ -28,13 +28,13 @@ class KeysTest < Vault::IntegrationTest
     log_user('jsmith','jsmith')
     visit '/projects/1/keys'
     assert page.has_css? 'table#keys_table'
+    assert page.has_css? '#plain_pass_1', visible: false, text: '123456'
     within_table 'keys_table' do
       assert_equal 3, all('tr').count
       assert has_content? 'server1'
       assert has_content? 'root@server1'
       assert has_content? 'root'
-      assert has_content? '123456'
-      assert has_css? 'a#d_clip_button_pass1'
+      assert has_content? '*********'
     end
   end
 

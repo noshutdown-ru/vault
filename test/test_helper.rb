@@ -1,6 +1,5 @@
 # Load the Redmine helper
 require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../../test/ui/base')
 require File.expand_path(File.dirname(__FILE__) + '/integration/steps')
 require 'capybara-screenshot/minitest'
 
