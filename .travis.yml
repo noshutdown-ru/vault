@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.6
+  - 2.3.3
 branches:
   only:
     - testing
