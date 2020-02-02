@@ -2,7 +2,7 @@ language: ruby
 dist: xenial
 
 rvm:
-  - 2.7.0
+  - 2.6
 
 env:
   - REDMINE_VER=4.1-stable
