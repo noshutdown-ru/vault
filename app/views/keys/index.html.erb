@@ -2,9 +2,7 @@
   <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
   <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
   <%= javascript_include_tag 'vault', :plugin => 'vault' %>
-
-  
-  <% end %>
+<% end %>
 
 <div class="contextual">
  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:edit_keys, @project) %>
@@ -77,7 +75,7 @@
   </div>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.4') or Redmine::VERSION.to_s.start_with?('4.0')  %>
+<% if Redmine::VERSION.to_s.start_with?('3.4', '4.0', '4.1')  %>
     <%= context_menu %>
 <% else %>
     <%= context_menu project_keys_context_menus_path(@project) %>

@@ -1,0 +1,92 @@
+# Japanese strings go here for Rails i18n
+ja:
+  label_vault: 'Vault'
+  label_module: 'Keys'
+  settings:
+    title: "Vault 設定"
+    vault_title_encription_key: "暗号化キー"
+    redmine_title_encription_key: "Use Redmine encryption"
+    vault_encription_notice: "Used only by Vault encryption method"
+    redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
+
+    backups:
+      title: "Backup keys"
+      title_restore: "Restore from backup"
+      btn:
+        download_backup: "Download backup"
+        upload_backup: "Restore from backup"
+
+    export:
+      title:
+        pdf: "PDF"
+      pdf:
+        title: "keys"
+
+    tag:
+      title:
+        popular: "Popular Tags"
+
+    key:
+      title:
+        delete: "Delete Key"
+        edit: "Editing Key"
+        copy: "Copy Key"
+        clone: "Clone Key"
+        show: "Showing Key"
+        new: "New Key"
+        list: "Listing Keys"
+
+        btn:
+          new: "New Key"
+          actions: "Actions"
+          clipboard: "Copy to clipboard"
+
+        attr:
+          lock: "Lock"
+          owner: "Owner"
+          body: "Key"
+          name: "Name"
+          login: "Login"
+          url: "URL"
+          type: "Type"
+          tags: "Tags"
+          file: "Key File"
+          comment: "Comment"
+          whitelist: "Access list"
+
+        whitelist:
+          selected_members: "Selected Members"
+          available_members: "Available Members"
+
+    context_menu:
+      copy_key: "Copy Key"
+      copy_url: "Copy URL"
+      copy_login: "Copy Login"
+      delete: "Delete Key"
+      edit: "Edit Key"
+      clone: "Clone Key"
+
+    alert:
+      key:
+        not_found: "Key not found"
+
+    confirm:
+      key:
+        delete: "Do you want to delete this key?"
+
+    notice:
+      settings:
+        saved: "Settings saved"
+        keys_restore: "Keys restored"
+      key:
+        update:
+          success: "Key was successfully modified"
+        delete:
+          success: "Key was successfully deleted"
+        create:
+          success: "Key was successfully created"
+
+    error:
+      key:
+        not_set: "The encryption key is not set in the settings"
+        not_whitelisted: "Key not allowed for you"

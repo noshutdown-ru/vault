@@ -5,6 +5,7 @@ class KeysController < ApplicationController
   before_action :authorize
   before_action :find_key, only: [ :show, :edit, :update, :destroy, :copy ]
   before_action :find_keys, only: [ :context_menu ]
+  accept_api_auth :index, :show
 
   helper :sort
   include SortHelper
@@ -64,6 +65,12 @@ class KeysController < ApplicationController
     end
 
     @keys.map(&:decrypt!)
+
+    respond_to do |format|
+      format.html
+      format.pdf
+      format.json { render json: @keys }
+    end
   end
 
   def new

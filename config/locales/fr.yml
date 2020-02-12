@@ -1,0 +1,92 @@
+# French strings go here for Rails i18n (Translate from en and it version)
+fr:
+  label_vault: 'Vault'
+  label_module: 'clefs'
+  settings:
+    title: "Vault settings"
+    vault_title_encription_key: "clef de chiffrement"
+    redmine_title_encription_key: "Utiliser le chiffrement de Redmine"
+    vault_encription_notice: "Utilisé uniquement avec la méthode de chiffrement de Vault"
+    redmine_encryption_notice: "Recommandé. N'oubliez pas de mettre votre clef dans l'option database_cipher_key du fichier config/configuration.yml. IMPORTANT: Lancez redmine:plugins:vault:convert aprèrs tout changement de ce paramètre."
+
+  backups:
+    title: "Sauvegarder les clefs"
+    title_restore: "Restaurer depuis une sauvegarde"
+    btn:
+      download_backup: "Importer une sauvegarde"
+      upload_backup: "Restaurer depuis une sauvegarde"
+
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "Clefs"
+
+  tag:
+    title:
+      popular: "Tags populaires"
+
+  key:
+    title:
+      delete: "Supprimer une clef"
+      edit: "Modifier une clef"
+      copy: "Copier une clef"
+      clone: "Dupliquer une clef"
+      show: "Afficher la clef"
+      new: "Nouvelle clef"
+      list: "Afficher les clefs"
+
+    btn:
+      new: "Nouvelle clef"
+      actions: "Actions"
+      clipboard: "Copier vers le presse papier"
+
+    attr:
+      lock: "Verrou"
+      owner: "Propriétaire"
+      body: "Clef"
+      name: "Nom"
+      login: "Login"
+      url: "URL"
+      type: "Type"
+      tags: "Tags"
+      file: "Fichier de le clef"
+      comment: "Commentaire"
+      whitelist: "Autorisation des membres"
+
+    whitelist:
+      selected_members: "Membres autorisés"
+      available_members: "Membres disponibles"
+
+  context_menu:
+    copy_key: "Copier la clef"
+    copy_url: "Copier l'URL"
+    copy_login: "Copier le login"
+    delete: "Supprimer la clef"
+    edit: "Modifier la clef"
+    clone: "Dupliquer la clef"
+
+  alert:
+    key:
+      not_found: "Clef non trouvée"
+
+  confirm:
+    key:
+      delete: "Êtes vous sur de vouloir supprimer cette clef ?"
+
+  notice:
+    settings:
+      saved: "Paramètres sauvegardés"
+      keys_restore: "Clefs restaurés"
+    key:
+      update:
+        success: "La clef a été mise à jour"
+      delete:
+        success: "La clef a été supprimée"
+      create:
+        success: "La clef a été créée"
+
+  error:
+    key:
+      not_set: "La clé de chiffrement n'est pas déclarée dans la configuration"
+      not_whitelisted: "Clef non autoirisée à la consultation"
