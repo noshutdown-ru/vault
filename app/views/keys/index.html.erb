@@ -75,7 +75,7 @@
   </div>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.4', '4.0', '4.1')  %>
+<% if Redmine::VERSION.to_s.start_with?('3.4') or Redmine::VERSION.to_s.start_with?('4')  %>
     <%= context_menu %>
 <% else %>
     <%= context_menu project_keys_context_menus_path(@project) %>
