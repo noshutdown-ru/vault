@@ -1,16 +1,16 @@
 # English strings go here for Rails i18n
 en:
   label_vault: 'Vault'
-  label_module: 'Keys'
+  label_module: 'Passwords'
   settings:
-    title: "Vault settings"
-    vault_title_encription_key: "Encryption key"
-    redmine_title_encription_key: "Use Redmine encryption"
-    vault_encription_notice: "Used only by Vault encryption method"
+    title: "Passwords settings"
+    vault_title_encription_key: "Encryption Key"
+    redmine_title_encription_key: "Use Redmine Encryption"
+    vault_encription_notice: "Used only by VaultEencryption Method"
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
 
   backups:
-    title: "Backup keys"
+    title: "Backup Passwords"
     title_restore: "Restore from backup"
     btn:
       download_backup: "Download backup"
@@ -20,7 +20,7 @@ en:
     title:
       pdf: "PDF"
     pdf:
-      title: "keys"
+      title: "Passwords"
 
   tag:
     title:
@@ -28,29 +28,29 @@ en:
 
   key:
     title:
-      delete: "Delete Key"
-      edit: "Editing Key"
-      copy: "Copy Key"
-      clone: "Clone Key"
-      show: "Showing Key"
-      new: "New Key"
-      list: "Listing Keys"
+      delete: "Delete Password"
+      edit: "Editing Password"
+      copy: "Copy Password"
+      clone: "Clone Password"
+      show: "Showing Password"
+      new: "New Password"
+      list: "List of Passwords"
 
     btn:
-      new: "New Key"
+      new: "New Password"
       actions: "Actions"
-      clipboard: "Copy to clipboard"
+      clipboard: "Copy to Clipboard"
 
     attr:
       lock: "Lock"
       owner: "Owner"
-      body: "Key"
+      body: "Password"
       name: "Name"
       login: "Login"
       url: "URL"
       type: "Type"
       tags: "Tags"
-      file: "Key File"
+      file: "Password File"
       comment: "Comment"
       whitelist: "Access list"
 
@@ -59,35 +59,35 @@ en:
       available_members: "Available Members"
 
   context_menu:
-    copy_key: "Copy Key"
+    copy_key: "Copy Password"
     copy_url: "Copy URL"
     copy_login: "Copy Login"
-    delete: "Delete Key"
-    edit: "Edit Key"
-    clone: "Clone Key"
+    delete: "Delete Password"
+    edit: "Edit Password"
+    clone: "Clone Password"
 
   alert:
     key:
-      not_found: "Key not found"
+      not_found: "Password not found"
 
   confirm:
     key:
-      delete: "Do you want to delete this key?"
+      delete: "Do you want to delete this Password?"
 
   notice:
     settings:
       saved: "Settings saved"
-      keys_restore: "Keys restored"
+      keys_restore: "Passwords restored"
     key:
       update:
-        success: "Key was successfully modified"
+        success: "Password was successfully modified"
       delete:
-        success: "Key was successfully deleted"
+        success: "Password was successfully deleted"
       create:
-        success: "Key was successfully created"
+        success: "Password was successfully created"
 
   error:
     key:
       not_set: "The encryption key is not set in the settings"
-      not_whitelisted: "Key not allowed for you"
+      not_whitelisted: "Password not allowed for you"
       length: "Encryption key must be at least 16 symbols"
