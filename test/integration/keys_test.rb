@@ -45,7 +45,7 @@ class KeysTest < Vault::IntegrationTest
       fill_in 'Name', with: 'FreeBSD server console'
       fill_in 'Login', with: 'root'
       fill_in 'URL', with: 'ssh root@freebsd'
-      fill_in 'Key', with: '123456'
+      fill_in 'Password', with: '123456'
       fill_in 'Tags', with: 'ssh'
       fill_in 'Comment', with: 'Very important'
       select  'Password', from: 'Type'
