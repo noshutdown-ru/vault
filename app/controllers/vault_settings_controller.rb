@@ -13,18 +13,17 @@ class VaultSettingsController < ApplicationController
   end
 
   def save
-    if params[:settings][:encryption_key].length != 16
-      redirect_to '/vault_settings', :flash => { :error =>  t('error.key.length') }
+    if params[:settings][:encryption_key].length != 16 and params[:settings][:encryption_key].length != 0
+      redirect_to vault_settings_path, :flash => { :error =>  t('error.key.length') }
       return
     end
 
     Setting.send "plugin_vault=", params[:settings]
-    redirect_to '/vault_settings', notice: t('notice.settings.saved')
+    redirect_to vault_settings_path , notice: t('notice.settings.saved')
   end
 
   def backup
     # FIXME
-
     @csv_string = CSV.generate do |csv|
       csv << Vault::Key.attribute_names
       Vault::Key.all.each do |key|
@@ -60,8 +59,8 @@ class VaultSettingsController < ApplicationController
     zip_data = IO.binread(tmp_fname)
 
     send_data zip_data,
-              :type => 'application/zip',
-              :disposition => "attachment; filename=#{fname}"
+      :type => 'application/zip',
+      :disposition => "attachment; filename=#{fname}"
 
   end
 
@@ -100,7 +99,7 @@ class VaultSettingsController < ApplicationController
       end
     end
 
-    redirect_to '/vault_settings', notice: t('notice.settings.keys_restore')
+    redirect_to vault_settings_path, notice: t('notice.settings.keys_restore')
   end
 
 end

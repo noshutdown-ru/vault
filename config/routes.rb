@@ -8,7 +8,6 @@ resources :projects do
   get '/keys/:id/copy', to: 'keys#copy', as: 'copy_key'
 end
 
-
 resources :vault_settings do
   collection do
     get :autocomplete_for_user

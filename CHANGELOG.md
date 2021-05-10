@@ -1,8 +1,13 @@
+## Version: 0.4.3 (10.05.2021)
+### Bugfix
+- Saving settings path #67
+- Fixed saving settings if key empty
+
 ## Version: 0.4.2 (10.05.2021)
 ### Improvements
 - Added support of Redmine 4.2.1.stable, tested on 2.7.3-p183
 - Updated English translation Keys changed to Passwords
-- Error handling for Encryption Key (VaultEencryption) now must be exact 16 symbols.
+- Error handling for Encryption Key (VaultEencryption) now must be exact 16 symbols
 
 ## Version: 0.4.1 (04.01.2020)
 ### Improvements
