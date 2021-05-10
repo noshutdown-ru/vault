@@ -5,7 +5,7 @@ rvm:
   - 2.7.3
 
 env:
-  - REDMINE_VER=4.2.1-stable
+  - REDMINE_VER=4.2-stable
 
 sudo: true
 
