@@ -69,7 +69,7 @@ class KeysTest < Vault::IntegrationTest
     within 'form.edit_vault_key' do
       assert_equal 'server1', find_field('Name').value
       assert_equal 'root', find_field('Login').value
-      assert_equal '123456', find_field('Key').value
+      assert_equal '123456', find_field('Password').value
       assert_equal 'Important', find_field('Comment').value
       assert_equal 'Vault::Password', find_field('Type').value
       assert_equal 'ssh', find_field('Tags').value
