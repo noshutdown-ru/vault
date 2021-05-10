@@ -17,8 +17,6 @@ end
 gem 'roo'
 gem 'iconv'
 gem 'rubyzip', '~> 2.3.0'
-gem "rack", ">= 2.1.4"
-gem "nokogiri", "~> 1.11.1"
 gem 'zip-zip'
 
 group :test, :development do
