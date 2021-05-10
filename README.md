@@ -16,10 +16,8 @@ https://noshutdown.ru/en/redmine-plugins-vault/#about
 # bundle install --without development test
 # rake redmine:plugins:migrate RAILS_ENV=production
 ```
-
-
-* Add `Rails.application.config.assets.precompile += %w( zeroclipboard.js )` 
-to `config/initializers/assets.rb` and restart your server.
+* **For Redmine older version 4.2** `Rails.application.config.assets.precompile += %w( zeroclipboard.js )`
+  to `config/initializers/assets.rb` and restart your server.
 
 * After installing a plugin, open the settings ( http://*/settings/plugin/vault ) 
 and enter encryption key in the Encryption key field.

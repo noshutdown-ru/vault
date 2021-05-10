@@ -29,13 +29,13 @@ class PluginTest < Vault::IntegrationTest
     Role.find(1).add_permission! :view_keys
     log_user('jsmith','jsmith')
     visit '/projects/1'
-    assert has_link? 'Keys', href: '/projects/ecookbook/keys'
+    assert has_link? 'Passwords', href: '/projects/ecookbook/keys'
   end
 
   def test_no_keys_tab_in_project_with_no_keys_enabled
     log_user('jsmith','jsmith')
     visit '/projects/2'
-    assert_not has_link? 'Keys'
+    assert_not has_link? 'Passwords'
   end
 
 #  def test_index

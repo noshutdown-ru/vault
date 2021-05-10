@@ -45,13 +45,13 @@ class KeysTest < Vault::IntegrationTest
       fill_in 'Name', with: 'FreeBSD server console'
       fill_in 'Login', with: 'root'
       fill_in 'URL', with: 'ssh root@freebsd'
-      fill_in 'Key', with: '123456'
+      fill_in 'Password', with: '123456'
       fill_in 'Tags', with: 'ssh'
       fill_in 'Comment', with: 'Very important'
       select  'Password', from: 'Type'
       click_button 'Save'
     end
-    assert page.has_content? 'Key was successfully created'
+    assert page.has_content? 'Password was successfully created'
     key = Vault::Key.find_by_name('FreeBSD server console')
     refute_nil key
     key.decrypt!
@@ -69,7 +69,7 @@ class KeysTest < Vault::IntegrationTest
     within 'form.edit_vault_key' do
       assert_equal 'server1', find_field('Name').value
       assert_equal 'root', find_field('Login').value
-      assert_equal '123456', find_field('Key').value
+      assert_equal '123456', find_field('Password').value
       assert_equal 'Important', find_field('Comment').value
       assert_equal 'Vault::Password', find_field('Type').value
       assert_equal 'ssh', find_field('Tags').value

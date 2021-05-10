@@ -13,7 +13,7 @@ class VaultSettingsController < ApplicationController
   end
 
   def save
-    if params[:settings][:encryption_key].length < 16
+    if params[:settings][:encryption_key].length != 16
       redirect_to '/vault_settings', :flash => { :error =>  t('error.key.length') }
       return
     end

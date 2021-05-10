@@ -2,10 +2,10 @@ language: ruby
 dist: xenial
 
 rvm:
-  - 2.7.0
+  - 2.7.3
 
 env:
-  - REDMINE_VER=4.1-stable
+  - REDMINE_VER=4.2-stable
 
 sudo: true
 
