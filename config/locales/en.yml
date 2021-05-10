@@ -90,4 +90,4 @@ en:
     key:
       not_set: "The encryption key is not set in the settings"
       not_whitelisted: "Password not allowed for you"
-      length: "Encryption key must be at least 16 symbols"
+      length: "Encryption key must be at exact 16 symbols"

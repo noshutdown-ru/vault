@@ -16,7 +16,7 @@ end
 
 gem 'roo'
 gem 'iconv'
-gem 'rubyzip', '1.3.0'
+gem 'rubyzip', '~> 2.3.0'
 gem 'zip-zip'
 
 group :test, :development do

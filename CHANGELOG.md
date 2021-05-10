@@ -1,3 +1,9 @@
+## Version: 0.4.2 (10.05.2021)
+### Improvements
+- Added support of Redmine 4.2.1.stable, tested on 2.7.3-p183
+- Updated English translation Keys changed to Passwords
+- Error handling for Encryption Key (VaultEencryption) now must be exact 16 symbols.
+
 ## Version: 0.4.1 (04.01.2020)
 ### Improvements
 - [Redmine 4.1 compatibility.](https://github.com/noshutdown-ru/vault/issues/57)
