@@ -51,7 +51,7 @@ class KeysTest < Vault::IntegrationTest
       select  'Password', from: 'Type'
       click_button 'Save'
     end
-    assert page.has_content? 'Key was successfully created'
+    assert page.has_content? 'Password was successfully created'
     key = Vault::Key.find_by_name('FreeBSD server console')
     refute_nil key
     key.decrypt!
