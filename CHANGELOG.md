@@ -1,6 +1,6 @@
 ## Version: 0.4.3 (10.05.2021)
 ### Bugfix
-- Saving settings path #67
+- [Saving settings path](https://github.com/noshutdown-ru/vault/pull/67)
 - Fixed saving settings if key empty
 
 ## Version: 0.4.2 (10.05.2021)
