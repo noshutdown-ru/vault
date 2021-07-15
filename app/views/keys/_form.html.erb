@@ -26,7 +26,7 @@
 
     <p><%= f.label :body, t('key.attr.body') %>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
-      <%= f.text_field :body %></p>
+      <%= f.text_field :body,:autocomplete => :off %></p>
     <% else %>
       <%= f.text_field :body,:readonly => true %></p>
     <% end %>
