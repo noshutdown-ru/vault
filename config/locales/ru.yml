@@ -91,3 +91,10 @@ ru:
       not_set: "Ключ шифрования не установлен в настройках"
       not_whitelisted: "Ключ вам не доступен"
       length: "Ключ шифрования должен быть из 16 символов"
+
+  permission_export_keys: "Экспортировать ключи"
+  permission_download_keys: "Скачивать ключи"
+  permission_view_keys: "Просматривать ключи"
+  permission_edit_keys: "Редактировать ключи"
+  permission_manage_whitelist_keys: "Управление белым списком ключей"
+  permission_whitelist_keys: "Белый список ключей"
