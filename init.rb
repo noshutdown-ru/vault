@@ -3,7 +3,8 @@ require_dependency "#{Rails.root}/plugins/vault/lib/redmine_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/vault_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/project_patch"
 require_dependency "#{Rails.root}/plugins/vault/lib/mk_keyfiles_dir"
-require "admin_menu_vault_hooks"
+AdminMenuVaultHooks = "AdminMenuVaultHooks"
+require_relative "lib/admin_menu_vault_hooks"
 
 Redmine::Plugin.register :vault do
   name 'Vault plugin'

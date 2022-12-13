@@ -1,3 +1,8 @@
+## Version: 0.5.0 (13.12.2022)
+### Bugfix
+- [Redmine 5.0 compatibility.](https://github.com/noshutdown-ru/vault/issues/91)
+- Fixed compatibility issue with the new Zeitwerk loader
+
 ## Version: 0.4.3 (10.05.2021)
 ### Bugfix
 - [Saving settings path](https://github.com/noshutdown-ru/vault/pull/67)

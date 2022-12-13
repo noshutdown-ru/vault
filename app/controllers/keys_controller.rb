@@ -109,7 +109,7 @@ class KeysController < ApplicationController
 
       self.update_wishlist
 
-      if @key.update_attributes(params[:vault_key])
+      if @key.update(params[:vault_key])
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
       else
