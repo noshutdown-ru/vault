@@ -59,8 +59,8 @@
   <h3><%= t('tag.title.popular') %></h3>
   <div id='tags-list'>
     <ul>
-      <% Vault::Tag.cloud_for_project(@project.id).each do |t| %>
-        <li><%= link_to t, {query: "##{t}"} %></li>
+      <% Vault::Tag.cloud_for_project(@project.id).each do |t| %>      
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.color(t) %>'><%= link_to t, {query: "##{t}"}, class: 'vault-tag-link' %></li>
       <% end %>
     </ul>
   </div>
