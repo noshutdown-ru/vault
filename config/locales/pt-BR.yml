@@ -39,6 +39,7 @@ pt-BR:
       new: "Novo acesso"
       actions: "Ações"
       clipboard: "Copiar para área de transferência"
+      find: "Procurar"
 
     attr:
       lock: "Bloqueado"

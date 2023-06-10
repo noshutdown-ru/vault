@@ -33,12 +33,13 @@ de:
       clone: "Passwort duplizieren"
       show: "Passwort anzeigen"
       new: "neues Passwort"
-      list: "Übersicht Passwörter"
+      list: "Passwörter"
 
     btn:
       new: "neues Passwort"
       actions: "Aktionen"
       clipboard: "In die Zwischenablage kopieren"
+      find: "Suchen"
 
     attr:
       lock: "Lock"

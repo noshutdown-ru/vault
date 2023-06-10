@@ -34,12 +34,13 @@ es:
       clone: "Clonar Clave"
       show: "Mostrando Claves"
       new: "Nueva Clave"
-      list: "Listado de Claves"
+      list: "Claves"
 
     btn:
       new: "Nueva Clave"
       actions: "Acciones"
       clipboard: "Copiar al portapapeles"
+      find: "Buscar"
 
     attr:
       lock: "Bloquear"

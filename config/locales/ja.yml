@@ -40,6 +40,7 @@ ja:
           new: "New Key"
           actions: "Actions"
           clipboard: "Copy to clipboard"
+          find: "Find"
 
         attr:
           lock: "Lock"

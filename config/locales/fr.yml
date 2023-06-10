@@ -34,12 +34,13 @@ fr:
       clone: "Dupliquer une clef"
       show: "Afficher la clef"
       new: "Nouvelle clef"
-      list: "Afficher les clefs"
+      list: "Clefs"
 
     btn:
       new: "Nouvelle clef"
       actions: "Actions"
       clipboard: "Copier vers le presse papier"
+      find: "Recherche"
 
     attr:
       lock: "Verrou"

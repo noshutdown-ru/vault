@@ -34,12 +34,13 @@ pt:
       clone: "Clonar Chave"
       show: "Mostar Chave"
       new: "Nova Chave"
-      list: "Listando Chaves"
+      list: "Chaves"
 
     btn:
       new: "Nova Chave"
       actions: "Ações"
       clipboard: "Copiar para clipboard"
+      find: "Procurar"
 
     attr:
       lock: "Bloqueado"

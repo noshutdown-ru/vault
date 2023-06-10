@@ -34,12 +34,13 @@ it:
       clone: "Clona Chiave"
       show: "Mostra la chiave"
       new: "Nuova Chiave"
-      list: "Elenco chiave"
+      list: "Chiave"
 
     btn:
       new: "Nuova Chiave"
       actions: "Azioni"
       clipboard: "Copia negli appunti"
+      find: "Ricerca"
 
     attr:
       lock: "Blocca"

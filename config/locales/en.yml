@@ -34,12 +34,13 @@ en:
       clone: "Clone Password"
       show: "Showing Password"
       new: "New Password"
-      list: "List of Passwords"
+      list: "Passwords"
 
     btn:
       new: "New Password"
       actions: "Actions"
       clipboard: "Copy to Clipboard"
+      find: "Find"
 
     attr:
       lock: "Lock"

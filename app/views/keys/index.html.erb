@@ -1,3 +1,5 @@
+<% html_title(t('label_module')) %>
+
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
   <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
@@ -13,18 +15,7 @@
 <%= form_tag({ controller: :keys, action: :index }, method: 'get') do %>
   <%= text_field_tag(:query, @query, class: 'autocomplete') %>
 
-      <font size="2">
-      <%= radio_button_tag(:search_fild, "name", @search_fild == 'name' ? true : false ) %>
-      <%= label_tag(:name, t('key.attr.name')) %>
-
-      <%= radio_button_tag(:search_fild, "url", @search_fild == 'url' ? true : false ) %>
-      <%= label_tag(:url, t('key.attr.url')) %>
-
-      <%= radio_button_tag(:search_fild, "tag", @search_fild == 'tag' ? true : false ) %>
-      <%= label_tag(:tag, t('key.attr.tags')) %>
-      </font>
-
-  <%= submit_tag(t('button_update')) %>
+  <%= submit_tag(t('key.btn.find')) %>
 <% end %>
 <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>

@@ -34,12 +34,13 @@ zh:
       clone: "克隆密钥"
       show: "密钥详细"
       new: "新建密钥"
-      list: "密钥列表"
+      list: "密钥"
 
     btn:
       new: "新建密钥"
       actions: "操作"
       clipboard: "复制到剪贴板中"
+      find: "搜索"
 
     attr:
       lock: "锁"
