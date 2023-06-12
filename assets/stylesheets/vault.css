@@ -43,3 +43,11 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
     color: white;
     padding-bottom: 1px;
 }
+
+.controller-keys #content .keys-search-title {
+    display: flex;
+    align-items: center;
+}
+.controller-keys #content .keys-search-form {
+    padding-left: 15px;
+}
