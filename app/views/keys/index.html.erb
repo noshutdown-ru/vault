@@ -27,6 +27,7 @@
        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
     </th>
+    <th><%= t('key.attr.type') %></th>
     <%= sort_header_tag('name', caption: t('key.attr.name')) %>
     <th><%= t('key.attr.url') %></th>
     <th><%= t('key.attr.login') %></th>

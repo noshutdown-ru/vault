@@ -1,3 +1,16 @@
+<td> 
+    <label id="type_<%=key.id%>" class='keys-links'>
+        <% if key.type == 'Vault::Password' %>
+            <%= t('activerecord.models.password') %>
+        <% elsif key.type == 'Vault::Sftp' %>
+            <%= t('activerecord.models.sftp') %>
+        <% elsif key.type == 'Vault::KeyFile' %>
+            <%= t('activerecord.models.key_file') %>
+        <% else %>
+            Unknown
+        <% end %>
+    </label>
+</td>
 <td> <%= link_to key.name, edit_project_key_path(@project, key), class: 'keys-links' %></td>
 <td>
   <% unless key.url.blank? %>
