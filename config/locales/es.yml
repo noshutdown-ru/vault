@@ -9,6 +9,11 @@ es:
     vault_encription_notice: "Solo utilizada por el método criptográfico de Vault"
     redmine_encryption_notice: "Recomendado. No olvide de colocar su clave criptográfica en database_cipher_key en config/configuration.yml. IMPORTANTE: ejecute rake redmine:plugins:vault:convert después de cambiar esta opción."
 
+  activerecord:
+    models:
+      password: "Clave"
+      sftp: "SFTP"
+
   backups:
     title: "Copia de seguridad de las claves"
     title_restore: "Restaurar desde la copia de seguridad"

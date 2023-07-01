@@ -1,11 +1,17 @@
 <td> 
     <label id="type_<%=key.id%>" class='keys-links'>
         <% if key.type == 'Vault::Password' %>
-            <%= t('activerecord.models.password') %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.password') %>
+            <% end %>
         <% elsif key.type == 'Vault::Sftp' %>
-            <%= t('activerecord.models.sftp') %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.sftp') %>
+            <% end %>
         <% elsif key.type == 'Vault::KeyFile' %>
-            <%= t('activerecord.models.key_file') %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.key_file') %>
+            <% end %>
         <% else %>
             Unknown
         <% end %>

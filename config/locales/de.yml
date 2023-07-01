@@ -8,6 +8,11 @@ de:
     vault_encription_notice: "Vault-eigene Verschlüsselung verwenden"
     redmine_encryption_notice: "Empfohlen. Der Schlüssel muss unter 'database_cipher_key' in der Konfiguration config/configuration.yml hinterlegt werden. WICHTIG: führe danach »rake redmine:plugins:vault:convert« aus."
 
+  activerecord:
+    models:
+      password: "Passwört"
+      sftp: "SFTP"
+      
   backups:
     title: "Passwortbackup "
     title_restore: "aus Backup wiederherstellen"
