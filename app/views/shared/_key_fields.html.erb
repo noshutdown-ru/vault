@@ -1,3 +1,22 @@
+<td> 
+    <label id="type_<%=key.id%>" class='keys-links'>
+        <% if key.type == 'Vault::Password' %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.password') %>
+            <% end %>
+        <% elsif key.type == 'Vault::Sftp' %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.sftp') %>
+            <% end %>
+        <% elsif key.type == 'Vault::KeyFile' %>
+            <%= link_to project_key_path(@project, key), class: 'keys-links' do %>
+                <%= t('activerecord.models.key_file') %>
+            <% end %>
+        <% else %>
+            Unknown
+        <% end %>
+    </label>
+</td>
 <td> <%= link_to key.name, edit_project_key_path(@project, key), class: 'keys-links' %></td>
 <td>
   <% unless key.url.blank? %>
@@ -12,9 +31,13 @@
 </td>
 <td>
   <% unless key.login.blank? %>
-    <a align="left" class='keys-links' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>'>
-      <label id="login_<%=key.id%>"><%= key.login %></label>
-    </a>
+    <span class='login-wrapper'>
+        <a class='keys-actions copy-key' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
+          
+          <i class="fa fa-clipboard fa-fw" ></i>
+        </a>
+        <label id="login_<%=key.id%>" class='keys-links'><%= key.login %></label>
+    </span>
   <% end %>
 </td>
 
