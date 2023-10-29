@@ -3,13 +3,14 @@ require_dependency "#{Rails.root}/plugins/vault/lib/redmine_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/vault_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/project_patch"
 require_dependency "#{Rails.root}/plugins/vault/lib/mk_keyfiles_dir"
-require "admin_menu_vault_hooks"
+AdminMenuVaultHooks = "AdminMenuVaultHooks"
+require_relative "lib/admin_menu_vault_hooks"
 
 Redmine::Plugin.register :vault do
   name 'Vault plugin'
   author 'noshutdown.ru'
   description 'Plugin for keep keys and passwords'
-  version '0.4.3'
+  version '0.5.1'
   url 'https://noshutdown.ru/redmine-plugins-vault/'
   author_url 'https://noshutdown.ru/'
 

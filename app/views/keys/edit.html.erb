@@ -2,8 +2,6 @@
 
 <%= render partial: 'form', locals: { key: @key.becomes(Vault::Key), action: :update } %>
 
-<%= link_to t('button_back'), project_keys_path(@project) %>
-
 <script>
   $(function() {
     var availableTags = <%= raw(Vault::Tag.tags_list(@project.id).to_json) %>;

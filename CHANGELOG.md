@@ -1,3 +1,15 @@
+## Version: 0.5.1 (10.06.2023)
+### Bugfix
+- Improved password search
+- Colored tags
+- Add Copy to clipboard for login
+- Add browser title for plugin page
+
+## Version: 0.5.0 (13.12.2022)
+### Bugfix
+- [Redmine 5.0 compatibility.](https://github.com/noshutdown-ru/vault/issues/91)
+- Fixed compatibility issue with the new Zeitwerk loader
+
 ## Version: 0.4.3 (10.05.2021)
 ### Bugfix
 - [Saving settings path](https://github.com/noshutdown-ru/vault/pull/67)

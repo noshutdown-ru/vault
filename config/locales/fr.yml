@@ -9,6 +9,11 @@ fr:
     vault_encription_notice: "Utilisé uniquement avec la méthode de chiffrement de Vault"
     redmine_encryption_notice: "Recommandé. N'oubliez pas de mettre votre clef dans l'option database_cipher_key du fichier config/configuration.yml. IMPORTANT: Lancez redmine:plugins:vault:convert aprèrs tout changement de ce paramètre."
 
+  activerecord:
+    models:
+      password: "Clef"
+      sftp: "SFTP"
+      
   backups:
     title: "Sauvegarder les clefs"
     title_restore: "Restaurer depuis une sauvegarde"
@@ -34,12 +39,13 @@ fr:
       clone: "Dupliquer une clef"
       show: "Afficher la clef"
       new: "Nouvelle clef"
-      list: "Afficher les clefs"
+      list: "Clefs"
 
     btn:
       new: "Nouvelle clef"
       actions: "Actions"
       clipboard: "Copier vers le presse papier"
+      find: "Recherche"
 
     attr:
       lock: "Verrou"

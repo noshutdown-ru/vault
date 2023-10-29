@@ -3,7 +3,7 @@ module KeysHelper
   include Redmine::Export::PDF::IssuesPdfHelper
 
   def key_types
-    [[t('activerecord.models.password'),'Vault::Password'], [t('activerecord.models.key_file'),'Vault::KeyFile']]
+    [[t('activerecord.models.password'),'Vault::Password'], [t('activerecord.models.sftp'),'Vault::Sftp'], [t('activerecord.models.key_file'),'Vault::KeyFile']]
   end
 
   def keys_to_pdf(keys, project, query)

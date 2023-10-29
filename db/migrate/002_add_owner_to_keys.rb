@@ -5,7 +5,7 @@ if Redmine::VERSION.to_s.start_with?('4')
     end
   end
 else
-  class AddOwnerToKeys < ActiveRecord::Migration
+  class AddOwnerToKeys < ActiveRecord::Migration[6.1]
     def change
       add_column :keys, :owner, :string
     end

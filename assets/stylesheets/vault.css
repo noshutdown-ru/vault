@@ -27,3 +27,27 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
 #vault_whitelist select {
 	min-width: 250px;
 }
+
+
+#tags-list .vault-tag {
+    background-color: bisque;
+    text-align: center;
+    border-radius: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px
+}
+
+#tags-list .vault-tag-link {
+    padding-top: 5px;
+    color: white;
+    padding-bottom: 1px;
+}
+
+.controller-keys #content .keys-search-title {
+    display: flex;
+    align-items: center;
+}
+.controller-keys #content .keys-search-form {
+    padding-left: 15px;
+}

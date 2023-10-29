@@ -1,5 +1,3 @@
 <h1><%= t('key.title.new') %> </h1>
 
 <%= render partial: 'form', locals: { key: @key.becomes(Vault::Key), action: :create } %>
-
-<%= link_to t('button_cancel'), project_keys_path(@project) %>

@@ -11,7 +11,7 @@ redmine_version_minor = version_file.match(/MINOR =/).post_match.match(/\d/)[0].
 redmine_version_major = version_file.match(/MAJOR =/).post_match.match(/\d/)[0].to_i
 
 if Gem::Version.new(redmine_version_major) >= Gem::Version.new('4')
-  gem 'protected_attributes_continued', '1.4.0'
+  gem 'protected_attributes_continued', '1.8.2'
 end
 
 gem 'roo'

@@ -32,5 +32,28 @@ module Vault
       ).group('vault_tags.name').group('vault_tags.id').map(&:name) #OPTIMIZE_ME!
     end
 
+    def Tag::color(tag)
+      tag_color = 'transparent'
+      case tag.length
+      when 0..3
+        tag_color = '#5949ed'
+      when 4
+        tag_color = '#67c762'
+      when 5
+        tag_color = '#48b1fe'
+      when 6
+        tag_color = '#a9d8e1'
+      when 7
+        tag_color = '#341797'
+      when 8
+        tag_color = '#741686'
+      when 10
+        tag_color = '#ff2f24'
+      else
+        tag_color = '#8dbb9e'
+      end
+      return tag_color
+    end
+
   end
 end
