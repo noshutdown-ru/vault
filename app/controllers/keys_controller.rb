@@ -74,7 +74,7 @@ class KeysController < ApplicationController
   end
 
   def all
-    if User.current.allowed_to?({:controller => 'users', :action => 'top_user_menu'}, nil, :global => true)
+    if User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)
       unless Setting.plugin_vault['use_redmine_encryption'] ||
              Setting.plugin_vault['use_null_encryption']
         if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
