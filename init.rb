@@ -3,7 +3,10 @@ require_dependency "#{Rails.root}/plugins/vault/lib/redmine_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/vault_cipher"
 require_dependency "#{Rails.root}/plugins/vault/lib/project_patch"
 require_dependency "#{Rails.root}/plugins/vault/lib/mk_keyfiles_dir"
-require "admin_menu_vault_hooks"
+
+AdminMenuVaultHooks = "AdminMenuVaultHooks"
+
+require_relative "lib/admin_menu_vault_hooks"
 
 Redmine::Plugin.register :vault do
   name 'Vault plugin'
@@ -15,6 +18,7 @@ Redmine::Plugin.register :vault do
 
   project_module :keys do
     permission :export_keys, keys: [ :keys_to_pdf ]
+    permission :all_keys, keys: [ :all ]
     permission :download_keys, key_files: [ :download ]
     permission :view_keys, keys: [ :index, :edit, :show, :context_menu ]
     permission :edit_keys, keys: [ :index, :new, :create, :edit, :show, :update, :destroy, :copy ]
@@ -23,6 +27,13 @@ Redmine::Plugin.register :vault do
   end
 
   menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('label_module')}, after: :activity, param: :project_id
+  menu :top_menu, :keys, { controller: 'keys', action: 'all' }, caption: Proc.new {I18n.t('label_module')}, :if => Proc.new {User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)}
+
+  # Redmine::MenuManager.map :application_menu do |menu|
+  #   menu.push :passwords, :all_keys_path,
+  #             :if => Proc.new {User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)}
+  # end
+
   settings :default => {
                'empty' => true
            },
