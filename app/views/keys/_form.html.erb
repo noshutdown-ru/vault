@@ -21,15 +21,19 @@
       <%= f.text_field :url,:readonly => true %></p>
     <% end %>
 
-    <p><%= f.label :type %>
-    <%= f.select :type, key_types %></p>
+    <p>
+			<%= f.label :type %>
+    	<%= f.select :type, key_types %>
+		</p>
 
-    <p><%= f.label :body, t('key.attr.body') %>
-    <% if User.current.allowed_to?(:edit_keys, @project) %>
-      <%= f.text_field :body,:autocomplete => :off %></p>
-    <% else %>
-      <%= f.text_field :body,:readonly => true %></p>
-    <% end %>
+    <p>
+			<%= f.label :body, t('key.attr.body') %>
+			<% if User.current.allowed_to?(:edit_keys, @project) %>
+				<%= f.text_field :body,:autocomplete => :off %>
+			<% else %>
+				<%= f.text_field :body,:readonly => true %>
+			<% end %>
+		</p>
 
     <p>
 			<%= f.label :tags, t('key.attr.tags') %>
@@ -46,12 +50,14 @@
     	<% end %>
 		</p>
 
-    <p><%= f.label :comment, t('key.attr.comment') %>
-    <% if User.current.allowed_to?(:edit_keys, @project) %>
-      <%= f.text_area :comment, class: 'wiki-edit' %></p>
-    <% else %>
-      <%= f.text_area :comment, class: 'wiki-edit',:readonly => true %></p>
-    <% end %>
+    <p>
+			<%= f.label :comment, t('key.attr.comment') %>
+			<% if User.current.allowed_to?(:edit_keys, @project) %>
+				<%= f.text_area :comment, class: 'wiki-edit' %>
+			<% else %>
+				<%= f.text_area :comment, class: 'wiki-edit',:readonly => true %>
+			<% end %>
+		</p>
 
     <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
       <%  whitelisted = @key.whitelist.split(",") %>
