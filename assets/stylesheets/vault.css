@@ -14,10 +14,10 @@ a.keys-links { color:#484848; text-decoration: none; }
 a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none; cursor: pointer; }
 
 
-.edit_vault_key .box label {
+.edit_vault_key .box label, .new_vault_key .box label {
   padding-top: .45em;
 }
-.edit_vault_key .box input[type='text'] {
+.edit_vault_key .box input[type='text'], .new_vault_key .box input[type='text'] {
 	width: 250px;
 	box-sizing: border-box;
 	padding: .25em .35em;
