@@ -59,12 +59,12 @@ ru:
       available_members: "Доступные участники"
 
   context_menu:
-      copy_key: "Copy Key"
-      copy_url: "Copy URL"
-      copy_login: "Copy Login"
-      delete: "Delete Key"
-      edit: "Edit Key"
-      clone: "Clone Key"
+      copy_key: "Копировать ключ"
+      copy_url: "Копировать URL"
+      copy_login: "Копировать логин"
+      delete: "Удалить ключ"
+      edit: "Редактировать ключ"
+      clone: "Клонировать ключ"
 
   alert:
     key:
@@ -90,3 +90,11 @@ ru:
     key:
       not_set: "Ключ шифрования не установлен в настройках"
       not_whitelisted: "Ключ вам не доступен"
+      length: "Ключ шифрования должен быть из 16 символов"
+
+  permission_export_keys: "Экспортировать ключи"
+  permission_download_keys: "Скачивать ключи"
+  permission_view_keys: "Просматривать ключи"
+  permission_edit_keys: "Редактировать ключи"
+  permission_manage_whitelist_keys: "Управление белым списком ключей"
+  permission_whitelist_keys: "Белый список ключей"
