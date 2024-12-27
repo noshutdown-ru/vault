@@ -17,7 +17,11 @@
         <% end %>
     </label>
 </td>
-<td> <%= link_to key.name, edit_project_key_path(@project, key), class: 'keys-links' %></td>
+<td>
+  <% if @project.present? %>
+    <%= link_to key.name, edit_project_key_path(@project, key), class: 'keys-links' %>
+  <% end %>
+</td>
 <td>
   <% unless key.url.blank? %>
     <% if /:\/\//.match(key.url) %>
