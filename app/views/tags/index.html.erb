@@ -15,8 +15,7 @@
       <td>
         <%= form_with(model: [@project, @key, tag], local: true, url: project_key_tag_path(@project, @key, tag)) do |form| %>
           <div style="display: flex; align-items: center;">
-            <div style="width: 50px; height: 20px; background-color: <%= tag.color %>; margin-right: 10px;"></div>
-            <%= form.text_field :color, value: tag.color, name: 'tag[color]' %>
+            <%= form.color_field :color, value: tag.color, name: 'tag[color]' %>
             <%= form.submit 'Update', style: 'margin-left: 10px;' %>
           </div>
         <% end %>
