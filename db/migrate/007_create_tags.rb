@@ -12,7 +12,7 @@ if Redmine::VERSION.to_s.start_with?('4')
     end
   end
 else
-  class CreateTags < ActiveRecord::Migration
+  class CreateTags < ActiveRecord::Migration[6.1]
     def change
       create_table :vault_tags do |t|
         t.string :name, index: true

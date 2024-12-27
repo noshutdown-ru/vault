@@ -9,6 +9,11 @@ zh:
     vault_encription_notice: "只用Vault加密法有效"
     redmine_encryption_notice: "推荐选项。 请记得设置密钥database_cipher_key在config/configuration.yml文件。 注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
 
+  activerecord:
+    models:
+      password: "密钥"
+      sftp: "SFTP"
+
   backups:
     title: "密钥备份"
     title_restore: "恢复备份"
@@ -34,12 +39,13 @@ zh:
       clone: "克隆密钥"
       show: "密钥详细"
       new: "新建密钥"
-      list: "密钥列表"
+      list: "密钥"
 
     btn:
       new: "新建密钥"
       actions: "操作"
       clipboard: "复制到剪贴板中"
+      find: "搜索"
 
     attr:
       lock: "锁"

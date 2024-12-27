@@ -9,6 +9,11 @@ ja:
     vault_encription_notice: "Used only by Vault encryption method"
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
 
+  activerecord:
+    models:
+      password: "Password"
+      sftp: "SFTP"
+
     backups:
       title: "Backup keys"
       title_restore: "Restore from backup"
@@ -40,6 +45,7 @@ ja:
           new: "New Key"
           actions: "Actions"
           clipboard: "Copy to clipboard"
+          find: "Find"
 
         attr:
           lock: "Lock"
