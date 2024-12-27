@@ -15,7 +15,7 @@ if Redmine::VERSION.to_s.start_with?('4')
     end
   end
 else
-  class ChangeDefaultTypeOfKeys < ActiveRecord::Migration
+  class ChangeDefaultTypeOfKeys < ActiveRecord::Migration[6.1]
     def up
       change_column :keys, :type, :string, default: 'Vault::Password'
 
