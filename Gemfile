@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-redmine_version_file = File.expand_path("../../../lib/redmine/version.rb",__FILE__)
+redmine_version_file = File.expand_path("../../../lib/redmine/version.rb", __FILE__)
 
-if (!File.exists? redmine_version_file)
-  redmine_version_file = File.expand_path("lib/redmine/version.rb");
+unless File.exist?(redmine_version_file)
+  redmine_version_file = File.expand_path("lib/redmine/version.rb")
 end
 
 version_file = IO.read(redmine_version_file)
