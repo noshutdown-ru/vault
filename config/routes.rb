@@ -6,6 +6,9 @@ resources :projects do
   resources :keys
   get '/key_files/:id/download', to: 'key_files#download', as: 'download_key_file'
   get '/keys/:id/copy', to: 'keys#copy', as: 'copy_key'
+  resources :keys do
+    resources :tags, only: [:index, :create, :update, :destroy], controller: 'tags'
+  end
 end
 
 get '/all/keys', to: 'keys#all', as: 'all_keys'
