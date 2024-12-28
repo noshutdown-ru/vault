@@ -9,6 +9,7 @@
 - Fixed compatibility issue with the new Zeitwerk loader
 - Improved translation
 - Code refactoring
+- Added Github Actions for CI
 
 ### Braking changes
 - Deleted code which checks Redmine version  
