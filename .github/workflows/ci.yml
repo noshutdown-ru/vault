@@ -1,5 +1,6 @@
-name: CI
-on: [push]
+name: Test Redmine Plugin
+
+on: [push, pull_request]
 
 jobs:
   test:
