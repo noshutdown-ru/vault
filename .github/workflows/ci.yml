@@ -18,9 +18,6 @@ jobs:
       RAILS_ENV: test
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -28,3 +25,26 @@ jobs:
 
       - name: Checkout redmine repo
         run: git clone --depth=1 --branch=$REDMINE_VER $REDMINE_GIT_REPO $REDMINE_PATH
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sqlite3
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: $REDMINE_PATH/plugins/$PLUGIN_NAME
+
+      - name: Set up database
+        run: |
+          cd $REDMINE_PATH
+          bundle exec rake db:create db:migrate redmine:plugins:migrate
+
+      - name: Run tests
+        run: |
+          cd $REDMINE_PATH
+          export SKIP_COVERAGE=1
+          bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
+          bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
+          bundle exec rake redmine:plugins:migrate NAME=$PLUGIN_NAME VERSION=0
