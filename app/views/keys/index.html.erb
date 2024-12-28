@@ -22,18 +22,20 @@
 
 <%= form_tag({}, :data => {:cm_url => project_keys_context_menus_path(@project)}) do %>
 <table class='list' id='keys_table'>
-  <thead><tr>
-    <th class="checkbox hide-when-print">
-       <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
-             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
-    </th>
-    <th><%= t('key.attr.type') %></th>
-    <%= sort_header_tag('name', caption: t('key.attr.name')) %>
-    <th><%= t('key.attr.url') %></th>
-    <th><%= t('key.attr.login') %></th>
-    <th><%= t('key.attr.body') %> </th>
-    <th><%= t('key.btn.actions') %></th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+      </th>
+      <th><%= t('key.attr.type') %></th>
+      <%= sort_header_tag('name', caption: t('key.attr.name')) %>
+      <th><%= t('key.attr.url') %></th>
+      <th><%= t('key.attr.login') %></th>
+      <th><%= t('key.attr.body') %> </th>
+      <th><%= t('key.btn.actions') %></th>
+    </tr>
+  </thead>
   <tbody>
     <% @keys.each do |key| %>
       <%= render partial: key, locals: {parity: cycle('odd', 'even')} %>
@@ -42,15 +44,9 @@
 </table>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.3')  %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% elsif Redmine::VERSION.to_s.start_with?('3.2') %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% elsif Redmine::VERSION.to_s.start_with?('3.1') %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% else %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% end %>
+<span class='pagination'>
+  <%= pagination_links_full @key_pages, @key_count %>
+</span>
 
 <% other_formats_links do |f| %>
     <%= f.link_to_with_query_parameters t('export.title.pdf') if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:export_keys, @project)%>
@@ -60,18 +56,16 @@
   <h3><%= t('tag.title.popular') %></h3>
   <div id='tags-list'>
     <ul>
-      <% Vault::Tag.cloud_for_project(@project.id).each do |t| %>      
-        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t) %>'><%= link_to t, {query: "##{t}"}, class: 'vault-tag-link' %></li>
+      <% Vault::Tag.cloud_for_project(@project.id).each do |t| %>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t) %>; border-radius: 10px; padding: 5px; word-wrap: break-word; display: block;'>
+          <%= link_to t, {query: "##{t}"}, class: 'vault-tag-link' %>
+        </li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.4') or Redmine::VERSION.to_s.start_with?('4') or Redmine::VERSION.to_s.start_with?('5') %>
-    <%= context_menu %>
-<% else %>
-    <%= context_menu project_keys_context_menus_path(@project) %>
-<% end %>
+<%= context_menu %>
 
 <script type="text/javascript">
   $('a[href^="http://"]').attr('target','_blank');

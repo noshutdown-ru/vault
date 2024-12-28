@@ -5,10 +5,10 @@
 <% end %>
 
 <h2>
-<%= t('key.title.list') %>
-<%= form_tag({ controller: :keys, action: :all }, method: 'get') do %>
-  <%= text_field_tag(:query, @query, class: 'autocomplete') %>
-  <%= select_tag "project_id", options_from_collection_for_select(@projects, 'id', 'name', params[:project_id]), :prompt => "Please select" %>
+  <%= t('key.title.list') %>
+  <%= form_tag({ controller: :keys, action: :all }, method: 'get') do %>
+    <%= text_field_tag(:query, @query, class: 'autocomplete') %>
+    <%= select_tag "project_id", options_from_collection_for_select(@projects, 'id', 'name', params[:project_id]), :prompt => "Please select" %>
     <font size="2">
       <%= radio_button_tag(:search_fild, "name", @search_fild == 'name' ? true : false ) %>
       <%= label_tag(:name, t('key.attr.name')) %>
@@ -20,44 +20,44 @@
       <%= label_tag(:tag, t('key.attr.tags')) %>
     </font>
 
-  <%= submit_tag(t('button_update')) %>
-<% end %>
-<%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
+    <%= submit_tag(t('key.btn.find')) %>
+  <% end %>
+  <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
 <%= form_tag({}, :data => {:cm_url => all_keys_path}) do %>
-<table class='list' id='keys_table'>
-  <thead><tr>
-    <th><%= t('key.attr.name') %></th>
-    <th>Project</th>
-    <th><%= t('key.attr.url') %></th>
-    <th><%= t('key.attr.login') %></th>
-    <th><%= t('key.attr.body') %> </th>
-  </tr></thead>
-  <tbody>
+  <table class='list' id='keys_table'>
+    <thead><tr>
+      <th><%= t('key.attr.name') %></th>
+      <th>Project</th>
+      <th><%= t('key.attr.url') %></th>
+      <th><%= t('key.attr.login') %></th>
+      <th><%= t('key.attr.body') %> </th>
+    </tr></thead>
+    <tbody>
     <% @keys.each do |key| %>
       <% parity = cycle('odd', 'even') %>
       <tr class='hascontextmenu key <%= defined?(parity) ? parity : '' %>'>
         <td><%= key.name %></td>
         <td><%= key.project.name %></td>
         <td>
-        <% unless key.url.blank? %>
-          <% if /:\/\//.match(key.url) %>
-            <%= link_to "#{key.url}", key.url, id: "url_#{key.id}"%>
-          <% else %>
-            <a align="left" class='keys-links' data-clipboard-target='url_<%=key.id%>' id='d_clip_url_<%=key.id%>'>
-              <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
+          <% unless key.url.blank? %>
+            <% if /:\/\//.match(key.url) %>
+              <%= link_to "#{key.url}", key.url, id: "url_#{key.id}"%>
+            <% else %>
+              <a align="left" class='keys-links' data-clipboard-target='url_<%=key.id%>' id='d_clip_url_<%=key.id%>'>
+                <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
+              </a>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% unless key.login.blank? %>
+            <a align="left" class='keys-links' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>'>
+              <label id="login_<%=key.id%>"><%= key.login %></label>
             </a>
           <% end %>
-        <% end %>
-      </td>
-      <td>
-        <% unless key.login.blank? %>
-          <a align="left" class='keys-links' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>'>
-            <label id="login_<%=key.id%>"><%= key.login %></label>
-          </a>
-        <% end %>
-      </td>
+        </td>
         <td class='key-password-column'>
           <% unless key.body.blank? %>
 
@@ -72,21 +72,27 @@
         </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 <% end %>
 
-<% if Redmine::VERSION.to_s.start_with?('3.3')  %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% elsif Redmine::VERSION.to_s.start_with?('3.2') %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% elsif Redmine::VERSION.to_s.start_with?('3.1') %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
-<% else %>
-    <span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+<span class='pagination'><%= pagination_links_full @key_pages, @key_count %></span>
+
+<% content_for :sidebar do %>
+  <h3><%= t('tag.title.popular') %></h3>
+  <div id='tags-list'>
+    <ul>
+      <% Vault::Tag.all.each do |t| %>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>; border-radius: 10px; padding: 5px; word-wrap: break-word; display: block;'>
+          <%= link_to t.name, {query: "##{t.name}"}, class: 'vault-tag-link' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
+
 
 <script type="text/javascript">
-  $('a[href^="http://"]').attr('target','_blank');
-  $('a[href^="https://"]').attr('target','_blank');
+    $('a[href^="http://"]').attr('target','_blank');
+    $('a[href^="https://"]').attr('target','_blank');
 </script>
