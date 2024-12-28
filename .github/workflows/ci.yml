@@ -32,11 +32,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y sqlite3
           git clone $REDMINE_GIT_REPO $REDMINE_PATH
-          cd $REDMINE_PATH
-          if [[ "$REDMINE_VER" != "master" ]]; then git checkout -b $REDMINE_VER origin/$REDMINE_VER; fi
-          ln -s ${{ github.workspace }} $REDMINE_PATH/plugins/$PLUGIN_NAME
-          cp ${{ github.workspace }}/database.yml $REDMINE_PATH/config/database.yml
-          bundle install --gemfile=$REDMINE_PATH/Gemfile
+          
 
       - name: Set up database
         run: |
