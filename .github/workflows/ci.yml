@@ -43,7 +43,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd $REDMINE_PATH
+          cd ${{ github.workspace }}/redmine
           export SKIP_COVERAGE=1
           bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
