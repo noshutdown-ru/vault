@@ -22,6 +22,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Checkout redmine repo
         run: git clone --depth=1 --branch=$REDMINE_VER $REDMINE_GIT_REPO $REDMINE_PATH
 
@@ -29,9 +32,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y sqlite3
-
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: Set up database
         run: |
