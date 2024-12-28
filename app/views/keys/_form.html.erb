@@ -38,7 +38,9 @@
     <p>
 			<%= f.label :tags, t('key.attr.tags') %>
     	<%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %>
-			<%= link_to 'Edit Tags', project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
+			<% if @key.persisted? %>
+				<%= link_to 'Edit Tags', project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
+			<% end %>
 		</p>
 
     <p>
