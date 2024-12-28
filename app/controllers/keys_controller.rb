@@ -61,62 +61,64 @@ class KeysController < ApplicationController
   end
 
   def all
-    if User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)
-      unless Setting.plugin_vault['use_redmine_encryption'] ||
-             Setting.plugin_vault['use_null_encryption']
-        if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
-          render_error t("error.key.not_set")
-          return
-        end
+    unless User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)
+      render_error t("error.user.not_allowed")
+      return
+    end
+
+    unless Setting.plugin_vault['use_redmine_encryption'] or Setting.plugin_vault['use_null_encryption']
+      if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
+        render_error t("error.key.not_set")
+        return
       end
+    end
 
-      sort_init 'name', 'asc'
-      sort_update 'name' => "#{Vault::Key.table_name}.name"
+    if User.current.admin?
+      @projects = Project.active
+    else
+      @projects = projects_for_jump_box(User.current)
+    end
 
-      @query = params[:query]
+    sort_init 'name', 'asc'
+    sort_update 'name' => "#{Vault::Key.table_name}.name"
 
-      if User.current.admin?
-        @projects = Project.active  
+    @query = params[:query]
+
+    if @query && !@query.empty?
+      if @query.match(/#/)
+        tag_string = (@query.match(/(#)([^,]+)/))[2]
+        tag = Vault::Tag.find_by_name(tag_string)
+        @keys = tag.nil? ? nil : tag.keys.all
       else
-        @projects = projects_for_jump_box(User.current)
+        @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
       end
+    else
+      @keys = @keys = Vault::Key.all
+    end
 
-      if @query && !@query.empty?
-        if @query.match(/#/)
-          tag_string = (@query.match(/(#)([^,]+)/))[2]
-          tag = Vault::Tag.find_by_name(tag_string)
-          @keys = tag.nil? ? nil : tag.keys.all
-        else
-          @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
-        end
-      else
-        @keys = @keys = Vault::Key.all
-      end
+    if @keys.present? && params[:project_id].present?
+      @keys = @keys.where(project_id: params[:project_id])
+    end
 
-      if @keys.present? && params[:project_id].present?
-        @keys = @keys.where(project_id: params[:project_id])
-      end
+    @keys = @keys.order(sort_clause) unless @keys.nil?
+    @keys = @keys.select { |key| key.whitelisted?(User,key.project) } unless @keys.nil?
+    @keys = [] if @keys.nil? #hack for decryption
 
-      @keys = @keys.order(sort_clause) unless @keys.nil?
-      @keys = @keys.select { |key| key.whitelisted?(User,key.project) } unless @keys.nil?
-      @keys = [] if @keys.nil? #hack for decryption
+    @limit = per_page_option
+    @key_count = @keys.count
+    @key_pages = Paginator.new @key_count, @limit, params[:page]
+    @offset ||= @key_pages.offset
 
-      @limit = per_page_option
-      @key_count = @keys.count
-      @key_pages = Paginator.new @key_count, @limit, params[:page]
-      @offset ||= @key_pages.offset
+    if @key_count > 0
+      @keys = @keys.drop(@offset).first(@limit)
+    end
 
-      if @key_count > 0
-        @keys = @keys.drop(@offset).first(@limit)
-      end
+    @keys.map(&:decrypt!)
 
-      @keys.map(&:decrypt!)
-
-      respond_to do |format|
-        format.html
-        format.pdf
-        format.json { render json: @keys }
-      end
+    respond_to do |format|
+      format.html
+      format.pdf
+      format.json { render json: @keys }
     end
   end
 

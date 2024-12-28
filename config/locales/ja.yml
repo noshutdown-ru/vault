@@ -96,3 +96,5 @@ ja:
       key:
         not_set: "The encryption key is not set in the settings"
         not_whitelisted: "Key not allowed for you"
+      user:
+        not_allowed: "You are not allowed to view this passwords"

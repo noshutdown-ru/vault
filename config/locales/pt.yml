@@ -96,3 +96,5 @@ pt:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
       not_whitelisted: "Chave não permitida para você"
+    user:
+      not_allowed: "Você não tem permissão para visualizar essas senhas"

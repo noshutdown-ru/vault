@@ -95,3 +95,5 @@ de:
     key:
       not_set: "Encryption key wurde nicht in den Einstellungen hinterlegt"
       not_whitelisted: "Kein Zugriff auf das Passwort"
+    user:
+      not_allowed: "Sie sind nicht berechtigt, diese Passwörter anzusehen"

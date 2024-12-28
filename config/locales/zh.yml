@@ -96,3 +96,5 @@ zh:
     key:
       not_set: "选项钥设置加密方法及密钥"
       not_whitelisted: "关键不允许你"
+    user:
+      not_allowed: ""您无权查看这些密码""

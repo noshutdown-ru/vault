@@ -96,3 +96,5 @@ fr:
     key:
       not_set: "La clé de chiffrement n'est pas déclarée dans la configuration"
       not_whitelisted: "Clef non autoirisée à la consultation"
+    user:
+      not_allowed: "Vous n'êtes pas autorisé à voir ces mots de passe"

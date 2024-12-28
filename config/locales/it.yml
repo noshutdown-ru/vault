@@ -96,3 +96,5 @@ it:
     key:
       not_set: "La chiave crittografata non è definita nelle impostazioni"
       not_whitelisted: "Chiave non consentita per te"
+    user:
+      not_allowed: "Non sei autorizzato a visualizzare queste password"

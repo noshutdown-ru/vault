@@ -96,3 +96,5 @@ es:
     key:
       not_set: "Clave de encriptación no está configurada"
       not_whitelisted: "Usted no tiene acceso a esta clave"
+    user:
+      not_allowed: "No tienes permiso para ver estas contraseñas"
