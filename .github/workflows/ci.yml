@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: [3.2]
+
+    env:
+      REDMINE_VER: 5.1.5-stable
+      PLUGIN_NAME: vault
+      REDMINE_GIT_REPO: git://github.com/redmine/redmine.git
+      REDMINE_PATH: ${{ github.workspace }}/redmine
+      BUNDLE_GEMFILE: ${{ github.workspace }}/redmine/Gemfile
+      RAILS_ENV: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sqlite3
+          git clone $REDMINE_GIT_REPO $REDMINE_PATH
+          cd $REDMINE_PATH
+          if [[ "$REDMINE_VER" != "master" ]]; then git checkout -b $REDMINE_VER origin/$REDMINE_VER; fi
+          ln -s ${{ github.workspace }} $REDMINE_PATH/plugins/$PLUGIN_NAME
+          cp ${{ github.workspace }}/.travis-database.yml $REDMINE_PATH/config/database.yml
+          bundle install
+
+      - name: Set up database
+        run: |
+          cd $REDMINE_PATH
+          bundle exec rake db:create db:migrate redmine:plugins:migrate
+
+      - name: Run tests
+        run: |
+          cd $REDMINE_PATH
+          export SKIP_COVERAGE=1
+          bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
+          bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
+          bundle exec rake redmine:plugins:migrate NAME=$PLUGIN_NAME VERSION=0
