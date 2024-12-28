@@ -14,6 +14,7 @@ jobs:
       REDMINE_VER: 5.1-stable
       PLUGIN_NAME: vault
       REDMINE_GIT_REPO: https://github.com/redmine/redmine.git
+      REDMINE_PATH: ${{ github.workspace }}/redmine
       RAILS_ENV: test
 
     steps:
@@ -35,15 +36,15 @@ jobs:
 
       - name: Set up database
         run: |
-          cd ${{ github.workspace }}/redmine
-          ln -s ${{ github.workspace }} ${{ github.workspace }}/redmine/plugins/$PLUGIN_NAME
-          cp ${{ github.workspace }}/.github/workflows/database.yml ${{ github.workspace }}/redmine/config/database.yml
+          cd $REDMINE_PATH
+          ln -s ${{ github.workspace }} $REDMINE_PATH/plugins/$PLUGIN_NAME
+          cp ${{ github.workspace }}/.github/workflows/database.yml $REDMINE_PATH/config/database.yml
           bundle install
           bundle exec rake db:create db:migrate redmine:plugins:migrate
 
       - name: Run tests
         run: |
-          cd ${{ github.workspace }}/redmine
+          cd $REDMINE_PATH
           export SKIP_COVERAGE=1
           bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
