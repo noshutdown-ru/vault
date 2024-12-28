@@ -15,7 +15,6 @@ jobs:
       PLUGIN_NAME: vault
       REDMINE_GIT_REPO: git://github.com/redmine/redmine.git
       REDMINE_PATH: ${{ github.workspace }}/redmine
-      BUNDLE_GEMFILE: ${{ github.workspace }}/redmine/Gemfile
       RAILS_ENV: test
 
     steps:
