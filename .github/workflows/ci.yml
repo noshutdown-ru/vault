@@ -37,7 +37,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/redmine
           ln -s ${{ github.workspace }} ${{ github.workspace }}/redmine/plugins/$PLUGIN_NAME
-          cp ${{ github.workspace }}/database.yml ${{ github.workspace }}/redmine/config/database.yml
+          cp ${{ github.workspace }}/.github/workflows/database.yml $REDMINE_PATH/config/database.yml
           bundle install
           bundle exec rake db:create db:migrate redmine:plugins:migrate
 
