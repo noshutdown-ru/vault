@@ -11,7 +11,7 @@ resources :projects do
   end
 end
 
-get '/all/keys', to: 'keys#all', as: 'all_keys'
+get 'keys/all', to: 'keys#all', as: 'keys_all'
 
 resources :vault_settings do
   collection do

@@ -33,9 +33,13 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
     background-color: bisque;
     text-align: center;
     border-radius: 6px;
-    display: inline-block;
     vertical-align: middle;
-    margin-top: 5px
+    margin-top: 5px;
+    padding: 5px;
+    word-wrap: break-word;
+    display: inline-block;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 #tags-list .vault-tag-link {

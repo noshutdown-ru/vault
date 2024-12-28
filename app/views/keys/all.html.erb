@@ -18,7 +18,7 @@
   <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
-<%= form_tag({}, :data => {:cm_url => all_keys_path}) do %>
+<%= form_tag({}, :data => {:cm_url => keys_all_path}) do %>
   <table class='list' id='keys_table'>
     <thead>
     <tr>
@@ -72,10 +72,10 @@
 
 <% content_for :sidebar do %>
   <h3><%= t('tag.title.popular') %></h3>
-  <div id='tags-list' style="display: inline-flex; flex-wrap: wrap;">
-    <ul style="list-style-type: none; padding: 0;">
+  <div id='tags-list'>
+    <ul>
       <% Vault::Tag.all.each do |t| %>
-        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>; border-radius: 10px; padding: 10px; margin: 5px; word-wrap: break-word; display: inline-block;'>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>;'>
           <%= link_to t.name, {query: "##{t.name}"}, class: 'vault-tag-link' %>
         </li>
       <% end %>

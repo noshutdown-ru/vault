@@ -57,7 +57,7 @@
   <div id='tags-list'>
     <ul>
       <% Vault::Tag.cloud_for_project(@project.id).each do |t| %>
-        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t) %>; border-radius: 10px; padding: 5px; word-wrap: break-word; display: block;'>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t) %>;'>
           <%= link_to t, {query: "##{t}"}, class: 'vault-tag-link' %>
         </li>
       <% end %>
