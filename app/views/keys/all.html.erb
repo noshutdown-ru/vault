@@ -22,8 +22,8 @@
   <table class='list' id='keys_table'>
     <thead>
     <tr>
+      <th><%= t('field_project') %></th>
       <th><%= t('key.attr.name') %></th>
-      <th>Project</th>
       <th><%= t('key.attr.url') %></th>
       <th><%= t('key.attr.login') %></th>
       <th><%= t('key.attr.body') %> </th>
@@ -33,8 +33,8 @@
     <% @keys.each do |key| %>
       <% parity = cycle('odd', 'even') %>
       <tr class='hascontextmenu key <%= defined?(parity) ? parity : '' %>'>
-        <td><%= key.name %></td>
         <td><%= key.project.name %></td>
+        <td><%= key.name %></td>
         <td>
           <% unless key.url.blank? %>
             <% if /:\/\//.match(key.url) %>
