@@ -4,22 +4,15 @@
   <%= javascript_include_tag 'vault', :plugin => 'vault' %>
 <% end %>
 
-<h2>
+<div class="contextual">
+  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:edit_keys, @project) %>
+</div>
+
+<h2 class="keys-search-title">
   <%= t('key.title.list') %>
-  <%= form_tag({ controller: :keys, action: :all }, method: 'get') do %>
+  <%= form_tag({ controller: :keys, action: :all }, method: 'get', class: 'keys-search-form') do %>
     <%= text_field_tag(:query, @query, class: 'autocomplete') %>
     <%= select_tag "project_id", options_from_collection_for_select(@projects, 'id', 'name', params[:project_id]), :prompt => "Please select" %>
-    <font size="2">
-      <%= radio_button_tag(:search_fild, "name", @search_fild == 'name' ? true : false ) %>
-      <%= label_tag(:name, t('key.attr.name')) %>
-
-      <%= radio_button_tag(:search_fild, "url", @search_fild == 'url' ? true : false ) %>
-      <%= label_tag(:url, t('key.attr.url')) %>
-
-      <%= radio_button_tag(:search_fild, "tag", @search_fild == 'tag' ? true : false ) %>
-      <%= label_tag(:tag, t('key.attr.tags')) %>
-    </font>
-
     <%= submit_tag(t('key.btn.find')) %>
   <% end %>
   <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
@@ -27,13 +20,15 @@
 
 <%= form_tag({}, :data => {:cm_url => all_keys_path}) do %>
   <table class='list' id='keys_table'>
-    <thead><tr>
+    <thead>
+    <tr>
       <th><%= t('key.attr.name') %></th>
       <th>Project</th>
       <th><%= t('key.attr.url') %></th>
       <th><%= t('key.attr.login') %></th>
       <th><%= t('key.attr.body') %> </th>
-    </tr></thead>
+    </tr>
+    </thead>
     <tbody>
     <% @keys.each do |key| %>
       <% parity = cycle('odd', 'even') %>
@@ -43,7 +38,7 @@
         <td>
           <% unless key.url.blank? %>
             <% if /:\/\//.match(key.url) %>
-              <%= link_to "#{key.url}", key.url, id: "url_#{key.id}"%>
+              <%= link_to "#{key.url}", key.url, id: "url_#{key.id}" %>
             <% else %>
               <a align="left" class='keys-links' data-clipboard-target='url_<%=key.id%>' id='d_clip_url_<%=key.id%>'>
                 <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
@@ -60,14 +55,11 @@
         </td>
         <td class='key-password-column'>
           <% unless key.body.blank? %>
-
             <label>*********</label>
             <label id='plain_pass_<%=key.id%>' style='display:none;'><%= key.body.force_encoding('UTF-8') %></label>
-
             <a align="left" class='keys-actions copy-key' data-clipboard-target='plain_pass_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
               <i class="fa fa-clipboard fa-fw"></i>
             </a>
-
           <% end %>
         </td>
       </tr>
@@ -80,17 +72,16 @@
 
 <% content_for :sidebar do %>
   <h3><%= t('tag.title.popular') %></h3>
-  <div id='tags-list'>
-    <ul>
+  <div id='tags-list' style="display: inline-flex; flex-wrap: wrap;">
+    <ul style="list-style-type: none; padding: 0;">
       <% Vault::Tag.all.each do |t| %>
-        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>; border-radius: 10px; padding: 5px; word-wrap: break-word; display: block;'>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>; border-radius: 10px; padding: 10px; margin: 5px; word-wrap: break-word; display: inline-block;'>
           <%= link_to t.name, {query: "##{t.name}"}, class: 'vault-tag-link' %>
         </li>
       <% end %>
     </ul>
   </div>
 <% end %>
-
 
 <script type="text/javascript">
     $('a[href^="http://"]').attr('target','_blank');

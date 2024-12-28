@@ -75,34 +75,22 @@ class KeysController < ApplicationController
 
       @query = params[:query]
 
-      if params[:search_fild] == nil
-        @search_fild = ''
-      else
-        @search_fild = params[:search_fild]
-      end
       if User.current.admin?
         @projects = Project.active  
       else
         @projects = projects_for_jump_box(User.current)
       end
-      
-      if @query.present?
+
+      if @query && !@query.empty?
         if @query.match(/#/)
           tag_string = (@query.match(/(#)([^,]+)/))[2]
           tag = Vault::Tag.find_by_name(tag_string)
-          @keys = tag.nil? ? nil : tag.keys.where(project: @project)
+          @keys = tag.nil? ? nil : tag.keys.all
         else
-          if params[:search_fild] == 'name'
-            @keys = Vault::Key.where(name: @query)
-          elsif params[:search_fild] == 'url'
-            @keys = Vault::Key.where(url: @query)
-          elsif params[:search_fild] == 'tag'
-            tag = Vault::Tag.find_by_name(@query)
-            @keys = tag.nil? ? nil : tag.keys
-          end
+          @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
         end
       else
-        @keys = Vault::Key.all
+        @keys = @keys = Vault::Key.all
       end
 
       if @keys.present? && params[:project_id].present?
@@ -168,7 +156,6 @@ class KeysController < ApplicationController
 
       self.update_wishlist
 
-#      if @key.update_attributes(params[:vault_key])
       if @key.update(params[:vault_key])
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
