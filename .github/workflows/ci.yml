@@ -11,7 +11,7 @@ jobs:
         ruby-version: [3.2]
 
     env:
-      REDMINE_VER: 5.1.5-stable
+      REDMINE_VER: 5.1-stable
       PLUGIN_NAME: vault
       REDMINE_GIT_REPO: git://github.com/redmine/redmine.git
       REDMINE_PATH: ${{ github.workspace }}/redmine
@@ -25,3 +25,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
+
+      - name: Checkout redmine repo
+        run: git clone --depth=1 --branch=$REDMINE_VER $REDMINE_GIT_REPO $REDMINE_PATH
