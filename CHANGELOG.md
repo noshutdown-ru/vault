@@ -1,14 +1,19 @@
-## Version: 0.5.1 (10.06.2023)
-### Bugfix
-- Improved password search
-- Colored tags
-- Add Copy to clipboard for login
-- Add browser title for plugin page
-
-## Version: 0.5.0 (13.12.2022)
-### Bugfix
+## Version: 0.5.0 (28.12.2024)
+### Improvements
 - [Redmine 5.0 compatibility.](https://github.com/noshutdown-ru/vault/issues/91)
+- Added view of all keys
+- Key tags view improved, tags are colored now
+- Keys search improved for all and per project
+- Added copy to clipboard for login
+- Added browser title for plugin page
 - Fixed compatibility issue with the new Zeitwerk loader
+- Improved translation
+- Code refactoring
+
+### Braking changes
+- Deleted code which checks Redmine version  
+  - `Redmine::VERSION.to_s.start_with?`
+  - 3.1/3.2/3.3/3.4/4
 
 ## Version: 0.4.3 (10.05.2021)
 ### Bugfix
