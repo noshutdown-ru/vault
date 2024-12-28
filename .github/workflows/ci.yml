@@ -13,7 +13,7 @@ jobs:
     env:
       REDMINE_VER: 5.1-stable
       PLUGIN_NAME: vault
-      REDMINE_GIT_REPO: git://github.com/redmine/redmine.git
+      REDMINE_GIT_REPO: https://github.com/redmine/redmine.git
       REDMINE_PATH: ${{ github.workspace }}/redmine
       RAILS_ENV: test
 
