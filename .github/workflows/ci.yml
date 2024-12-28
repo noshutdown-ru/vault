@@ -33,13 +33,12 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          path: $REDMINE_PATH/plugins/$PLUGIN_NAME
 
       - name: Set up database
         run: |
           cd $REDMINE_PATH
-          cp $REDMINE_PATH/plugins/$PLUGIN_NAME/database.yml $REDMINE_PATH/config/database.yml
+          ln -s ${{ github.workspace }} $REDMINE_PATH/plugins/$PLUGIN_NAME
+          cp ${{ github.workspace }}/database.yml $REDMINE_PATH/config/database.yml
           bundle install
           bundle exec rake db:create db:migrate redmine:plugins:migrate
 
