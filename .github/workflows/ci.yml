@@ -39,6 +39,8 @@ jobs:
       - name: Set up database
         run: |
           cd $REDMINE_PATH
+          cp $REDMINE_PATH/plugins/$PLUGIN_NAME/database.yml $REDMINE_PATH/config/database.yml
+          bundle install
           bundle exec rake db:create db:migrate redmine:plugins:migrate
 
       - name: Run tests
