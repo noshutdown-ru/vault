@@ -95,7 +95,7 @@ class KeysController < ApplicationController
     else
       @keys = @keys = Vault::Key.all
     end
-    
+
     @keys = @keys.order(sort_clause) unless @keys.nil?
     @keys = @keys.select { |key| key.whitelisted?(User,key.project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
