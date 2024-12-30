@@ -1,0 +1,26 @@
+<h2>Tags</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th style="text-align: left;">Name</th>
+    <th style="text-align: left;">Color</th>
+    <th style="text-align: left;"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tags.each do |tag| %>
+    <tr>
+      <td><%= tag.name %></td>
+      <td>
+        <%= form_with(model: [@project, @key, tag], local: true, url: project_key_tag_path(@project, @key, tag)) do |form| %>
+          <div style="display: flex; align-items: center;">
+            <%= form.color_field :color, value: tag.color, name: 'tag[color]' %>
+            <%= form.submit 'Update', style: 'margin-left: 10px;' %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

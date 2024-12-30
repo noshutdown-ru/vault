@@ -14,10 +14,10 @@ a.keys-links { color:#484848; text-decoration: none; }
 a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none; cursor: pointer; }
 
 
-.edit_vault_key .box label {
+.edit_vault_key .box label, .new_vault_key .box label {
   padding-top: .45em;
 }
-.edit_vault_key .box input[type='text'] {
+.edit_vault_key .box input[type='text'], .new_vault_key .box input[type='text'] {
 	width: 250px;
 	box-sizing: border-box;
 	padding: .25em .35em;
@@ -26,4 +26,32 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
 
 #vault_whitelist select {
 	min-width: 250px;
+}
+
+
+#tags-list .vault-tag {
+    background-color: bisque;
+    text-align: center;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin-top: 5px;
+    padding: 5px;
+    word-wrap: break-word;
+    display: inline-block;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+#tags-list .vault-tag-link {
+    padding-top: 5px;
+    color: white;
+    padding-bottom: 1px;
+}
+
+.controller-keys #content .keys-search-title {
+    display: flex;
+    align-items: center;
+}
+.controller-keys #content .keys-search-form {
+    padding-left: 15px;
 }

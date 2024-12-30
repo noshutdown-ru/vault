@@ -9,6 +9,11 @@ it:
     vault_encription_notice: "Usata solo con il metodo di cifratura Vault"
     redmine_encryption_notice: "Consigliato. Non dimenticare di inserire la tua chiave nella riga \"database_cipher_key\" in \"config/configuration.yml\". IMPORTANTE: eseguire \"rake redmine:plugins:vault:convert\" dopo aver cambiato questa impostazione."
 
+  activerecord:
+    models:
+      password: "Chiavi"
+      sftp: "SFTP"
+
   backups:
     title: "Backup chiavi"
     title_restore: "Ripristinare dal backup"
@@ -34,12 +39,13 @@ it:
       clone: "Clona Chiave"
       show: "Mostra la chiave"
       new: "Nuova Chiave"
-      list: "Elenco chiave"
+      list: "Chiave"
 
     btn:
       new: "Nuova Chiave"
       actions: "Azioni"
       clipboard: "Copia negli appunti"
+      find: "Ricerca"
 
     attr:
       lock: "Blocca"
@@ -90,3 +96,5 @@ it:
     key:
       not_set: "La chiave crittografata non è definita nelle impostazioni"
       not_whitelisted: "Chiave non consentita per te"
+    user:
+      not_allowed: "Non sei autorizzato a visualizzare queste password"

@@ -9,6 +9,11 @@ ru:
     vault_encription_notice: "Используется только встроенным методом шифрования Vault"
     redmine_encryption_notice: "Рекомендуется. Не забудьте установить свой ключ в database_cipher_key в config/configuration.yml. ВАЖНО! Выполните rake redmine:plugins:vault:convert после того, как измените это значение."
 
+  activerecord:
+    models:
+      password: "Ключь"
+      sftp: "SFTP"
+
   backups:
     title: "Управление резервными копиями"
     title_restore: "Восстановить из резервной копии"
@@ -34,12 +39,13 @@ ru:
       clone: "Клонирование ключа"
       show: "Информация о ключе"
       new: "Новый ключ"
-      list: "Список ключей"
+      list: "Ключи"
 
     btn:
       new: "Добавить ключ"
       actions: "Действия"
       clipboard: "Копировать в буфер"
+      find: "Искать"
 
     attr:
       lock: "Замок"
@@ -59,12 +65,12 @@ ru:
       available_members: "Доступные участники"
 
   context_menu:
-      copy_key: "Copy Key"
-      copy_url: "Copy URL"
-      copy_login: "Copy Login"
-      delete: "Delete Key"
-      edit: "Edit Key"
-      clone: "Clone Key"
+      copy_key: "Копировать ключ"
+      copy_url: "Копировать URL"
+      copy_login: "Копировать логин"
+      delete: "Удалить ключ"
+      edit: "Редактировать ключ"
+      clone: "Клонировать ключ"
 
   alert:
     key:
@@ -90,3 +96,13 @@ ru:
     key:
       not_set: "Ключ шифрования не установлен в настройках"
       not_whitelisted: "Ключ вам не доступен"
+      length: "Ключ шифрования должен быть из 16 символов"
+    user:
+      not_allowed: "Вам не разрешено просматривать эти пароли"
+
+  permission_export_keys: "Экспортировать ключи"
+  permission_download_keys: "Скачивать ключи"
+  permission_view_keys: "Просматривать ключи"
+  permission_edit_keys: "Редактировать ключи"
+  permission_manage_whitelist_keys: "Управление белым списком ключей"
+  permission_whitelist_keys: "Белый список ключей"

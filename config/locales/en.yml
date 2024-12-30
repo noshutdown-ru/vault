@@ -9,6 +9,11 @@ en:
     vault_encription_notice: "Used only by VaultEencryption Method"
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
 
+  activerecord:
+    models:
+      password: "Password"
+      sftp: "SFTP"
+
   backups:
     title: "Backup Passwords"
     title_restore: "Restore from backup"
@@ -34,12 +39,13 @@ en:
       clone: "Clone Password"
       show: "Showing Password"
       new: "New Password"
-      list: "List of Passwords"
+      list: "Passwords"
 
     btn:
       new: "New Password"
       actions: "Actions"
       clipboard: "Copy to Clipboard"
+      find: "Find"
 
     attr:
       lock: "Lock"
@@ -91,3 +97,5 @@ en:
       not_set: "The encryption key is not set in the settings"
       not_whitelisted: "Password not allowed for you"
       length: "Encryption key must be at exact 16 symbols"
+    user:
+      not_allowed: "You are not allowed to view this passwords"

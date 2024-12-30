@@ -6,6 +6,26 @@
 
 <h1> <%= t('key.title.show') %> </h1>
 
-<%= render @key %>
+<%= t('key.attr.url') %>
+
+<table class='list' id='keys_table'>
+  <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+      </th>
+      <th><%= t('key.attr.type') %></th>
+      <th><%= t('key.attr.name') %></th>
+      <th><%= t('key.attr.url') %></th>
+      <th><%= t('key.attr.login') %></th>
+      <th><%= t('key.attr.body') %></th>
+      <th><%= t('key.btn.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+        <%= render @key %>
+  </tbody>
+</table>
 
 <%= link_to 'Back', project_keys_path(@project) %>

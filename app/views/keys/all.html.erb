@@ -1,0 +1,73 @@
+<% html_title(t('label_module')) %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "font-awesome.css", :plugin => "vault" %>
+  <%= stylesheet_link_tag "font-awesome.min.css", :plugin => "vault" %>
+  <%= javascript_include_tag 'vault', :plugin => 'vault' %>
+<% end %>
+
+<div class="contextual">
+  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:edit_keys, @project) %>
+</div>
+
+<h2 class="keys-search-title">
+  <%= t('key.title.list') %>
+  <%= form_tag({ controller: :keys, action: :all }, method: 'get', class: 'keys-search-form') do %>
+    <%= text_field_tag(:query, @query, class: 'autocomplete') %>
+
+    <%= submit_tag(t('key.btn.find')) %>
+  <% end %>
+  <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
+</h2>
+
+<%= form_tag({}, :data => {:cm_url => @project }) do %>
+  <table class='list' id='keys_table'>
+    <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+                          :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+      </th>
+      <th><%= t('key.attr.type') %></th>
+      <%= sort_header_tag('name', caption: t('key.attr.name')) %>
+      <th><%= t('key.attr.url') %></th>
+      <th><%= t('key.attr.login') %></th>
+      <th><%= t('key.attr.body') %> </th>
+      <th><%= t('key.btn.actions') %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @keys.each do |key| %>
+      <%= render partial: key, locals: {parity: cycle('odd', 'even')} %>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<span class='pagination'>
+  <%= pagination_links_full @key_pages, @key_count %>
+</span>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to_with_query_parameters t('export.title.pdf') if User.current.allowed_to?(:view_keys, @project) if User.current.allowed_to?(:export_keys, @project)%>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%= t('tag.title.popular') %></h3>
+  <div id='tags-list'>
+    <ul>
+      <% Vault::Tag.all.each do |t| %>
+        <li class='vault-tag' style='background-color: <%= Vault::Tag.get_color(t.name) %>;'>
+          <%= link_to t.name, {query: "##{t.name}"}, class: 'vault-tag-link' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= context_menu %>
+
+<script type="text/javascript">
+    $('a[href^="http://"]').attr('target','_blank');
+    $('a[href^="https://"]').attr('target','_blank');
+</script>
