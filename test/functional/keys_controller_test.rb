@@ -1,17 +1,19 @@
 require File.expand_path('../../test_helper', __FILE__)
+require 'fileutils'
+require 'set'
+require 'byebug'
 
-class KeysControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :keys
+class KeysControllerTest < Vault::ControllerTest
+  fixtures :projects, :users, :roles, :members, :member_roles
+  plugin_fixtures :keys, :vault_tags, :keys_vault_tags
 
   def setup
-    @controller = KeysController.new
-    @request = ActionController::TestRequest.create
-    @response = ActionController::TestResponse.create
-    @project = projects(:one)
-    @key = keys(:one)
-    @user = users(:one)
-    @request.session[:user_id] = @user.id
+    Role.find(1).add_permission! :view_keys
+    Role.find(1).add_permission! :edit_keys
+    Project.find(1).enabled_module_names = [:keys]
+    Setting.plugin_vault['use_null_encryption'] = 'on'
   end
+
   def test_index
     @request.session[:user_id] = 2
     get :index, project_id: 1
@@ -152,8 +154,9 @@ class KeysControllerTest < ActionController::TestCase
   end
 
   def test_crossproject_show
-    get :show, params: { project_id: @project.id, id: @key.id }
-    assert_response :success
+    @request.session[:user_id] = 2
+    get :show, project_id: 1, id: 2
+    assert_response :redirect
   end
 
   def test_unpriv_show

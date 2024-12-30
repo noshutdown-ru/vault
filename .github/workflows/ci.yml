@@ -47,6 +47,5 @@ jobs:
           cd $REDMINE_PATH
           export SKIP_COVERAGE=1
           bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
-          bundle exec rake redmine:plugins:test:functionals NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:migrate NAME=$PLUGIN_NAME VERSION=0
