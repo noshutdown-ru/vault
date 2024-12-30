@@ -1,17 +1,17 @@
-<% if User.current.allowed_to?(:edit_keys, @project) %>
-    <%= link_to edit_project_key_path(@project,key), class: 'keys-actions' do %>
+<% if User.current.allowed_to?(:edit_keys, key.project) %>
+    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions' do %>
       <i class='fa fa-pencil fa-fw'></i>
     <% end %>
 <% else %>
-    <%= link_to edit_project_key_path(@project,key), class: 'keys-actions' do %>
+    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions' do %>
       <i class='fa fa-eye fa-fw'></i>
     <% end %>
 <% end %>
 
-<%= link_to project_copy_key_path(@project,key), class: 'keys-actions' do %>
+<%= link_to project_copy_key_path(key.project,key), class: 'keys-actions' do %>
   <i class='fa fa-files-o fa-fw'></i>
-<% end if User.current.allowed_to?(:edit_keys, @project) %>
+<% end if User.current.allowed_to?(:edit_keys, key.project) %>
 
-<%= link_to project_key_path(@project,key), class: 'keys-actions', data: {confirm: t('confirm.key.delete')}, method: :delete do %>
+<%= link_to project_key_path(key.project,key), class: 'keys-actions', data: {confirm: t('confirm.key.delete')}, method: :delete do %>
   <i class='fa fa-trash fa-fw'></i>
-<% end if User.current.allowed_to?(:edit_keys, @project) %>
+<% end if User.current.allowed_to?(:edit_keys, key.project) %>
