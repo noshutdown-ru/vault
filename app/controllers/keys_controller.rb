@@ -95,11 +95,7 @@ class KeysController < ApplicationController
     else
       @keys = @keys = Vault::Key.all
     end
-
-    if @keys.present? && params[:project_id].present?
-      @keys = @keys.where(project_id: params[:project_id])
-    end
-
+    
     @keys = @keys.order(sort_clause) unless @keys.nil?
     @keys = @keys.select { |key| key.whitelisted?(User,key.project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
@@ -243,4 +239,11 @@ class KeysController < ApplicationController
     params['vault_key']['file'] = name
   end
 
+  def projects_for_jump_box(user=User.current)
+    if user.logged?
+      user.projects.active.select(:id, :name, :identifier, :lft, :rgt).to_a
+    else
+      []
+    end
+  end
 end
