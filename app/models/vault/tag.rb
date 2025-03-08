@@ -7,7 +7,7 @@ module Vault
     validates :color, presence: true
 
     def self.create_from_string(string)
-      return [] if string.blank?
+      return [] if string.blank? || !string.is_a?(String)
 
       words = string.downcase.split(/,\s*/).map(&:strip)
       tags = words.map do |word|

@@ -133,8 +133,6 @@ class KeysController < ApplicationController
 
     @key.project = @project
 
-    @key.tags = Vault::Tag.create_from_string(key_params[:tags])
-
     self.update_wishlist
 
     respond_to do |format|
