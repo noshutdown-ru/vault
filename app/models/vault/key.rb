@@ -4,10 +4,12 @@ module Vault
 
   class Vault::Key < ActiveRecord::Base
     belongs_to :project
-    has_and_belongs_to_many :tags
+    has_and_belongs_to_many :tags, join_table: 'keys_vault_tags'
 
     def tags=(tags_string)
-     @tags = Vault::Tag.create_from_string(tags_string)
+      tag_objects = Vault::Tag.create_from_string(tags_string)
+      self.tags.clear
+      self.tags << tag_objects
     end
 
     def encrypt!

@@ -147,11 +147,10 @@ class KeysController < ApplicationController
   def update
     save_file if key_params[:file]
     respond_to do |format|
-
       self.update_wishlist
 
-      if @key.update(params[:vault_key])
-        @key.tags = Vault::Tag.create_from_string(key_params[:tags])
+      if @key.update(key_params)
+        @key.tags = key_params[:tags]
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
       else
         format.html { render action: 'edit' }
