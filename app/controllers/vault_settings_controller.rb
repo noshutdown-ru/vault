@@ -2,7 +2,6 @@ require 'csv'
 require 'zip'
 
 class VaultSettingsController < ApplicationController
-  unloadable
   menu_item :vault_settings
 
   layout 'admin'
@@ -14,12 +13,12 @@ class VaultSettingsController < ApplicationController
 
   def save
     if params[:settings][:encryption_key].length != 16 and params[:settings][:encryption_key].length != 0
-      redirect_to vault_settings_path, :flash => { :error =>  t('error.key.length') }
+      redirect_to vault_settings_path, :flash => { :error => t('error.key.length') }
       return
     end
 
     Setting.send "plugin_vault=", params[:settings]
-    redirect_to vault_settings_path , notice: t('notice.settings.saved')
+    redirect_to vault_settings_path, notice: t('notice.settings.saved')
   end
 
   def backup
@@ -59,8 +58,8 @@ class VaultSettingsController < ApplicationController
     zip_data = IO.binread(tmp_fname)
 
     send_data zip_data,
-      :type => 'application/zip',
-      :disposition => "attachment; filename=#{fname}"
+              :type => 'application/zip',
+              :disposition => "attachment; filename=#{fname}"
 
   end
 
