@@ -2,8 +2,6 @@ module Vault
   class Tag < ActiveRecord::Base
     self.table_name = 'vault_tags'
     has_and_belongs_to_many :keys
-    unloadable
-    attr_accessible :name, :color
 
     validates :name, presence: true, uniqueness: true
     validates :color, presence: true
@@ -26,14 +24,14 @@ module Vault
     end
 
     def self.cloud_for_project(pid)
-      tags_with_score = Vault::Tag.joins(:keys).where(keys: {project_id: pid}).group('vault_tags.name').count
-      (tags_with_score.sort_by { |tag,count| count }).map(&:first).reverse.take(20)
+      tags_with_score = Vault::Tag.joins(:keys).where(keys: { project_id: pid }).group('vault_tags.name').count
+      (tags_with_score.sort_by { |tag, count| count }).map(&:first).reverse.take(20)
     end
 
     def self.tags_list(pid)
       tags_with_score = Vault::Tag.joins(:keys).where(
-          keys: {project_id: pid}
-      ).group('vault_tags.name').group('vault_tags.id').map(&:name) #OPTIMIZE_ME!
+        keys: { project_id: pid }
+      ).group('vault_tags.name').group('vault_tags.id').map(&:name) # OPTIMIZE_ME!
     end
 
     def self.get_color(tag_name)
