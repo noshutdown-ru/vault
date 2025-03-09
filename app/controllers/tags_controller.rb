@@ -8,7 +8,9 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = @key.tags.build(tag_params)
+    @tag = @key.tags.build
+    @tag.safe_attributes = tag_params
+
     if @tag.save
       redirect_to project_key_tags_path(@project, @key), notice: 'Tag was successfully created.'
     else
@@ -17,7 +19,8 @@ class TagsController < ApplicationController
   end
 
   def update
-    if @tag.update(tag_params)
+    @tag.safe_attributes = tag_params
+    if @tag.save
       redirect_to project_key_tags_path(@project, @key), notice: 'Tag was successfully updated.'
     else
       render :index

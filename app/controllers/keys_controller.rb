@@ -12,7 +12,6 @@ class KeysController < ApplicationController
   helper ContextMenusHelper
 
   def index
-
     unless Setting.plugin_vault['use_redmine_encryption'] ||
            Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
@@ -39,7 +38,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User,@project) } unless @keys.nil?
+    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
 
     @limit = per_page_option
@@ -97,7 +96,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User,key.project) } unless @keys.nil?
+    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
 
     @limit = per_page_option
@@ -131,10 +130,9 @@ class KeysController < ApplicationController
 
   def create
     save_file if key_params[:file]
-    @key = Vault::Key.new(key_params)
-
+    @key = Vault::Key.new
+    @key.safe_attributes = key_params.except(:tags)
     @key.project = @project
-
     @key.tags = Vault::Tag.create_from_string(key_params[:tags])
 
     self.update_wishlist
@@ -151,10 +149,10 @@ class KeysController < ApplicationController
   def update
     save_file if key_params[:file]
     respond_to do |format|
-
       self.update_wishlist
+      @key.safe_attributes = key_params.except(:tags)
 
-      if @key.update(params[:vault_key])
+      if @key.save
         @key.tags = Vault::Tag.create_from_string(key_params[:tags])
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
       else
@@ -174,7 +172,7 @@ class KeysController < ApplicationController
   end
 
   def edit
-    if !@key.whitelisted?(User,@project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
@@ -186,7 +184,7 @@ class KeysController < ApplicationController
   end
 
   def show
-    if !@key.whitelisted?(User,@project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
@@ -220,7 +218,7 @@ class KeysController < ApplicationController
 
   def find_keys
     @keys=Vault::Key.find(params[:ids])
-    unless @keys.all? { |k| k.project_id == @project.id } 
+    unless @keys.all? { |k| k.project_id == @project.id }
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end
