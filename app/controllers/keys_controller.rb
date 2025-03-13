@@ -1,10 +1,8 @@
 class KeysController < ApplicationController
-  unloadable
-
   before_action :find_project_by_project_id, except: [:all]
   before_action :authorize, except: [:all]
-  before_action :find_key, only: [ :show, :edit, :update, :destroy, :copy ]
-  before_action :find_keys, only: [ :context_menu ]
+  before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
+  before_action :find_keys, only: [:context_menu]
   accept_api_auth :index, :show
 
   helper :sort
@@ -13,7 +11,7 @@ class KeysController < ApplicationController
 
   def index
     unless Setting.plugin_vault['use_redmine_encryption'] ||
-           Setting.plugin_vault['use_null_encryption']
+      Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
         render_error t("error.key.not_set")
         return
@@ -38,9 +36,10 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
+
     @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
-
+    
     @limit = per_page_option
     @key_count = @keys.count
     @key_pages = Paginator.new @key_count, @limit, params[:page]
@@ -60,7 +59,7 @@ class KeysController < ApplicationController
   end
 
   def all
-    unless User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)
+    unless User.current.allowed_to?({ :controller => 'keys', :action => 'all' }, nil, :global => true)
       render_error t("error.user.not_allowed")
       return
     end
@@ -96,6 +95,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
+
     @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
     @keys = [] if @keys.nil? #hack for decryption
 
@@ -133,8 +133,7 @@ class KeysController < ApplicationController
     @key = Vault::Key.new
     @key.safe_attributes = key_params.except(:tags)
     @key.project = @project
-    @key.tags = Vault::Tag.create_from_string(key_params[:tags])
-
+    
     self.update_wishlist
 
     respond_to do |format|
@@ -152,11 +151,11 @@ class KeysController < ApplicationController
       self.update_wishlist
       @key.safe_attributes = key_params.except(:tags)
 
-      if @key.save
-        @key.tags = Vault::Tag.create_from_string(key_params[:tags])
+      if @key.update(key_params)
+        @key.tags = key_params[:tags]
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
       else
-        format.html { render action: 'edit'}
+        format.html { render action: 'edit' }
       end
     end
   end
@@ -164,9 +163,9 @@ class KeysController < ApplicationController
   def update_wishlist
     if User.current.allowed_to?(:manage_whitelist_keys, @key.project)
       if params[:whitelist].blank?
-          @key.whitelist = ""
+        @key.whitelist = ""
       else
-          @key.whitelist =  params[:whitelist].join(",")
+        @key.whitelist = params[:whitelist].join(",")
       end
     end
   end
@@ -178,7 +177,7 @@ class KeysController < ApplicationController
     else
       @key.decrypt!
       respond_to do |format|
-        format.html { render action: 'edit'}
+        format.html { render action: 'edit' }
       end
     end
   end
@@ -190,7 +189,7 @@ class KeysController < ApplicationController
     else
       @key.decrypt!
       respond_to do |format|
-        format.html { render action: 'show'}
+        format.html { render action: 'show' }
       end
     end
   end
@@ -202,7 +201,7 @@ class KeysController < ApplicationController
   end
 
   def context_menu
-    #FIXME
+    # FIXME
     @keys.map(&:decrypt!)
     render layout: false
   end
@@ -210,14 +209,14 @@ class KeysController < ApplicationController
   private
 
   def find_key
-    @key=Vault::Key.find(params[:id])
+    @key = Vault::Key.find(params[:id])
     unless @key.project_id == @project.id
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end
 
   def find_keys
-    @keys=Vault::Key.find(params[:ids])
+    @keys = Vault::Key.find(params[:ids])
     unless @keys.all? { |k| k.project_id == @project.id }
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
@@ -237,7 +236,7 @@ class KeysController < ApplicationController
     params['vault_key']['file'] = name
   end
 
-  def projects_for_jump_box(user=User.current)
+  def projects_for_jump_box(user = User.current)
     if user.logged?
       user.projects.active.select(:id, :name, :identifier, :lft, :rgt).to_a
     else

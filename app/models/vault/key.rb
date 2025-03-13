@@ -6,14 +6,15 @@ module Vault
     include Redmine::SafeAttributes
 
     belongs_to :project
-    has_and_belongs_to_many :tags
-    unloadable
+    has_and_belongs_to_many :tags, join_table: 'keys_vault_tags'
 
     safe_attributes 'project_id', 'name', 'body', 'login', 'type', 'file', 'url', 'comment', 'whitelist'
 
-    #def tags=(tags_string)
-    #  @tags = Vault::Tag.create_from_string(tags_string)
-    #end
+    def tags=(tags_string)
+      tag_objects = Vault::Tag.create_from_string(tags_string)
+      self.tags.clear
+      self.tags << tag_objects
+    end
 
     def encrypt!
       self
@@ -24,47 +25,46 @@ module Vault
     end
 
     def self.import(file)
-      CSV.foreach(file.path, headers:true) do |row|
+      CSV.foreach(file.path, headers: true) do |row|
         rhash = row.to_hash
 
-				decryptb = Encryptor::decrypt(rhash['body'])
+        decryptb = Encryptor::decrypt(rhash['body'])
 
-				key = Vault::Key.where("name = ?", rhash['name']).first
+        key = Vault::Key.where("name = ?", rhash['name']).first
 
-				unless key
-					begin
-						Vault::Key.create(
-							project_id: rhash['project_id'],
-							name: rhash['name'],
-							body: decryptb,
-							login: rhash['login'],
-							type: rhash['type'],
-							file: rhash['file'],
-							url: rhash['url'],
-							comment: rhash['comment'],
-							whitelist: rhash['comment']
-						).update_column(:id, rhash['id'])
-					rescue
+        unless key
+          begin
+            Vault::Key.create(
+              project_id: rhash['project_id'],
+              name: rhash['name'],
+              body: decryptb,
+              login: rhash['login'],
+              type: rhash['type'],
+              file: rhash['file'],
+              url: rhash['url'],
+              comment: rhash['comment'],
+              whitelist: rhash['comment']
+            ).update_column(:id, rhash['id'])
+          rescue
+          end
+        else
+          begin
+            Vault::Key.update(
+              key.id,
+              project_id: rhash['project_id'],
+              name: rhash['name'],
+              body: decryptb,
+              login: rhash['login'],
+              type: rhash['type'],
+              file: rhash['file'],
+              url: rhash['url'],
+              comment: rhash['comment'],
+              whitelist: rhash['comment']
+            )
+          rescue
 
-					end
-				else
-					begin
-						Vault::Key.update(
-						key.id,
-						project_id: rhash['project_id'],
-						name: rhash['name'],
-						body: decryptb,
-						login: rhash['login'],
-						type: rhash['type'],
-						file: rhash['file'],
-						url: rhash['url'],
-						comment: rhash['comment'],
-						whitelist: rhash['comment']
-						)
-					rescue
-
-					end
-				end
+          end
+        end
       end
     end
 

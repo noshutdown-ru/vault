@@ -11,7 +11,7 @@ module Vault
     validates :color, presence: true
 
     def self.create_from_string(string)
-      return [] if string.blank?
+      return [] if string.blank? || !string.is_a?(String)
 
       words = string.downcase.split(/,\s*/).map(&:strip)
       tags = words.map do |word|
@@ -28,14 +28,14 @@ module Vault
     end
 
     def self.cloud_for_project(pid)
-      tags_with_score = Vault::Tag.joins(:keys).where(keys: {project_id: pid}).group('vault_tags.name').count
-      (tags_with_score.sort_by { |tag,count| count }).map(&:first).reverse.take(20)
+      tags_with_score = Vault::Tag.joins(:keys).where(keys: { project_id: pid }).group('vault_tags.name').count
+      (tags_with_score.sort_by { |tag, count| count }).map(&:first).reverse.take(20)
     end
 
     def self.tags_list(pid)
       tags_with_score = Vault::Tag.joins(:keys).where(
-          keys: {project_id: pid}
-      ).group('vault_tags.name').group('vault_tags.id').map(&:name) #OPTIMIZE_ME!
+        keys: { project_id: pid }
+      ).group('vault_tags.name').group('vault_tags.id').map(&:name) # OPTIMIZE_ME!
     end
 
     def self.get_color(tag_name)
