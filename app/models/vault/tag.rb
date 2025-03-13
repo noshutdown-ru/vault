@@ -7,8 +7,6 @@ module Vault
 
     safe_attributes 'name', 'color'
 
-    safe_attributes 'name', 'color'
-
     validates :name, presence: true, uniqueness: true
     validates :color, presence: true
 

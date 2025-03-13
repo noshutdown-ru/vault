@@ -130,6 +130,7 @@ class KeysController < ApplicationController
     save_file if key_params[:file]
     @key = Vault::Key.new
     @key.safe_attributes = key_params.except(:tags)
+    @key.tags = key_params[:tags]
     @key.project = @project
     
     self.update_wishlist
