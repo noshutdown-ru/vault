@@ -10,7 +10,6 @@ class KeysController < ApplicationController
   helper ContextMenusHelper
 
   def index
-
     unless Setting.plugin_vault['use_redmine_encryption'] ||
       Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
@@ -129,10 +128,10 @@ class KeysController < ApplicationController
 
   def create
     save_file if key_params[:file]
-    @key = Vault::Key.new(key_params)
-
+    @key = Vault::Key.new
+    @key.safe_attributes = key_params.except(:tags)
     @key.project = @project
-
+    
     self.update_wishlist
 
     respond_to do |format|
@@ -148,6 +147,7 @@ class KeysController < ApplicationController
     save_file if key_params[:file]
     respond_to do |format|
       self.update_wishlist
+      @key.safe_attributes = key_params.except(:tags)
 
       if @key.update(key_params)
         @key.tags = key_params[:tags]

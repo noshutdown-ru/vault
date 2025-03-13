@@ -3,7 +3,9 @@ module Vault
     include Redmine::SafeAttributes
 
     self.table_name = 'vault_tags'
-    has_and_belongs_to_many :keys, join_table: 'keys_vault_tags'
+    has_and_belongs_to_many :keys
+
+    safe_attributes 'name', 'color'
 
     safe_attributes 'name', 'color'
 

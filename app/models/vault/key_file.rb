@@ -2,7 +2,6 @@ module Vault
   class KeyFile < Key
     before_update :update_file, if: :file_changed?
     before_destroy :delete_file
-
     private
 
     def update_file

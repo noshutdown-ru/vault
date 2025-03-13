@@ -46,7 +46,6 @@ module Vault
               whitelist: rhash['comment']
             ).update_column(:id, rhash['id'])
           rescue
-
           end
         else
           begin
@@ -85,5 +84,4 @@ module Vault
 
   class Vault::KeysVaultTags < ActiveRecord::Base
   end
-
 end
