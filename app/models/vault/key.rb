@@ -3,8 +3,12 @@ module Vault
   require 'iconv'
 
   class Vault::Key < ActiveRecord::Base
+    include Redmine::SafeAttributes
+
     belongs_to :project
     has_and_belongs_to_many :tags, join_table: 'keys_vault_tags'
+
+    safe_attributes 'project_id', 'name', 'body', 'login', 'type', 'file', 'url', 'comment', 'whitelist'
 
     def tags=(tags_string)
       tag_objects = Vault::Tag.create_from_string(tags_string)
@@ -66,13 +70,17 @@ module Vault
     end
 
     def whitelisted?(user, project)
-      return true if user.current.admin or !user.current.allowed_to?(:whitelist_keys, project)
-      self.whitelist.split(",").each do |id|
-        return true if User.in_group(id).where(:id => user.current.id).count == 1
-      end
-      return self.whitelist.split(",").include?(user.current.id.to_s)
-    end
+      return true if user.admin || !user.allowed_to?(:whitelist_keys, project)
 
+      whitelist_ids = self.whitelist.split(',')
+      return true if whitelist_ids.include?(user.id.to_s)
+
+      whitelist_ids.each do |id|
+        return true if User.in_group(id).where(id: user.id).any?
+      end
+
+      false
+    end
   end
 
   class Vault::KeysVaultTags < ActiveRecord::Base

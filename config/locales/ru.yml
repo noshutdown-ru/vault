@@ -11,7 +11,7 @@ ru:
 
   activerecord:
     models:
-      password: "Ключь"
+      password: "Ключ"
       sftp: "SFTP"
 
   backups:

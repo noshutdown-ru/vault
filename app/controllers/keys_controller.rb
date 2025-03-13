@@ -37,7 +37,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User, @project) } unless @keys.nil?
+    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option
@@ -95,7 +95,7 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User, key.project) } unless @keys.nil?
+    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option
@@ -169,7 +169,7 @@ class KeysController < ApplicationController
   end
 
   def edit
-    if !@key.whitelisted?(User, @project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
@@ -181,7 +181,7 @@ class KeysController < ApplicationController
   end
 
   def show
-    if !@key.whitelisted?(User, @project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
