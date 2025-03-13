@@ -10,7 +10,6 @@ class KeysController < ApplicationController
   helper ContextMenusHelper
 
   def index
-
     unless Setting.plugin_vault['use_redmine_encryption'] ||
       Setting.plugin_vault['use_null_encryption']
       if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
@@ -37,9 +36,10 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User, @project) } unless @keys.nil?
-    @keys = [] if @keys.nil? # hack for decryption
 
+    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
+    @keys = [] if @keys.nil? #hack for decryption
+    
     @limit = per_page_option
     @key_count = @keys.count
     @key_pages = Paginator.new @key_count, @limit, params[:page]
@@ -95,8 +95,9 @@ class KeysController < ApplicationController
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User, key.project) } unless @keys.nil?
-    @keys = [] if @keys.nil? # hack for decryption
+
+    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
+    @keys = [] if @keys.nil? #hack for decryption
 
     @limit = per_page_option
     @key_count = @keys.count
@@ -129,10 +130,10 @@ class KeysController < ApplicationController
 
   def create
     save_file if key_params[:file]
-    @key = Vault::Key.new(key_params)
-
+    @key = Vault::Key.new
+    @key.safe_attributes = key_params.except(:tags)
     @key.project = @project
-
+    
     self.update_wishlist
 
     respond_to do |format|
@@ -148,6 +149,7 @@ class KeysController < ApplicationController
     save_file if key_params[:file]
     respond_to do |format|
       self.update_wishlist
+      @key.safe_attributes = key_params.except(:tags)
 
       if @key.update(key_params)
         @key.tags = key_params[:tags]
@@ -169,7 +171,7 @@ class KeysController < ApplicationController
   end
 
   def edit
-    if !@key.whitelisted?(User, @project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
@@ -181,7 +183,7 @@ class KeysController < ApplicationController
   end
 
   def show
-    if !@key.whitelisted?(User, @project)
+    if !@key.whitelisted?(User.current, @project)
       render_error t("error.key.not_whitelisted")
       return
     else
