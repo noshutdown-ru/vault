@@ -69,7 +69,7 @@ module Vault
     end
 
     def whitelisted?(user, project)
-      return true if user.admin || !user.allowed_to?(:whitelist_keys, project)
+      return true if user.admin || (!user.allowed_to?(:whitelist_keys, project) && user.allowed_to?(:view_project, project))
 
       whitelist_ids = self.whitelist.split(',')
       return true if whitelist_ids.include?(user.id.to_s)
