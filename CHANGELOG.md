@@ -1,7 +1,8 @@
 ## Version: 0.7.0
+### Improvements
+- Added Project ID column for into All keys view [issue](https://github.com/noshutdown-ru/vault/issues/100)
 ### Bugfix
-- Fix bug that exposes passwords from projects a user has no access to.
-- https://github.com/noshutdown-ru/vault/issues/100
+- View all keys permissions issue fixed [PR](https://github.com/noshutdown-ru/vault/pull/103)
 
 ## Version: 0.6.0
 ### Improvements
