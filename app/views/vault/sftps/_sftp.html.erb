@@ -2,7 +2,7 @@
   <td class='checkbox hide-when-print'>
     <%= check_box_tag('ids[]', sftp.id, false, id: nil) %>
   </td>
-  <%= render partial: 'shared/key_fields', locals: {key: sftp} %>
+  <%= render partial: 'shared/key_fields', locals: {key: sftp, show_project: show_project} %>
   <td class='key-password-column'>
     <% unless sftp.body.blank? %>
 

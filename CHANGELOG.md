@@ -1,3 +1,9 @@
+# Changelog
+## Version: 0.7.1
+### Improvements
+- Improved View All keys view
+- Added option to move orphaned keys to another project
+
 ## Version: 0.7.0
 ### Improvements
 - Added Project ID column for into All keys view [issue](https://github.com/noshutdown-ru/vault/issues/100)

@@ -49,6 +49,7 @@ en:
       actions: "Actions"
       clipboard: "Copy to Clipboard"
       find: "Find"
+      move: "Assign to Project"
 
     attr:
       lock: "Lock"
@@ -101,5 +102,8 @@ en:
       not_set: "The encryption key is not set in the settings"
       not_whitelisted: "Password not allowed for you"
       length: "Encryption key must be at exact 16 symbols"
+      not_orphaned: "This key is not orphaned"
+    project:
+      required: "Project is required"
     user:
       not_allowed: "You are not allowed to view this passwords"
