@@ -1,6 +1,6 @@
 class KeysController < ApplicationController
-  before_action :find_project_by_project_id, except: [:all]
-  before_action :authorize, except: [:all]
+  before_action :find_project_by_project_id, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
+  before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
   before_action :find_keys, only: [:context_menu]
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -90,7 +90,7 @@ class KeysController < ApplicationController
         @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
       end
     else
-      @keys = @keys = Vault::Key.all
+      @keys = Vault::Key.all
     end
 
     @keys = @keys.order(sort_clause) unless @keys.nil?
@@ -118,7 +118,6 @@ class KeysController < ApplicationController
   def new
     @key = Vault::Key.new(project: @project)
     @key.whitelist = ""
-    @key
   end
 
   def copy
@@ -209,6 +208,83 @@ class KeysController < ApplicationController
     end
   end
 
+  # ==================== Orphaned Key Operations ====================
+  # Admin-only operations for keys whose projects have been deleted.
+  # Used in /keys/all view to manage and reassign orphaned keys.
+  # ====================================================================
+
+  def edit_orphaned
+    unless User.current.admin?
+      render_error t("error.user.not_allowed")
+      return
+    end
+
+    @key = Vault::Key.find(params[:id])
+    unless @key.project.nil?
+      render_error t("error.key.not_orphaned")
+      return
+    end
+
+    @key.decrypt!
+    @projects = Project.active
+    render 'edit_orphaned'
+  end
+
+  def update_orphaned
+    unless User.current.admin?
+      render_error t("error.user.not_allowed")
+      return
+    end
+
+    @key = Vault::Key.find(params[:id])
+    unless @key.project.nil?
+      render_error t("error.key.not_orphaned")
+      return
+    end
+
+    # Try to get project_id from different places
+    project_id = params[:project_id]
+    if !project_id && params[@key.type.underscore].present?
+      project_id = params[@key.type.underscore][:project_id]
+    end
+
+    if project_id.present?
+      @key.project_id = project_id
+      if @key.save
+        redirect_to keys_all_path, notice: t('notice.key.update.success')
+      else
+        @projects = Project.active
+        render 'edit_orphaned'
+      end
+    else
+      @projects = Project.active
+      @key.errors.add(:project_id, t("error.project.required"))
+      render 'edit_orphaned'
+    end
+  end
+
+  def destroy_orphaned
+    unless User.current.admin?
+      render_error t("error.user.not_allowed")
+      return
+    end
+
+    @key = Vault::Key.find(params[:id])
+    if @key.project.nil?
+      @key.destroy
+      respond_to do |format|
+        format.html do
+          redirect_to keys_all_path
+          flash[:notice] = t('notice.key.delete.success')
+        end
+        format.json { render json: {}, status: :ok }
+      end
+    else
+      render_error t("error.key.not_orphaned")
+    end
+  end
+  # ===================== End Orphaned Key Operations =====================
+
   def context_menu
     # FIXME
     @keys.map(&:decrypt!)
@@ -233,10 +309,6 @@ class KeysController < ApplicationController
 
   def key_params
     params.require(:vault_key).permit(:type, :name, :body, :login, :file, :url, :comment, :tags)
-  end
-
-  def index_params
-    params.permit('query')
   end
 
   def save_file

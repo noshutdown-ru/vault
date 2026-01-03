@@ -1,3 +1,4 @@
+<% if show_project %>
 <td>
   <% if key.project.nil? %>
     <span style="color: #999; text-decoration: line-through;">
@@ -8,23 +9,38 @@
     <%= link_to "#{key.project.name} (ID: #{key.project_id})", project_path(key.project), class: 'keys-links' %>
   <% end %>
 </td>
+<% end %>
 <td>
     <label id="type_<%=key.id%>" class='keys-links'>
-        <% if key.project.nil? %>
-            <span style="color: #999; text-decoration: line-through;">
-                <%= t('key.project_deleted') %>
-            </span>
-        <% elsif key.type == 'Vault::Password' %>
-            <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
-                <%= t('activerecord.models.password') %>
+        <% if key.type == 'Vault::Password' %>
+            <% if key.project.nil? %>
+                <span style="color: #999; text-decoration: line-through;">
+                    <%= t('activerecord.models.password') %>
+                </span>
+            <% else %>
+                <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
+                    <%= t('activerecord.models.password') %>
+                <% end %>
             <% end %>
         <% elsif key.type == 'Vault::Sftp' %>
-            <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
-                <%= t('activerecord.models.sftp') %>
+            <% if key.project.nil? %>
+                <span style="color: #999; text-decoration: line-through;">
+                    <%= t('activerecord.models.sftp') %>
+                </span>
+            <% else %>
+                <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
+                    <%= t('activerecord.models.sftp') %>
+                <% end %>
             <% end %>
         <% elsif key.type == 'Vault::KeyFile' %>
-            <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
-                <%= t('activerecord.models.key_file') %>
+            <% if key.project.nil? %>
+                <span style="color: #999; text-decoration: line-through;">
+                    <%= t('activerecord.models.key_file') %>
+                </span>
+            <% else %>
+                <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
+                    <%= t('activerecord.models.key_file') %>
+                <% end %>
             <% end %>
         <% else %>
             Unknown
