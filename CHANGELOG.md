@@ -1,3 +1,8 @@
+## Version: 0.7.0
+### Bugfix
+- Fix bug that exposes passwords from projects a user has no access to.
+- https://github.com/noshutdown-ru/vault/issues/100
+
 ## Version: 0.6.0
 ### Improvements
 - [Redmine 6.0 compatibility.](https://github.com/noshutdown-ru/vault/issues/96)
