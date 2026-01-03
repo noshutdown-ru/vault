@@ -1,6 +1,20 @@
-<td> 
+<td>
+  <% if key.project.nil? %>
+    <span style="color: #999; text-decoration: line-through;">
+      <%= t('key.project_not_exist', id: key.project_id) %>
+    </span>
+    <span style="color: #d9534f; font-weight: bold;"> (✗)</span>
+  <% else %>
+    <%= link_to "#{key.project.name} (ID: #{key.project_id})", project_path(key.project), class: 'keys-links' %>
+  <% end %>
+</td>
+<td>
     <label id="type_<%=key.id%>" class='keys-links'>
-        <% if key.type == 'Vault::Password' %>
+        <% if key.project.nil? %>
+            <span style="color: #999; text-decoration: line-through;">
+                <%= t('key.project_deleted') %>
+            </span>
+        <% elsif key.type == 'Vault::Password' %>
             <%= link_to project_key_path(key.project, key), class: 'keys-links' do %>
                 <%= t('activerecord.models.password') %>
             <% end %>
@@ -18,7 +32,13 @@
     </label>
 </td>
 <td>
-  <%= link_to key.name, edit_project_key_path(key.project, key), class: 'keys-links' %>
+  <% if key.project.nil? %>
+    <span style="color: #999; text-decoration: line-through;">
+      <%= key.name %>
+    </span>
+  <% else %>
+    <%= link_to key.name, edit_project_key_path(key.project, key), class: 'keys-links' %>
+  <% end %>
 </td>
 <td>
   <% unless key.url.blank? %>

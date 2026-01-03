@@ -1,6 +1,7 @@
 ## Version: 0.7.0
 ### Improvements
 - Added Project ID column for into All keys view [issue](https://github.com/noshutdown-ru/vault/issues/100)
+- Added api for create,update,delete keys
 ### Bugfix
 - View all keys permissions issue fixed [PR](https://github.com/noshutdown-ru/vault/pull/103)
 

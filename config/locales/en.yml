@@ -41,6 +41,9 @@ en:
       new: "New Password"
       list: "Passwords"
 
+    project_not_exist: "Project with ID %{id} not exist"
+    project_id: "ID:"
+
     btn:
       new: "New Password"
       actions: "Actions"
@@ -55,6 +58,7 @@ en:
       login: "Login"
       url: "URL"
       type: "Type"
+      project: "Project"
       tags: "Tags"
       file: "Password File"
       comment: "Comment"
