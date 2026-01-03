@@ -3,7 +3,7 @@ class KeysController < ApplicationController
   before_action :authorize, except: [:all]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
   before_action :find_keys, only: [:context_menu]
-  accept_api_auth :index, :show
+  accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
   include SortHelper
@@ -138,8 +138,10 @@ class KeysController < ApplicationController
     respond_to do |format|
       if @key.save
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.create.success') }
+        format.json { render json: { key: @key }, status: :created, location: project_key_path(@project, @key) }
       else
         format.html { render action: 'new' }
+        format.json { render json: { errors: @key.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end
@@ -153,8 +155,10 @@ class KeysController < ApplicationController
       if @key.update(key_params)
         @key.tags = key_params[:tags]
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
+        format.json { render json: { key: @key }, status: :ok }
       else
         format.html { render action: 'edit' }
+        format.json { render json: { errors: @key.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end
@@ -189,14 +193,20 @@ class KeysController < ApplicationController
       @key.decrypt!
       respond_to do |format|
         format.html { render action: 'show' }
+        format.json { render json: { key: @key }, status: :ok }
       end
     end
   end
 
   def destroy
     Vault::Key.find(params[:id]).destroy
-    redirect_to project_keys_path(@project)
-    flash[:notice] = t('notice.key.delete.success')
+    respond_to do |format|
+      format.html do
+        redirect_to project_keys_path(@project)
+        flash[:notice] = t('notice.key.delete.success')
+      end
+      format.json { render json: {}, status: :ok }
+    end
   end
 
   def context_menu

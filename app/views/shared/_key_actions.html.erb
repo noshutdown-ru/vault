@@ -1,17 +1,22 @@
-<% if User.current.allowed_to?(:edit_keys, key.project) %>
-    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions' do %>
+<% if key.project.nil? %>
+    <!-- Orphaned key - project was deleted, no actions available -->
+    <span class='keys-actions' title='<%= t("key.project_deleted") %>' style='color: #ccc;'>
+      <i class='fa fa-unlink fa-fw'></i>
+    </span>
+<% elsif User.current.allowed_to?(:edit_keys, key.project) %>
+    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions', title: t('link_edit') do %>
       <i class='fa fa-pencil fa-fw'></i>
     <% end %>
+
+    <%= link_to project_copy_key_path(key.project,key), class: 'keys-actions', title: t('key.title.copy') do %>
+      <i class='fa fa-files-o fa-fw'></i>
+    <% end %>
+
+    <%= link_to project_key_path(key.project,key), class: 'keys-actions', title: t('button_delete'), data: {confirm: t('confirm.key.delete')}, method: :delete do %>
+      <i class='fa fa-trash fa-fw'></i>
+    <% end %>
 <% else %>
-    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions' do %>
+    <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions', title: t('link_view') do %>
       <i class='fa fa-eye fa-fw'></i>
     <% end %>
 <% end %>
-
-<%= link_to project_copy_key_path(key.project,key), class: 'keys-actions' do %>
-  <i class='fa fa-files-o fa-fw'></i>
-<% end if User.current.allowed_to?(:edit_keys, key.project) %>
-
-<%= link_to project_key_path(key.project,key), class: 'keys-actions', data: {confirm: t('confirm.key.delete')}, method: :delete do %>
-  <i class='fa fa-trash fa-fw'></i>
-<% end if User.current.allowed_to?(:edit_keys, key.project) %>
