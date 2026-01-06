@@ -1,20 +1,20 @@
 <div id="vault_context_menu">
   <ul>
-    <li data-copytarget="#copy_body" class="conext_menu">
+    <li class="conext_menu copy-key-item" data-copytarget="#copy_body_<%= @key.id %>">
       <i class="fa fa-clipboard fa-fw" ></i>
       <%= l('context_menu.copy_key') %>
-      <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_body" value="<%=@key.body%>" />
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_body_<%= @key.id %>" value="<%=@key.body%>" readonly />
     </li>
 
-    <li data-copytarget="#copy_login" class="conext_menu">
+    <li class="conext_menu copy-key-item" data-copytarget="#copy_login_<%= @key.id %>">
       <i class="fa fa-clipboard fa-fw"></i>
       <%= l('context_menu.copy_login') %>
-      <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_login" value="<%=@key.login%>" />
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_login_<%= @key.id %>" value="<%=@key.login%>" readonly />
     </li>
-    <li data-copytarget="#copy_url" class="conext_menu">
+    <li class="conext_menu copy-key-item" data-copytarget="#copy_url_<%= @key.id %>">
       <i class="fa fa-clipboard fa-fw" ></i>
       <%= l('context_menu.copy_url') %>
-      <input style="background-color: transparent; border: 0px solid; width:0.1px;" type="text" id="copy_url" value="<%=@key.url%>" />
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_url_<%= @key.id %>" value="<%=@key.url%>" readonly />
     </li>
     <% if User.current.allowed_to?(:edit_keys, @project) %>
     <li>
@@ -38,26 +38,3 @@
     <% end %>
   </ul>
 </div>
-
-<script>
-  (function() {
-    'use strict';
-    document.body.addEventListener('click', copy, true);
-    function copy(e) {
-      var
-          t = e.target,
-          c = t.dataset.copytarget,
-          inp = (c ? document.querySelector(c) : null);
-
-      if (inp && inp.select) {
-        inp.select();
-        try {
-          document.execCommand('copy');
-          inp.blur();
-        }
-        catch (err) {
-        }
-      }
-    }
-  })();
-</script>

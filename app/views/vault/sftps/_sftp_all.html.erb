@@ -1,8 +1,8 @@
-<tr class='hascontextmenu key <%= defined?(parity) ? parity : '' %>'>
+<tr class='hascontextmenu key <%= defined?(parity) ? parity : '' %>' data-project-id='<%= sftp.project_id %>' data-key-type='Vault::Sftp'>
   <td class='checkbox hide-when-print'>
     <%= check_box_tag('ids[]', sftp.id, false, id: nil) %>
   </td>
-  <%= render partial: 'shared/key_fields', locals: {key: sftp} %>
+  <%= render partial: 'shared/key_fields_all', locals: {key: sftp} %>
   <td class='key-password-column'>
     <% unless sftp.body.blank? %>
 

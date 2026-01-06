@@ -24,7 +24,7 @@
     </tr>
   </thead>
   <tbody>
-        <%= render @key %>
+        <%= render partial: @key, locals: {show_project: false} %>
   </tbody>
 </table>
 

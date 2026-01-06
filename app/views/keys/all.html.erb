@@ -6,29 +6,42 @@
 <% end %>
 
 <div class="contextual">
-  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) && User.current.allowed_to?(:edit_keys, @project) %>
 </div>
 
 <h2 class="keys-search-title">
   <%= t('key.title.list') %>
   <%= form_tag({ controller: :keys, action: :all }, method: 'get', class: 'keys-search-form') do %>
-    <%= text_field_tag(:query, @query, class: 'autocomplete') %>
+    <%= text_field_tag(:query, @query, class: 'autocomplete', placeholder: t('key.search.placeholder', default: 'Search by name or URL...')) %>
 
     <%= submit_tag(t('key.btn.find')) %>
   <% end %>
   <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
-<%= form_tag({}, :data => {:cm_url => @project }) do %>
-  <table class='list' id='keys_table'>
+<%= form_tag({}, :data => {:cm_url => keys_all_context_menus_path}) do %>
+<table class='list' id='keys_table'>
     <thead>
     <tr>
       <th class="checkbox hide-when-print">
         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
       </th>
-      <th><%= t('key.attr.project') %></th>
-      <th><%= t('key.attr.type') %></th>
+      <th>
+        <%= t('key.attr.project') %>
+        <div style="margin-top: 5px;">
+          <%= select_tag(:filter_project,
+            options_for_select([['All', '']] + @projects.map { |p| [p.name, p.id] }),
+            { id: 'filter-project', class: 'filter-select' }) %>
+        </div>
+      </th>
+      <th>
+        <%= t('key.attr.type') %>
+        <div style="margin-top: 5px;">
+          <%= select_tag(:filter_type,
+            options_for_select([['All', ''], ['Password', 'Vault::Password'], ['SFTP', 'Vault::Sftp'], ['Key File', 'Vault::KeyFile']]),
+            { id: 'filter-type', class: 'filter-select' }) %>
+        </div>
+      </th>
       <%= sort_header_tag('name', caption: t('key.attr.name')) %>
       <th><%= t('key.attr.url') %></th>
       <th><%= t('key.attr.login') %></th>
@@ -38,7 +51,13 @@
     </thead>
     <tbody>
     <% @keys.each do |key| %>
-      <%= render partial: key, locals: {parity: cycle('odd', 'even'), show_project: true} %>
+      <% if key.is_a?(Vault::Password) %>
+        <%= render partial: 'vault/passwords/password_all', locals: {password: key, parity: cycle('odd', 'even')} %>
+      <% elsif key.is_a?(Vault::Sftp) %>
+        <%= render partial: 'vault/sftps/sftp_all', locals: {sftp: key, parity: cycle('odd', 'even')} %>
+      <% elsif key.is_a?(Vault::KeyFile) %>
+        <%= render partial: 'vault/key_files/key_file_all', locals: {key_file: key, parity: cycle('odd', 'even')} %>
+      <% end %>
     <% end %>
     </tbody>
   </table>
@@ -49,7 +68,7 @@
 </span>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters t('export.title.pdf') if User.current.allowed_to?(:view_keys, @project) && User.current.allowed_to?(:export_keys, @project)%>
+  <%= f.link_to_with_query_parameters t('export.title.pdf') %>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -68,6 +87,46 @@
 <%= context_menu %>
 
 <script type="text/javascript">
-    $('a[href^="http://"]').attr('target','_blank');
-    $('a[href^="https://"]').attr('target','_blank');
+  $('a[href^="http://"]').attr('target','_blank');
+  $('a[href^="https://"]').attr('target','_blank');
+
+  // Copy to clipboard functionality for context menu
+  document.body.addEventListener('click', function(e) {
+    var li = e.target.closest('li[data-copytarget]');
+    if (li) {
+      e.preventDefault();
+      var copytarget = li.dataset.copytarget;
+      var inp = copytarget ? document.querySelector(copytarget) : null;
+      if (inp && inp.value) {
+        try {
+          inp.select();
+          inp.setSelectionRange(0, inp.value.length);
+          document.execCommand('copy');
+          inp.blur();
+        } catch (err) {
+          console.error('Copy failed:', err);
+        }
+      }
+    }
+  }, true);
+
+  // Client-side filtering for project and type
+  function applyFilters() {
+    var projectFilter = document.getElementById('filter-project').value;
+    var typeFilter = document.getElementById('filter-type').value;
+    var rows = document.querySelectorAll('table.list tbody tr');
+
+    rows.forEach(function(row) {
+      var projectId = row.getAttribute('data-project-id');
+      var keyType = row.getAttribute('data-key-type');
+
+      var projectMatch = !projectFilter || projectId === projectFilter;
+      var typeMatch = !typeFilter || keyType === typeFilter;
+
+      row.style.display = (projectMatch && typeMatch) ? '' : 'none';
+    });
+  }
+
+  document.getElementById('filter-project').addEventListener('change', applyFilters);
+  document.getElementById('filter-type').addEventListener('change', applyFilters);
 </script>

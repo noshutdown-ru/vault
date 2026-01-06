@@ -12,8 +12,8 @@
 <h2 class="keys-search-title">
     <%= t('key.title.list') %>
     <%= form_tag({ controller: :keys, action: :index }, method: 'get', class: 'keys-search-form') do %>
-      <%= text_field_tag(:query, @query, class: 'autocomplete') %>
-    
+      <%= text_field_tag(:query, @query, class: 'autocomplete', placeholder: t('key.search.placeholder', default: 'Search by name or URL...')) %>
+
       <%= submit_tag(t('key.btn.find')) %>
     <% end %>
     <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
@@ -37,7 +37,7 @@
   </thead>
   <tbody>
     <% @keys.each do |key| %>
-      <%= render partial: key, locals: {parity: cycle('odd', 'even'), show_project: false} %>
+      <%= render partial: key, locals: {parity: cycle('odd', 'even')} %>
     <% end %>
   </tbody>
 </table>
@@ -69,4 +69,24 @@
 <script type="text/javascript">
   $('a[href^="http://"]').attr('target','_blank');
   $('a[href^="https://"]').attr('target','_blank');
+
+  // Copy to clipboard functionality for context menu
+  document.body.addEventListener('click', function(e) {
+    var li = e.target.closest('li[data-copytarget]');
+    if (li) {
+      e.preventDefault();
+      var copytarget = li.dataset.copytarget;
+      var inp = copytarget ? document.querySelector(copytarget) : null;
+      if (inp && inp.value) {
+        try {
+          inp.select();
+          inp.setSelectionRange(0, inp.value.length);
+          document.execCommand('copy');
+          inp.blur();
+        } catch (err) {
+          console.error('Copy failed:', err);
+        }
+      }
+    }
+  }, true);
 </script>

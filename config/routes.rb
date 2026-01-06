@@ -12,6 +12,7 @@ resources :projects do
 end
 
 get 'keys/all', to: 'keys#all', as: 'keys_all'
+match 'keys/all/context_menu', to: 'keys#context_menu_all', as: 'keys_all_context_menus', via: [:get, :post]
 get 'keys/:id/edit_orphaned', to: 'keys#edit_orphaned', as: 'edit_orphaned_key'
 patch 'keys/:id/update_orphaned', to: 'keys#update_orphaned', as: 'update_orphaned_key'
 delete 'keys/:id', to: 'keys#destroy_orphaned', as: 'orphaned_key'

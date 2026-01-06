@@ -1,6 +1,6 @@
 class KeysController < ApplicationController
-  before_action :find_project_by_project_id, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
-  before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
+  before_action :find_project_by_project_id, except: [:all, :context_menu_all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
+  before_action :authorize, except: [:all, :context_menu_all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
   before_action :find_keys, only: [:context_menu]
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -286,9 +286,15 @@ class KeysController < ApplicationController
   # ===================== End Orphaned Key Operations =====================
 
   def context_menu
-    # FIXME
     @keys.map(&:decrypt!)
-    render layout: false
+    @key = @keys.first
+    render 'vault_context_menus/keys', layout: false
+  end
+
+  def context_menu_all
+    find_keys_all
+    @keys.map(&:decrypt!)
+    render 'vault_context_menus/keys_all', layout: false
   end
 
   private
@@ -305,6 +311,12 @@ class KeysController < ApplicationController
     unless @keys.all? { |k| k.project_id == @project.id }
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
+  end
+
+  def find_keys_all
+    @keys = Vault::Key.find(params[:ids])
+    @keys = [@keys] unless @keys.is_a?(Array)
+    @key = @keys.first
   end
 
   def key_params

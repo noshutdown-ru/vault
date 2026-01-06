@@ -1,4 +1,14 @@
 <td>
+  <% if key.project.nil? %>
+    <span style="color: #999; text-decoration: line-through;">
+      <%= t('key.project_not_exist', id: key.project_id) %>
+    </span>
+    <span style="color: #d9534f; font-weight: bold;"> (✗)</span>
+  <% else %>
+    <%= link_to key.project.name, project_keys_path(key.project), class: 'keys-links' %>
+  <% end %>
+</td>
+<td>
     <label id="type_<%=key.id%>" class='keys-links'>
         <% if key.type == 'Vault::Password' %>
             <% if key.project.nil? %>
@@ -53,12 +63,10 @@
   <% unless key.login.blank? %>
     <span class='login-wrapper'>
         <a class='keys-actions copy-key' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
-          
+
           <i class="fa fa-clipboard fa-fw" ></i>
         </a>
         <label id="login_<%=key.id%>" class='keys-links'><%= key.login %></label>
     </span>
   <% end %>
 </td>
-
-
