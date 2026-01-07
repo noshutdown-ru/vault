@@ -18,10 +18,10 @@ Redmine::Plugin.register :vault do
     permission :export_keys, keys: [ :keys_to_pdf ]
     permission :keys_all, keys: [ :all ]
     permission :download_keys, key_files: [ :download ]
-    permission :view_keys, keys: [ :index, :edit, :show, :context_menu ]
+    permission :view_keys, keys: [ :index, :edit, :show ]
     permission :edit_keys, keys: [ :index, :new, :create, :edit, :show, :update, :destroy, :copy ]
     permission :manage_whitelist_keys, keys: [ :index, :create, :edit, :show, :update, :copy ]
-    permission :whitelist_keys, keys: [ :index, :edit, :show, :context_menu ]
+    permission :whitelist_keys, keys: [ :index, :edit, :show ]
   end
 
   menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('label_module')}, after: :activity, param: :project_id
