@@ -1,11 +1,11 @@
 # Changelog
 ## Version: 0.7.2
 ### Improvements
-- Removed search filed and added filters per column
+- Removed search filed and added filters per column.
+- Context menu removed since it have duplications in table.
 ### Bugfix
 - Project search fixed [issue](https://github.com/noshutdown-ru/vault/issues/108)
 - Removed link from password type [issue](https://github.com/noshutdown-ru/vault/issues/107)
-- Context menu fixed for project keys and keys/all
 
 ## Version: 0.7.1
 ### Improvements

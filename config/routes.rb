@@ -2,7 +2,6 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 resources :projects do
-  match '/keys/context_menu', to: 'keys#context_menu', as: 'keys_context_menus', via: [:get, :post]
   resources :keys
   get '/key_files/:id/download', to: 'key_files#download', as: 'download_key_file'
   get '/keys/:id/copy', to: 'keys#copy', as: 'copy_key'
@@ -12,7 +11,6 @@ resources :projects do
 end
 
 get 'keys/all', to: 'keys#all', as: 'keys_all'
-match 'keys/all/context_menu', to: 'keys#context_menu_all', as: 'keys_all_context_menus', via: [:get, :post]
 get 'keys/:id/edit_orphaned', to: 'keys#edit_orphaned', as: 'edit_orphaned_key'
 patch 'keys/:id/update_orphaned', to: 'keys#update_orphaned', as: 'update_orphaned_key'
 delete 'keys/:id', to: 'keys#destroy_orphaned', as: 'orphaned_key'
