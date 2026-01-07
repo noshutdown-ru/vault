@@ -50,23 +50,27 @@
 </td>
 <td>
   <% unless key.url.blank? %>
-    <% if /:\/\//.match(key.url) %>
-      <%= link_to "#{key.url}", key.url, id: "url_#{key.id}"%>
-    <% else %>
-      <a align="left" class='keys-links' data-clipboard-target='url_<%=key.id%>' id='d_clip_url_<%=key.id%>'>
-        <%= label_tag key.url, key.url, id: "url_#{key.id}" %>
+    <span class='url-wrapper'>
+      <a class='keys-actions copy-key' data-clipboard-target='copy_url_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
+        <i class="fa fa-clipboard fa-fw"></i>
       </a>
-    <% end %>
+      <% if /:\/\//.match(key.url) %>
+        <%= link_to "#{key.url}", key.url, class: 'keys-links'%>
+      <% else %>
+        <label class='keys-links'><%= key.url %></label>
+      <% end %>
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_url_<%=key.id%>" value="<%=key.url%>" readonly />
+    </span>
   <% end %>
 </td>
 <td>
   <% unless key.login.blank? %>
     <span class='login-wrapper'>
-        <a class='keys-actions copy-key' data-clipboard-target='login_<%=key.id%>' id='d_clip_login_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
-
+        <a class='keys-actions copy-key' data-clipboard-target='copy_login_<%=key.id%>' title='<%=t('key.btn.clipboard')%>'>
           <i class="fa fa-clipboard fa-fw" ></i>
         </a>
-        <label id="login_<%=key.id%>" class='keys-links'><%= key.login %></label>
+        <label class='keys-links'><%= key.login %></label>
+        <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_login_<%=key.id%>" value="<%=key.login%>" readonly />
     </span>
   <% end %>
 </td>

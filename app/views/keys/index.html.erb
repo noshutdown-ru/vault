@@ -79,11 +79,12 @@
 
   // Copy to clipboard functionality
   document.body.addEventListener('click', function(e) {
-    var li = e.target.closest('li[data-copytarget]');
-    if (li) {
+    // Handle inline copy buttons (a.copy-key)
+    var copyBtn = e.target.closest('a.copy-key');
+    if (copyBtn) {
       e.preventDefault();
-      var copytarget = li.dataset.copytarget;
-      var inp = copytarget ? document.querySelector(copytarget) : null;
+      var copytarget = copyBtn.dataset.clipboardTarget;
+      var inp = copytarget ? document.getElementById(copytarget) : null;
       if (inp && inp.value) {
         try {
           inp.select();
