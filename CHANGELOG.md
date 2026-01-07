@@ -1,7 +1,7 @@
 # Changelog
 ## Version: 0.7.2
 ### Improvements
-- Added filters by Type and Project in keys/all
+- Removed search filed and added filters per column
 ### Bugfix
 - Project search fixed [issue](https://github.com/noshutdown-ru/vault/issues/108)
 - Removed link from password type [issue](https://github.com/noshutdown-ru/vault/issues/107)
