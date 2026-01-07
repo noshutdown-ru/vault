@@ -1,4 +1,4 @@
-<tr class='hascontextmenu file <%= defined?(parity) ? parity : '' %>' data-project-id='<%= key_file.project_id %>' data-key-type='Vault::KeyFile'>
+<tr class='file <%= defined?(parity) ? parity : '' %>' data-project-id='<%= key_file.project_id %>' data-key-type='Vault::KeyFile'>
   <td class='checkbox hide-when-print'>
     <%= check_box_tag('ids[]', key_file.id, false, id: nil) %>
   </td>

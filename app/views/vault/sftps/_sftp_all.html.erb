@@ -1,4 +1,4 @@
-<tr class='hascontextmenu key <%= defined?(parity) ? parity : '' %>' data-project-id='<%= sftp.project_id %>' data-key-type='Vault::Sftp'>
+<tr class='key <%= defined?(parity) ? parity : '' %>' data-project-id='<%= sftp.project_id %>' data-key-type='Vault::Sftp'>
   <td class='checkbox hide-when-print'>
     <%= check_box_tag('ids[]', sftp.id, false, id: nil) %>
   </td>
