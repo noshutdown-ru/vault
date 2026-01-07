@@ -68,7 +68,7 @@ module Vault
       end
     end
 
-    def whitelisted?(user, project)      
+    def whitelisted?(user, project)
       return true if user.admin || (!user.allowed_to?(:whitelist_keys, project) && user.allowed_to?(:view_project, project))
 
       whitelist_ids = self.whitelist.split(',')
@@ -79,6 +79,10 @@ module Vault
       end
 
       false
+    end
+
+    def as_json(options = {})
+      super(options).except('body', 'file')
     end
   end
 

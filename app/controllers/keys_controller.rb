@@ -6,7 +6,6 @@ class KeysController < ApplicationController
 
   helper :sort
   include SortHelper
-  helper ContextMenusHelper
 
   def index
     unless Setting.plugin_vault['use_redmine_encryption'] ||
@@ -94,6 +93,11 @@ class KeysController < ApplicationController
   end
 
   def copy
+    if !@key.whitelisted?(User.current, @project)
+      render_error t("error.key.not_whitelisted")
+      return
+    end
+
     @key = Vault::Key.new(project: @key.project, name: @key.name, login: @key.login, type: @key.type)
     render action: 'new'
   end
