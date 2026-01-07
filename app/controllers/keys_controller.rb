@@ -21,22 +21,9 @@ class KeysController < ApplicationController
     sort_init 'name', 'asc'
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
-    @query = params[:query]
-
-    if @query && !@query.empty?
-      if @query.match(/#/)
-        tag_string = (@query.match(/(#)([^,]+)/))[2]
-        tag = Vault::Tag.find_by_name(tag_string)
-        @keys = tag.nil? ? nil : tag.keys.where(project: @project)
-      else
-        @keys = @project.keys.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
-      end
-    else
-      @keys = @project.keys
-    end
-
-    @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
+    @keys = @project.keys
+    @keys = @keys.order(sort_clause)
+    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) }
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option
@@ -79,22 +66,9 @@ class KeysController < ApplicationController
     sort_init 'name', 'asc'
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
-    @query = params[:query]
-
-    if @query && !@query.empty?
-      if @query.match(/#/)
-        tag_string = (@query.match(/(#)([^,]+)/))[2]
-        tag = Vault::Tag.find_by_name(tag_string)
-        @keys = tag.nil? ? nil : tag.keys.all
-      else
-        @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
-      end
-    else
-      @keys = Vault::Key.all
-    end
-
-    @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
+    @keys = Vault::Key.all
+    @keys = @keys.order(sort_clause)
+    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) }
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option

@@ -10,12 +10,6 @@
 
 <h2 class="keys-search-title">
   <%= t('key.title.list') %>
-  <%= form_tag({ controller: :keys, action: :all }, method: 'get', class: 'keys-search-form') do %>
-    <%= text_field_tag(:query, @query, class: 'autocomplete', placeholder: t('key.search.placeholder', default: 'Search by name or URL...')) %>
-
-    <%= submit_tag(t('key.btn.find')) %>
-  <% end %>
-  <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
 <%= form_tag({}, :data => {:cm_url => keys_all_context_menus_path}) do %>
@@ -26,26 +20,30 @@
         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
       </th>
-      <th>
-        <%= t('key.attr.project') %>
-        <div style="margin-top: 5px;">
-          <%= select_tag(:filter_project,
-            options_for_select([['All', '']] + @projects.map { |p| [p.name, p.id] }),
-            { id: 'filter-project', class: 'filter-select' }) %>
-        </div>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_project, '',
+          { id: 'filter-project', class: 'filter-text', placeholder: t('key.attr.project'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
       </th>
-      <th>
-        <%= t('key.attr.type') %>
-        <div style="margin-top: 5px;">
-          <%= select_tag(:filter_type,
-            options_for_select([['All', ''], ['Password', 'Vault::Password'], ['SFTP', 'Vault::Sftp'], ['Key File', 'Vault::KeyFile']]),
-            { id: 'filter-type', class: 'filter-select' }) %>
-        </div>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_type, '',
+          { id: 'filter-type', class: 'filter-text', placeholder: t('key.attr.type'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
       </th>
-      <%= sort_header_tag('name', caption: t('key.attr.name')) %>
-      <th><%= t('key.attr.url') %></th>
-      <th><%= t('key.attr.login') %></th>
-      <th><%= t('key.attr.body') %> </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_name, '',
+          { id: 'filter-name', class: 'filter-text', placeholder: t('key.attr.name'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_url, '',
+          { id: 'filter-url', class: 'filter-text', placeholder: t('key.attr.url'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_login, '',
+          { id: 'filter-login', class: 'filter-text', placeholder: t('key.attr.login'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_body, '',
+          { id: 'filter-body', class: 'filter-text', placeholder: t('key.attr.body'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
       <th><%= t('key.btn.actions') %></th>
     </tr>
     </thead>
@@ -110,23 +108,50 @@
     }
   }, true);
 
-  // Client-side filtering for project and type
+  // Client-side filtering for all columns (case-insensitive)
   function applyFilters() {
-    var projectFilter = document.getElementById('filter-project').value;
-    var typeFilter = document.getElementById('filter-type').value;
+    var filters = {
+      'filter-project': { selector: 'td:nth-child(2)', value: '' },
+      'filter-type': { selector: 'td:nth-child(3)', value: '' },
+      'filter-name': { selector: 'td:nth-child(4)', value: '' },
+      'filter-url': { selector: 'td:nth-child(5)', value: '' },
+      'filter-login': { selector: 'td:nth-child(6)', value: '' },
+      'filter-body': { selector: 'td:nth-child(7)', value: '' }
+    };
+
+    // Get all filter values
+    Object.keys(filters).forEach(function(filterId) {
+      var elem = document.getElementById(filterId);
+      if (elem) {
+        filters[filterId].value = elem.value.toLowerCase().trim();
+      }
+    });
+
     var rows = document.querySelectorAll('table.list tbody tr');
-
     rows.forEach(function(row) {
-      var projectId = row.getAttribute('data-project-id');
-      var keyType = row.getAttribute('data-key-type');
+      var matches = true;
 
-      var projectMatch = !projectFilter || projectId === projectFilter;
-      var typeMatch = !typeFilter || keyType === typeFilter;
+      // Check each filter
+      Object.keys(filters).forEach(function(filterId) {
+        var filter = filters[filterId];
+        if (filter.value) {
+          var cell = row.querySelector(filter.selector);
+          var text = cell ? cell.innerText.toLowerCase().trim() : '';
+          if (!text.includes(filter.value)) {
+            matches = false;
+          }
+        }
+      });
 
-      row.style.display = (projectMatch && typeMatch) ? '' : 'none';
+      row.style.display = matches ? '' : 'none';
     });
   }
 
-  document.getElementById('filter-project').addEventListener('change', applyFilters);
-  document.getElementById('filter-type').addEventListener('change', applyFilters);
+  // Add event listeners to all filter fields
+  ['filter-project', 'filter-type', 'filter-name', 'filter-url', 'filter-login', 'filter-body'].forEach(function(filterId) {
+    var elem = document.getElementById(filterId);
+    if (elem) {
+      elem.addEventListener('input', applyFilters);
+    }
+  });
 </script>
