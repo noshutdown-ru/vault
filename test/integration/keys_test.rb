@@ -28,7 +28,7 @@ class KeysTest < Vault::IntegrationTest
     log_user('jsmith','jsmith')
     visit '/projects/1/keys'
     assert page.has_css? 'table#keys_table'
-    assert page.has_css? '#plain_pass_1', visible: false, text: '123456'
+    assert page.has_css? '#copy_body_1', visible: false, text: '123456'
     within_table 'keys_table' do
       assert_equal 3, all('tr').count
       assert has_content? 'server1'
