@@ -28,7 +28,8 @@ class KeysTest < Vault::IntegrationTest
     log_user('jsmith','jsmith')
     visit '/projects/1/keys'
     assert page.has_css? 'table#keys_table'
-    assert page.has_css? '#copy_body_1', visible: false, text: '123456'
+    # Check that the hidden password input exists with the decrypted password value
+    assert page.has_css? '#copy_body_1[value="123456"]', visible: false
     within_table 'keys_table' do
       assert_equal 3, all('tr').count
       assert has_content? 'server1'
