@@ -50,6 +50,7 @@ en:
       clipboard: "Copy to Clipboard"
       find: "Find"
       move: "Assign to Project"
+      edit_tags: "Edit Tags"
 
     attr:
       lock: "Lock"
