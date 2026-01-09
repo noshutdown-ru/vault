@@ -2,12 +2,10 @@ class KeysController < ApplicationController
   before_action :find_project_by_project_id, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
   before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
-  before_action :find_keys, only: [:context_menu]
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
   include SortHelper
-  helper ContextMenusHelper
 
   def index
     unless Setting.plugin_vault['use_redmine_encryption'] ||
@@ -21,22 +19,9 @@ class KeysController < ApplicationController
     sort_init 'name', 'asc'
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
-    @query = params[:query]
-
-    if @query && !@query.empty?
-      if @query.match(/#/)
-        tag_string = (@query.match(/(#)([^,]+)/))[2]
-        tag = Vault::Tag.find_by_name(tag_string)
-        @keys = tag.nil? ? nil : tag.keys.where(project: @project)
-      else
-        @keys = @project.keys.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
-      end
-    else
-      @keys = @project.keys
-    end
-
-    @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) } unless @keys.nil?
+    @keys = @project.keys
+    @keys = @keys.order(sort_clause)
+    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) }
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option
@@ -79,22 +64,9 @@ class KeysController < ApplicationController
     sort_init 'name', 'asc'
     sort_update 'name' => "#{Vault::Key.table_name}.name"
 
-    @query = params[:query]
-
-    if @query && !@query.empty?
-      if @query.match(/#/)
-        tag_string = (@query.match(/(#)([^,]+)/))[2]
-        tag = Vault::Tag.find_by_name(tag_string)
-        @keys = tag.nil? ? nil : tag.keys.all
-      else
-        @keys = Vault::Key.where("LOWER(#{Vault::Key.table_name}.name) LIKE ? OR LOWER(#{Vault::Key.table_name}.url) LIKE ?", "%#{@query}%", "%#{@query}%")
-      end
-    else
-      @keys = Vault::Key.all
-    end
-
-    @keys = @keys.order(sort_clause) unless @keys.nil?
-    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) } unless @keys.nil?
+    @keys = Vault::Key.all
+    @keys = @keys.order(sort_clause)
+    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) }
     @keys = [] if @keys.nil? # hack for decryption
 
     @limit = per_page_option
@@ -121,6 +93,11 @@ class KeysController < ApplicationController
   end
 
   def copy
+    if !@key.whitelisted?(User.current, @project)
+      render_error t("error.key.not_whitelisted")
+      return
+    end
+
     @key = Vault::Key.new(project: @key.project, name: @key.name, login: @key.login, type: @key.type)
     render action: 'new'
   end
@@ -285,24 +262,11 @@ class KeysController < ApplicationController
   end
   # ===================== End Orphaned Key Operations =====================
 
-  def context_menu
-    # FIXME
-    @keys.map(&:decrypt!)
-    render layout: false
-  end
-
   private
 
   def find_key
     @key = Vault::Key.find(params[:id])
     unless @key.project_id == @project.id
-      redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
-    end
-  end
-
-  def find_keys
-    @keys = Vault::Key.find(params[:ids])
-    unless @keys.all? { |k| k.project_id == @project.id }
       redirect_to project_keys_path(@project), notice: t('alert.key.not_found')
     end
   end

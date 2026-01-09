@@ -24,8 +24,8 @@
     </tr>
   </thead>
   <tbody>
-        <%= render @key %>
+        <%= render partial: @key, locals: {show_project: false} %>
   </tbody>
 </table>
 
-<%= link_to 'Back', project_keys_path(@project) %>
+<%= link_to t('button_back'), project_keys_path(@project) %>

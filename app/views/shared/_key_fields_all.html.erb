@@ -1,4 +1,14 @@
 <td>
+  <% if key.project.nil? %>
+    <span style="color: #999; text-decoration: line-through;">
+      <%= t('key.project_not_exist', id: key.project_id) %>
+    </span>
+    <span style="color: #d9534f; font-weight: bold;"> (✗)</span>
+  <% else %>
+    <%= link_to key.project.name, project_keys_path(key.project), class: 'keys-links' %>
+  <% end %>
+</td>
+<td>
     <label id="type_<%=key.id%>" class='keys-links'>
         <% if key.type == 'Vault::Password' %>
             <% if key.project.nil? %>
@@ -64,5 +74,3 @@
     </span>
   <% end %>
 </td>
-
-

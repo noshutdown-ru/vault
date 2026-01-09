@@ -6,39 +6,56 @@
 <% end %>
 
 <div class="contextual">
-  <%= link_to t('key.btn.new'), new_project_key_path(@project), class: 'icon icon-add' if User.current.allowed_to?(:view_keys, @project) && User.current.allowed_to?(:edit_keys, @project) %>
 </div>
 
 <h2 class="keys-search-title">
   <%= t('key.title.list') %>
-  <%= form_tag({ controller: :keys, action: :all }, method: 'get', class: 'keys-search-form') do %>
-    <%= text_field_tag(:query, @query, class: 'autocomplete') %>
-
-    <%= submit_tag(t('key.btn.find')) %>
-  <% end %>
-  <%= button_to(t('button_clear'), {query: ''}, method: 'get') %>
 </h2>
 
-<%= form_tag({}, :data => {:cm_url => @project }) do %>
-  <table class='list' id='keys_table'>
+<%= form_tag({}) do %>
+<table class='list' id='keys_table'>
     <thead>
     <tr>
       <th class="checkbox hide-when-print">
         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
       </th>
-      <th><%= t('key.attr.project') %></th>
-      <th><%= t('key.attr.type') %></th>
-      <%= sort_header_tag('name', caption: t('key.attr.name')) %>
-      <th><%= t('key.attr.url') %></th>
-      <th><%= t('key.attr.login') %></th>
-      <th><%= t('key.attr.body') %> </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_project, '',
+          { id: 'filter-project', class: 'filter-text', placeholder: t('key.attr.project'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_type, '',
+          { id: 'filter-type', class: 'filter-text', placeholder: t('key.attr.type'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_name, '',
+          { id: 'filter-name', class: 'filter-text', placeholder: t('key.attr.name'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_url, '',
+          { id: 'filter-url', class: 'filter-text', placeholder: t('key.attr.url'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_login, '',
+          { id: 'filter-login', class: 'filter-text', placeholder: t('key.attr.login'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
+      <th style="padding: 4px;">
+        <%= text_field_tag(:filter_body, '',
+          { id: 'filter-body', class: 'filter-text', placeholder: t('key.attr.body'), style: 'width: 100%; box-sizing: border-box; padding: 4px; border: 1px solid #ddd;' }) %>
+      </th>
       <th><%= t('key.btn.actions') %></th>
     </tr>
     </thead>
     <tbody>
     <% @keys.each do |key| %>
-      <%= render partial: key, locals: {parity: cycle('odd', 'even'), show_project: true} %>
+      <% if key.is_a?(Vault::Password) %>
+        <%= render partial: 'vault/passwords/password_all', locals: {password: key, parity: cycle('odd', 'even')} %>
+      <% elsif key.is_a?(Vault::Sftp) %>
+        <%= render partial: 'vault/sftps/sftp_all', locals: {sftp: key, parity: cycle('odd', 'even')} %>
+      <% elsif key.is_a?(Vault::KeyFile) %>
+        <%= render partial: 'vault/key_files/key_file_all', locals: {key_file: key, parity: cycle('odd', 'even')} %>
+      <% end %>
     <% end %>
     </tbody>
   </table>
@@ -49,7 +66,7 @@
 </span>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters t('export.title.pdf') if User.current.allowed_to?(:view_keys, @project) && User.current.allowed_to?(:export_keys, @project)%>
+  <%= f.link_to_with_query_parameters t('export.title.pdf') %>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -65,9 +82,75 @@
   </div>
 <% end %>
 
-<%= context_menu %>
-
 <script type="text/javascript">
-    $('a[href^="http://"]').attr('target','_blank');
-    $('a[href^="https://"]').attr('target','_blank');
+  $('a[href^="http://"]').attr('target','_blank');
+  $('a[href^="https://"]').attr('target','_blank');
+
+  // Copy to clipboard functionality
+  document.body.addEventListener('click', function(e) {
+    // Handle inline copy buttons (a.copy-key)
+    var copyBtn = e.target.closest('a.copy-key');
+    if (copyBtn) {
+      e.preventDefault();
+      var copytarget = copyBtn.dataset.clipboardTarget;
+      var inp = copytarget ? document.getElementById(copytarget) : null;
+      if (inp && inp.value) {
+        try {
+          inp.select();
+          inp.setSelectionRange(0, inp.value.length);
+          document.execCommand('copy');
+          inp.blur();
+        } catch (err) {
+          console.error('Copy failed:', err);
+        }
+      }
+    }
+  }, true);
+
+  // Client-side filtering for all columns (case-insensitive)
+  function applyFilters() {
+    var filters = {
+      'filter-project': { selector: 'td:nth-child(2)', value: '' },
+      'filter-type': { selector: 'td:nth-child(3)', value: '' },
+      'filter-name': { selector: 'td:nth-child(4)', value: '' },
+      'filter-url': { selector: 'td:nth-child(5)', value: '' },
+      'filter-login': { selector: 'td:nth-child(6)', value: '' },
+      'filter-body': { selector: 'td:nth-child(7)', value: '' }
+    };
+
+    // Get all filter values
+    Object.keys(filters).forEach(function(filterId) {
+      var elem = document.getElementById(filterId);
+      if (elem) {
+        filters[filterId].value = elem.value.toLowerCase().trim();
+      }
+    });
+
+    var rows = document.querySelectorAll('table.list tbody tr');
+    rows.forEach(function(row) {
+      var matches = true;
+
+      // Check each filter
+      Object.keys(filters).forEach(function(filterId) {
+        var filter = filters[filterId];
+        if (filter.value) {
+          var cell = row.querySelector(filter.selector);
+          var text = cell ? cell.innerText.toLowerCase().trim() : '';
+          if (!text.includes(filter.value)) {
+            matches = false;
+          }
+        }
+      });
+
+      row.style.display = matches ? '' : 'none';
+    });
+  }
+
+  // Add event listeners to all filter fields
+  ['filter-project', 'filter-type', 'filter-name', 'filter-url', 'filter-login', 'filter-body'].forEach(function(filterId) {
+    var elem = document.getElementById(filterId);
+    if (elem) {
+      elem.addEventListener('input', applyFilters);
+    }
+  });
 </script>
