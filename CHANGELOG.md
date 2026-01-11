@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.7.3
+### Bugfix
+- [Fixing error viewing Key File types](https://github.com/noshutdown-ru/vault/issues/110)
+
 ## Version: 0.7.2
 ### Improvements
 - Removed search filed and added filters per column.
