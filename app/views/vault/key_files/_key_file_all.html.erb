@@ -6,7 +6,7 @@
   <td>
     <% unless key_file.file.blank? %>
       <%#= t('activerecord.models.key_file') %>
-      <%= link_to project_download_key_file_path(@project,key_file), class: 'keys-actions', id: "keyfile_dl_#{key_file.id}" do %>
+      <%= link_to project_download_key_file_path(key_file.project,key_file), class: 'keys-actions', id: "keyfile_dl_#{key_file.id}" do %>
         <i class='fa fa-download fa-fw'></i>
       <% end %>
     <% end %>
