@@ -13,7 +13,7 @@
       <a class='keys-actions copy-key' data-clipboard-target='copy_body_<%=sftp.id%>' title='<%=t('key.btn.clipboard')%>'>
         <i class="fa fa-clipboard fa-fw"></i>
       </a>
-      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_body_<%=sftp.id%>" value="<%=sftp.body.force_encoding('UTF-8')%>" readonly />
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_body_<%=sftp.id%>" value="<%=sftp.body ? sftp.body.force_encoding('UTF-8') : ''%>" readonly />
     <% end %>
   </td>
   <td class='buttons'>
