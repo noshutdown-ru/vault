@@ -129,7 +129,6 @@
 
   <% if User.current.allowed_to?(:edit_keys, @project) %>
     <%= f.submit t('button_save') %>
-  <% else %>
   <% end %>
   <%= link_to t('button_back'), project_keys_path(@project) %>
 <% end %>
