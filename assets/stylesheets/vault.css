@@ -55,3 +55,27 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
 .controller-keys #content .keys-search-form {
     padding-left: 15px;
 }
+
+/* File info styling */
+.file-info {
+    padding: 12px;
+    margin-bottom: 15px;
+    margin-left: 180px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.file-info p {
+    margin: 8px 0;
+    padding: 0;
+}
+
+.file-info a {
+    color: #2166ac;
+    text-decoration: none;
+}
+
+.file-info a:hover {
+    text-decoration: underline;
+}

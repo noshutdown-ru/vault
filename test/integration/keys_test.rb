@@ -35,8 +35,12 @@ class KeysTest < Vault::IntegrationTest
       assert has_content? 'server1'
       assert has_content? 'root@server1'
       assert has_content? 'root'
-      assert has_content? '*********'
     end
+
+    # Verify passwords are hidden (not displayed as plain text in visible content)
+    assert page.has_no_content? '123456'
+    # Verify decrypted password is available in hidden input for copying (for secure copy functionality)
+    assert page.has_css? '#copy_body_1', visible: false
   end
 
   def test_create_new_key

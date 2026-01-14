@@ -11,7 +11,8 @@ module Vault
 
     #TODO: all data should be stored in UTF-8
     def decrypt!
-      self.body = Encryptor::decrypt(self.body).force_encoding('UTF-8')
+      decrypted = Encryptor::decrypt(self.body)
+      self.body = decrypted ? decrypted.force_encoding('UTF-8') : nil
       self
     end
 

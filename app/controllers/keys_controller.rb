@@ -1,8 +1,8 @@
 class KeysController < ApplicationController
   before_action :find_project_by_project_id, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
-  before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
+  before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned, :download]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
-  accept_api_auth :index, :show, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy, :all
 
   helper :sort
   include SortHelper
@@ -24,6 +24,14 @@ class KeysController < ApplicationController
     @keys = @keys.select { |key| key.whitelisted?(User.current, @project) }
     @keys = [] if @keys.nil? # hack for decryption
 
+    # Filter by tag if query parameter contains #tagname
+    @query = params[:query]
+    if @query && !@query.empty? && @query.match(/#/)
+      tag_string = (@query.match(/(#)([^,]+)/))[2]
+      tag = Vault::Tag.find_by_name(tag_string)
+      @keys = tag.nil? ? [] : @keys.select { |key| key.tags.include?(tag) }
+    end
+
     @limit = per_page_option
     @key_count = @keys.count
     @key_pages = Paginator.new @key_count, @limit, params[:page]
@@ -37,8 +45,13 @@ class KeysController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.pdf
-      format.json { render json: @keys }
+      format.pdf do
+        unless User.current.allowed_to?(:export_keys, @project)
+          render_error t("error.user.not_allowed")
+          return
+        end
+      end
+      format.json { render json: { keys: @keys } }
     end
   end
 
@@ -69,6 +82,14 @@ class KeysController < ApplicationController
     @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) }
     @keys = [] if @keys.nil? # hack for decryption
 
+    # Filter by tag if query parameter contains #tagname
+    @query = params[:query]
+    if @query && !@query.empty? && @query.match(/#/)
+      tag_string = (@query.match(/(#)([^,]+)/))[2]
+      tag = Vault::Tag.find_by_name(tag_string)
+      @keys = tag.nil? ? [] : @keys.select { |key| key.tags.include?(tag) }
+    end
+
     @limit = per_page_option
     @key_count = @keys.count
     @key_pages = Paginator.new @key_count, @limit, params[:page]
@@ -83,7 +104,7 @@ class KeysController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf
-      format.json { render json: @keys }
+      format.json { render json: { keys: @keys } }
     end
   end
 
@@ -182,6 +203,32 @@ class KeysController < ApplicationController
         flash[:notice] = t('notice.key.delete.success')
       end
       format.json { render json: {}, status: :ok }
+    end
+  end
+
+  def download
+    @key = Vault::Key.find(params[:id])
+    @project = Project.find(params[:project_id])
+
+    unless @key.project_id == @project.id
+      render_error t('alert.key.not_found')
+      return
+    end
+
+    unless User.current.allowed_to?(:download_keys, @project)
+      render_error t("error.user.not_allowed")
+      return
+    end
+
+    if !@key.whitelisted?(User.current, @project)
+      render_error t("error.key.not_whitelisted")
+      return
+    end
+
+    if @key.file.present?
+      send_file "#{Vault::KEYFILES_DIR}/#{@key.file}", filename: @key.name
+    else
+      render_error "File not found"
     end
   end
 

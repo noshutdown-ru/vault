@@ -1,7 +1,21 @@
 module Vault
   class KeyFile < Key
+    before_save :encrypt!
+    after_save :decrypt!
     before_update :update_file, if: :file_changed?
     before_destroy :delete_file
+
+    def encrypt!
+      self.body = Encryptor::encrypt(self.body)
+      self
+    end
+
+    def decrypt!
+      decrypted = Encryptor::decrypt(self.body)
+      self.body = decrypted ? decrypted.force_encoding('UTF-8') : nil
+      self
+    end
+
     private
 
     def update_file

@@ -1,107 +1,127 @@
 <%= form_for key, url: { controller: :keys, action: action } do |f| %>
   <div class='box tabular'>
     <p>
-			<%= f.label :name, t('key.attr.name') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-				<%= f.text_field :name %>
-			<% else %>
-				<%= f.text_field :name,:readonly => true %>
-			<% end %>
-		</p>
+      <%= f.label :name, t('key.attr.name') %>
+      <% if User.current.allowed_to?(:edit_keys, @project) %>
+        <%= f.text_field :name %>
+      <% else %>
+        <%= f.text_field :name, :readonly => true %>
+      <% end %>
+    </p>
 
     <p>
-			<%= f.label :login, t('key.attr.login') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-				<%= f.text_field :login %>
-			<% else %>
-				<%= f.text_field :login,:readonly => true %>
-			<% end %>
-		</p>
+      <%= f.label :login, t('key.attr.login') %>
+      <% if User.current.allowed_to?(:edit_keys, @project) %>
+        <%= f.text_field :login %>
+      <% else %>
+        <%= f.text_field :login, :readonly => true %>
+      <% end %>
+    </p>
 
     <p>
-			<%= f.label :url, t('key.attr.url') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-				<%= f.text_field :url %>
-			<% else %>
-				<%= f.text_field :url,:readonly => true %>
-			<% end %>
-		</p>
+      <%= f.label :url, t('key.attr.url') %>
+      <% if User.current.allowed_to?(:edit_keys, @project) %>
+        <%= f.text_field :url %>
+      <% else %>
+        <%= f.text_field :url, :readonly => true %>
+      <% end %>
+    </p>
 
     <p>
-			<%= f.label :type %>
-    	<%= f.select :type, key_types %>
-		</p>
+      <%= f.label :type %>
+      <%= f.select :type, key_types %>
+    </p>
 
     <p>
-			<%= f.label :body, t('key.attr.body') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-				<%= f.text_field :body,:autocomplete => :off %>
-			<% else %>
-				<%= f.text_field :body,:readonly => true %>
-			<% end %>
-		</p>
+      <%= f.label :body, t('key.attr.body') %>
+      <% if User.current.allowed_to?(:edit_keys, @project) %>
+        <div style="display: inline-flex; gap: 8px; align-items: center;">
+          <%= f.text_field :body, :autocomplete => :off %>
+          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();">
+            <i class='fa fa-refresh fa-fw'></i> Generate
+          </button>
+        </div>
+      <% else %>
+        <%= f.text_field :body, :readonly => true %>
+      <% end %>
+    </p>
+
+    <div id="vault_file_section" style="<%= (key.type == 'Vault::Sftp' || key.type == 'Vault::KeyFile') ? '' : 'display: none;' %>">
+      <p style="display: flex; gap: 10px; align-items: center;">
+        <label style="flex-shrink: 0;"><%= t('key.attr.file') %></label>
+        <% if key.file.present? %>
+          <%= link_to "/projects/#{@project.identifier}/keys/#{key.id}/download", class: 'keys-actions', title: "Download file" do %>
+            <i class='fa fa-download fa-fw'></i> <%= key.name %>
+          <% end %>
+        <% end %>
+        <% if User.current.allowed_to?(:edit_keys, @project) %>
+          <button type="button" class="btn btn-small" onclick="document.getElementById('vault_key_file').click();">
+            <i class='fa fa-upload fa-fw'></i> Upload
+          </button>
+          <%= f.file_field :file, style: "display: none;" %>
+        <% end %>
+      </p>
+
+      <% if key.file.present? %>
+        <p>
+          <label style="font-weight: bold; color: #666; width: 170px; float: left;">Local Path:</label>
+          <input type="text" value="redmine/keys/<%= key.file %>" readonly style="width: 400px;" />
+        </p>
+      <% end %>
+    </div>
 
     <p>
-			<%= f.label :tags, t('key.attr.tags') %>
-    	<%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %>
-			<% if @key.persisted? %>
-				<%= link_to t('key.btn.edit_tags'), project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
-			<% end %>
-		</p>
+      <%= f.label :tags, t('key.attr.tags') %>
+      <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %>
+      <% if @key.persisted? %>
+        <%= link_to t('key.btn.edit_tags'), project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
+      <% end %>
+    </p>
 
     <p>
-			<%= f.label :file, t('key.attr.file') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-      	<%= f.file_field :file %>
-			<% else %>
-      	<%= f.file_field :file,:readonly => true %>
-    	<% end %>
-		</p>
-
-    <p>
-			<%= f.label :comment, t('key.attr.comment') %>
-			<% if User.current.allowed_to?(:edit_keys, @project) %>
-				<%= f.text_area :comment, class: 'wiki-edit' %>
-			<% else %>
-				<%= f.text_area :comment, class: 'wiki-edit',:readonly => true %>
-			<% end %>
-		</p>
+      <%= f.label :comment, t('key.attr.comment') %>
+      <% if User.current.allowed_to?(:edit_keys, @project) %>
+        <%= f.text_area :comment, class: 'wiki-edit' %>
+      <% else %>
+        <%= f.text_area :comment, class: 'wiki-edit', :readonly => true %>
+      <% end %>
+    </p>
 
     <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
       <%  whitelisted = @key.whitelist.split(",") %>
-        <%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
-        <%  all_groups = @project.memberships.active.where(:users => {:type => 'Group'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
-        <%  all_users = all_groups|all_users %>
+      <%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+      <%  all_groups = @project.memberships.active.where(:users => {:type => 'Group'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+      <%  all_users = all_groups|all_users %>
       <div id="vault_whitelist">
-        <%= f.label t('key.attr.whitelist') ,class: "whitelist_users"%>
+        <%= f.label t('key.attr.whitelist'), class: "whitelist_users"%>
 
-      <table class='whitelist_users'>
-        <tr>
-          <td style ='padding-left:0'>
-            <%= label_tag 'selected_users', t('key.whitelist.selected_members'), class: "no-css" %>
-            <br />
-            <%= select_tag 'whitelist',
-									options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
-									id: 'selected_users', multiple: true, size: 10, 
-									ondblclick: "moveOptions(this.form.selected_users, this.form.available_users)" %>
-          </td>
-					<td class="buttons">
-						 <input type="button" value="&#8594;"
-							onclick="moveOptions(this.form.selected_users, this.form.available_users);" /><br />
-						 <input type="button" value="&#8592;"
-							onclick="moveOptions(this.form.available_users, this.form.selected_users);" />
-					 </td>
+        <table class='whitelist_users'>
+          <tr>
+            <td style='padding-left:0'>
+              <%= label_tag 'selected_users', t('key.whitelist.selected_members'), class: "no-css" %>
+              <br />
+              <%= select_tag 'whitelist',
+                options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
+                id: 'selected_users', multiple: true, size: 10,
+                ondblclick: "moveOptions(this.form.selected_users, this.form.available_users)" %>
+            </td>
+            <td class="buttons">
+              <input type="button" value="&#8594;"
+                onclick="moveOptions(this.form.selected_users, this.form.available_users);" /><br />
+              <input type="button" value="&#8592;"
+                onclick="moveOptions(this.form.available_users, this.form.selected_users);" />
+            </td>
 
-          <td>
-            <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "no-css" %>
-            <br />
-            <%= select_tag 'available_users',
-									options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
-									id: 'available_users', multiple: true, size: 10,
-									ondblclick: "moveOptions(this.form.available_users, this.form.selected_users)" %>
-          </td>
-        </tr>
-      </table>
+            <td>
+              <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "no-css" %>
+              <br />
+              <%= select_tag 'available_users',
+                options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
+                id: 'available_users', multiple: true, size: 10,
+                ondblclick: "moveOptions(this.form.available_users, this.form.selected_users)" %>
+            </td>
+          </tr>
+        </table>
 
       </div>
     <% end %>
@@ -109,14 +129,58 @@
 
   <% if User.current.allowed_to?(:edit_keys, @project) %>
     <%= f.submit t('button_save') %>
-  <% else %>
   <% end %>
   <%= link_to t('button_back'), project_keys_path(@project) %>
 <% end %>
+
 <%= javascript_tag do %>
- $(document).ready(function(){
-   $('#vault_whitelist').closest('form').submit(function(){
-     $('#selected_users option').prop('selected', true);
-   });
- });
- <% end %>
+  $(document).ready(function(){
+    // Toggle file section based on key type
+    function toggleFileSection() {
+      var keyType = $('#vault_key_type').val();
+      var fileSection = $('#vault_file_section');
+      if (keyType === 'Vault::Sftp' || keyType === 'Vault::KeyFile') {
+        fileSection.show();
+      } else {
+        fileSection.hide();
+      }
+    }
+
+    // Show/hide file section when type changes
+    $('#vault_key_type').on('change', toggleFileSection);
+
+    // Auto-fill name from selected file
+    $('#vault_key_file').on('change', function(){
+      if(this.files && this.files[0]){
+        var fileName = this.files[0].name;
+        $('#vault_key_name').val(fileName);
+      }
+    });
+
+    // Handle whitelist form submission
+    $('#vault_whitelist').closest('form').submit(function(){
+      $('#selected_users option').prop('selected', true);
+    });
+  });
+
+  function generatePassword() {
+    const passwordField = document.getElementById('vault_key_body');
+    const currentPassword = passwordField.value.trim();
+
+    // If field is not empty, ask for confirmation
+    if (currentPassword !== '') {
+      if (!confirm('Are you sure you want to generate a new password? This will replace the current password.')) {
+        return;
+      }
+    }
+
+    // Generate random 20-character password with mixed characters
+    const length = 20;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    passwordField.value = password;
+  }
+<% end %>

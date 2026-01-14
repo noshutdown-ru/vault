@@ -6,9 +6,9 @@ module KeysHelper
     [[t('activerecord.models.password'),'Vault::Password'], [t('activerecord.models.sftp'),'Vault::Sftp'], [t('activerecord.models.key_file'),'Vault::KeyFile']]
   end
 
-  def keys_to_pdf(keys, project, query)
+  def keys_to_pdf(keys, project, query, include_project = false)
     pdf = ITCPDF.new(current_language, "L")
-    title = "#{project} #{t('export.pdf.title')}"
+    title = project.nil? ? t('export.pdf.title') : "#{project} #{t('export.pdf.title')}"
     pdf.set_title(title)
     pdf.alias_nb_pages
     pdf.footer_date = format_date(Date.today)
@@ -31,10 +31,18 @@ module KeysHelper
     pdf.RDMCell(190,10, title)
     pdf.ln
 
-    pdf.RDMMultiCell(100,row_height,t('key.attr.name'),1,"",0,0)
-    pdf.RDMMultiCell(100,row_height,t('key.attr.url'),1,"",0,0)
-    pdf.RDMMultiCell(30,row_height,t('key.attr.login'),1,"",0,0)
-    pdf.RDMMultiCell(50,row_height,t('key.attr.body'),1,"",0,1)
+    if include_project
+      pdf.RDMMultiCell(40,row_height,t('label_project'),1,"",0,0)
+      pdf.RDMMultiCell(70,row_height,t('key.attr.name'),1,"",0,0)
+      pdf.RDMMultiCell(80,row_height,t('key.attr.url'),1,"",0,0)
+      pdf.RDMMultiCell(25,row_height,t('key.attr.login'),1,"",0,0)
+      pdf.RDMMultiCell(45,row_height,t('key.attr.body'),1,"",0,1)
+    else
+      pdf.RDMMultiCell(100,row_height,t('key.attr.name'),1,"",0,0)
+      pdf.RDMMultiCell(100,row_height,t('key.attr.url'),1,"",0,0)
+      pdf.RDMMultiCell(30,row_height,t('key.attr.login'),1,"",0,0)
+      pdf.RDMMultiCell(50,row_height,t('key.attr.body'),1,"",0,1)
+    end
 
     pdf.SetFontStyle('',8)
 
@@ -45,10 +53,19 @@ module KeysHelper
       key.login = "-" if key.login == nil
       key.body = "-" if key.body == nil
 
-      pdf.RDMMultiCell(100,row_height,key.name,1,"",0,0)
-      pdf.RDMMultiCell(100,row_height,key.url,1,"",0,0)
-      pdf.RDMMultiCell(30,row_height,key.login,1,"",0,0)
-      pdf.RDMMultiCell(50,row_height,key.body,1,"",0,1)
+      if include_project
+        project_name = key.project.nil? ? "-" : key.project.name
+        pdf.RDMMultiCell(40,row_height,project_name,1,"",0,0)
+        pdf.RDMMultiCell(70,row_height,key.name,1,"",0,0)
+        pdf.RDMMultiCell(80,row_height,key.url,1,"",0,0)
+        pdf.RDMMultiCell(25,row_height,key.login,1,"",0,0)
+        pdf.RDMMultiCell(45,row_height,key.body,1,"",0,1)
+      else
+        pdf.RDMMultiCell(100,row_height,key.name,1,"",0,0)
+        pdf.RDMMultiCell(100,row_height,key.url,1,"",0,0)
+        pdf.RDMMultiCell(30,row_height,key.login,1,"",0,0)
+        pdf.RDMMultiCell(50,row_height,key.body,1,"",0,1)
+      end
 
       max_height = 6*row_height
       space_left = page_height - base_y - bottom_margin

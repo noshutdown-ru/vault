@@ -5,10 +5,15 @@
   <%= render partial: 'shared/key_fields', locals: {key: key_file} %>
   <td>
     <% unless key_file.file.blank? %>
-      <%#= t('activerecord.models.key_file') %>
-      <%= link_to project_download_key_file_path(@project,key_file), class: 'keys-actions', id: "keyfile_dl_#{key_file.id}" do %>
+      <%= link_to "/projects/#{@project.identifier}/keys/#{key_file.id}/download", class: 'keys-actions', title: "Download file", id: "keyfile_dl_#{key_file.id}" do %>
         <i class='fa fa-download fa-fw'></i>
       <% end %>
+    <% end %>
+    <% unless key_file.body.blank? %>
+      <a class='keys-actions copy-key' data-clipboard-target='copy_body_<%=key_file.id%>' title='<%=t('key.btn.clipboard')%>'>
+        <i class="fa fa-clipboard fa-fw"></i>
+      </a>
+      <input style="position: absolute; left: -9999px; top: -9999px;" type="text" id="copy_body_<%=key_file.id%>" value="<%=key_file.body ? key_file.body.force_encoding('UTF-8') : ''%>" readonly />
     <% end %>
   </td>
   <td class='buttons'>
