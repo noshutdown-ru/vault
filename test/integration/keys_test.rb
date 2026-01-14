@@ -35,8 +35,12 @@ class KeysTest < Vault::IntegrationTest
       assert has_content? 'server1'
       assert has_content? 'root@server1'
       assert has_content? 'root'
-      assert has_content? '*********'
     end
+
+    # Verify passwords are hidden (not displayed as plain text)
+    assert page.has_no_content? '123456', visible: :all
+    # Verify copy buttons are present for accessing hidden passwords
+    assert page.has_css? 'a.copy-key', count: 3
   end
 
   def test_create_new_key
@@ -62,6 +66,29 @@ class KeysTest < Vault::IntegrationTest
     assert_equal 'ssh', key.tags[0].name
     assert_equal 'Very important', key.comment
     assert_equal 'Vault::Password', key.type
+  end
+
+  def test_generate_password_button
+    log_user('jsmith','jsmith')
+    visit '/projects/1/keys/new'
+    # Verify the Generate button is present
+    assert page.has_button? 'Generate', id: 'generate_password_btn'
+    # Fill in other fields
+    within 'form#new_vault_key' do
+      fill_in 'Name', with: 'Generated password test'
+      fill_in 'Login', with: 'user'
+      select 'Password', from: 'Type'
+      # Verify password field is empty before generation
+      password_field = find('#vault_key_body')
+      assert password_field.value.blank?
+      # Click the Generate button
+      click_button 'Generate'
+      # Verify a password was generated (not empty)
+      password_field = find('#vault_key_body')
+      refute password_field.value.blank?, 'Password should be generated'
+      # Verify generated password is 20 characters long
+      assert_equal 20, password_field.value.length
+    end
   end
 
   def test_show_key

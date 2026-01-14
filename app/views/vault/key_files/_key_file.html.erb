@@ -5,7 +5,7 @@
   <%= render partial: 'shared/key_fields', locals: {key: key_file} %>
   <td>
     <% unless key_file.file.blank? %>
-      <%= link_to "/projects/#{@project.identifier}/keys/#{key_file.id}/download", class: 'keys-actions', title: "Download file" do %>
+      <%= link_to "/projects/#{@project.identifier}/keys/#{key_file.id}/download", class: 'keys-actions', title: "Download file", id: "keyfile_dl_#{key_file.id}" do %>
         <i class='fa fa-download fa-fw'></i>
       <% end %>
     <% end %>
