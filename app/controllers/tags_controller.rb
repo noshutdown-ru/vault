@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
   before_action :find_project
+  before_action :authorize
   before_action :find_key, only: [:index, :create, :update, :destroy]
   before_action :find_tag, only: [:update, :destroy]
 

@@ -1,5 +1,16 @@
 # Changelog
-## Version: 0.7.3
+
+## Version: 0.8.0
+### Improvements
+- Added generation of password and encryption key
+- [Encryption key generation in proper format](https://github.com/noshutdown-ru/vault/issues/88)
+### Bugfix
+- [During view/edit key no link to download file](https://github.com/noshutdown-ru/vault/issues/92)
+- [Json format export fixed to Redmine standard](https://github.com/noshutdown-ru/vault/issues/90)
+- Fixed broken filter by tags 
+- Translation fixes 
+
+## Version: 0.7.3 
 ### Bugfix
 - [Fixing error viewing Key File types](https://github.com/noshutdown-ru/vault/issues/110)
 

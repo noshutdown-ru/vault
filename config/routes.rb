@@ -2,12 +2,13 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 resources :projects do
-  resources :keys
-  get '/key_files/:id/download', to: 'key_files#download', as: 'download_key_file'
-  get '/keys/:id/copy', to: 'keys#copy', as: 'copy_key'
   resources :keys do
+    member do
+      get :download
+    end
     resources :tags, only: [:index, :create, :update, :destroy], controller: 'tags'
   end
+  get '/keys/:id/copy', to: 'keys#copy', as: 'copy_key'
 end
 
 get 'keys/all', to: 'keys#all', as: 'keys_all'
