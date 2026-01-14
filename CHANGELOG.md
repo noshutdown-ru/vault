@@ -1,4 +1,7 @@
 # Changelog
+## Version: 0.8.1
+### Improvements
+- Github Actions CI workflow improved to support auto release on merge in master
 
 ## Version: 0.8.0
 ### Improvements
