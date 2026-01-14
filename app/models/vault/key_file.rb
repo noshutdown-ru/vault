@@ -11,7 +11,8 @@ module Vault
     end
 
     def decrypt!
-      self.body = Encryptor::decrypt(self.body).force_encoding('UTF-8')
+      decrypted = Encryptor::decrypt(self.body)
+      self.body = decrypted ? decrypted.force_encoding('UTF-8') : nil
       self
     end
 
