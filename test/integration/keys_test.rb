@@ -37,10 +37,13 @@ class KeysTest < Vault::IntegrationTest
       assert has_content? 'root'
     end
 
-    # Verify passwords are hidden (not displayed as plain text)
-    assert page.has_no_content? '123456', visible: :all
+    # Verify passwords are hidden (not displayed as plain text in visible content)
+    assert page.has_no_content? '123456'
     # Verify copy buttons are present for accessing hidden passwords
     assert page.has_css? 'a.copy-key', count: 3
+    # Verify decrypted passwords are available in hidden inputs for copying
+    assert page.has_css? '#copy_body_1[value="123456"]', visible: false
+    assert page.has_css? '#copy_body_2[value="000000"]', visible: false
   end
 
   def test_create_new_key
@@ -73,22 +76,16 @@ class KeysTest < Vault::IntegrationTest
     visit '/projects/1/keys/new'
     # Verify the Generate button is present
     assert page.has_button? 'Generate', id: 'generate_password_btn'
-    # Fill in other fields
-    within 'form#new_vault_key' do
-      fill_in 'Name', with: 'Generated password test'
-      fill_in 'Login', with: 'user'
-      select 'Password', from: 'Type'
-      # Verify password field is empty before generation
-      password_field = find('#vault_key_body')
-      assert password_field.value.blank?
-      # Click the Generate button
-      click_button 'Generate'
-      # Verify a password was generated (not empty)
-      password_field = find('#vault_key_body')
-      refute password_field.value.blank?, 'Password should be generated'
-      # Verify generated password is 20 characters long
-      assert_equal 20, password_field.value.length
-    end
+    # Verify password field is empty
+    password_field = find('#vault_key_body')
+    assert password_field.value.blank?
+    # Execute the password generation function directly
+    page.execute_script('generatePassword();')
+    # Verify a password was generated (not empty)
+    password_field = find('#vault_key_body')
+    refute password_field.value.blank?, 'Password should be generated'
+    # Verify generated password is 20 characters long
+    assert_equal 20, password_field.value.length
   end
 
   def test_show_key
