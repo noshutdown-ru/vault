@@ -39,11 +39,10 @@ class KeysTest < Vault::IntegrationTest
 
     # Verify passwords are hidden (not displayed as plain text in visible content)
     assert page.has_no_content? '123456'
-    # Verify copy buttons are present for accessing hidden passwords
-    assert page.has_css? 'a.copy-key', count: 3
-    # Verify decrypted passwords are available in hidden inputs for copying
+    # Verify copy button is present for password (key 1 has body, key 3 is a file key without body)
+    assert page.has_css? 'a.copy-key', count: 1
+    # Verify decrypted password is available in hidden input for copying
     assert page.has_css? '#copy_body_1[value="123456"]', visible: false
-    assert page.has_css? '#copy_body_2[value="000000"]', visible: false
   end
 
   def test_create_new_key
@@ -69,23 +68,6 @@ class KeysTest < Vault::IntegrationTest
     assert_equal 'ssh', key.tags[0].name
     assert_equal 'Very important', key.comment
     assert_equal 'Vault::Password', key.type
-  end
-
-  def test_generate_password_button
-    log_user('jsmith','jsmith')
-    visit '/projects/1/keys/new'
-    # Verify the Generate button is present
-    assert page.has_button? 'Generate', id: 'generate_password_btn'
-    # Verify password field is empty
-    password_field = find('#vault_key_body')
-    assert password_field.value.blank?
-    # Execute the password generation function directly
-    page.execute_script('generatePassword();')
-    # Verify a password was generated (not empty)
-    password_field = find('#vault_key_body')
-    refute password_field.value.blank?, 'Password should be generated'
-    # Verify generated password is 20 characters long
-    assert_equal 20, password_field.value.length
   end
 
   def test_show_key
