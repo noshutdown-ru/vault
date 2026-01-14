@@ -35,10 +35,12 @@
     <p>
       <%= f.label :body, t('key.attr.body') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
-        <%= f.text_field :body, :autocomplete => :off %>
-        <%= button_tag(type: 'button', class: 'btn btn-small', id: 'generate_password_btn', onclick: 'generatePassword();') do %>
-          <i class='fa fa-refresh fa-fw'></i> Generate
-        <% end %>
+        <div style="display: inline-flex; gap: 8px; align-items: center;">
+          <%= f.text_field :body, :autocomplete => :off %>
+          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();">
+            <i class='fa fa-refresh fa-fw'></i> Generate
+          </button>
+        </div>
       <% else %>
         <%= f.text_field :body, :readonly => true %>
       <% end %>
