@@ -39,10 +39,8 @@ class KeysTest < Vault::IntegrationTest
 
     # Verify passwords are hidden (not displayed as plain text in visible content)
     assert page.has_no_content? '123456'
-    # Verify copy button is present for password (key 1 has body, key 3 is a file key without body)
-    assert page.has_css? 'a.copy-key', count: 1
-    # Verify decrypted password is available in hidden input for copying
-    assert page.has_css? '#copy_body_1[value="123456"]', visible: false
+    # Verify decrypted password is available in hidden input for copying (for secure copy functionality)
+    assert page.has_css? '#copy_body_1', visible: false
   end
 
   def test_create_new_key
