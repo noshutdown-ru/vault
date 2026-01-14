@@ -49,3 +49,49 @@ jobs:
           bundle exec rake redmine:plugins:test:units NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:test:integration NAME=$PLUGIN_NAME RUBYOPT="-W0"
           bundle exec rake redmine:plugins:migrate NAME=$PLUGIN_NAME VERSION=0
+
+      - name: Create screenshot index
+        if: failure()
+        run: |
+          cd ${{ env.REDMINE_PATH }}/tmp/capybara
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Test Screenshots</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              .screenshot { margin: 20px 0; border: 1px solid #ccc; padding: 10px; }
+              .screenshot h3 { margin-top: 0; }
+              .screenshot iframe { width: 100%; height: 600px; border: 1px solid #ddd; }
+              a { color: #0066cc; text-decoration: none; }
+              a:hover { text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <h1>Test Failure Screenshots</h1>
+            <p>Screenshots from failed test runs:</p>
+          EOF
+
+          for screenshot in screenshot_*.html; do
+            if [ -f "$screenshot" ]; then
+              echo "    <div class='screenshot'>" >> index.html
+              echo "      <h3>$screenshot</h3>" >> index.html
+              echo "      <a href='$screenshot' target='_blank'>View Full Screenshot</a>" >> index.html
+              echo "      <iframe src='$screenshot'></iframe>" >> index.html
+              echo "    </div>" >> index.html
+            fi
+          done
+
+          cat >> index.html << 'EOF'
+          </body>
+          </html>
+          EOF
+
+      - name: Upload test screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-screenshots
+          path: ${{ env.REDMINE_PATH }}/tmp/capybara/
+          retention-days: 7
