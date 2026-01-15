@@ -11,14 +11,14 @@
             <div class="pwd-header-item">
               <div class="pwd-field-label"><%= t('key.attr.type') %></div>
               <div class="pwd-form-group pwd-select-wrapper">
-                <%= f.select :type, key_types, {}, class: 'pwd-form-select' %>
+                <%= f.select :type, key_types, {}, class: 'pwd-form-select', id: 'vault_key_type' %>
               </div>
             </div>
 
             <div class="pwd-header-item">
               <div class="pwd-field-label"><%= t('key.attr.name') %></div>
               <div class="pwd-form-group">
-                <%= f.text_field :name, class: 'pwd-form-input' %>
+                <%= f.text_field :name, class: 'pwd-form-input', id: 'vault_key_name' %>
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
           <div class="pwd-field">
             <div class="pwd-field-label"><%= t('key.attr.url') %></div>
             <div class="pwd-form-group">
-              <%= f.text_field :url, class: 'pwd-form-input' %>
+              <%= f.text_field :url, class: 'pwd-form-input', id: 'vault_key_url' %>
             </div>
           </div>
 
@@ -35,7 +35,7 @@
           <div class="pwd-field">
             <div class="pwd-field-label"><%= t('key.attr.login') %></div>
             <div class="pwd-form-group">
-              <%= f.text_field :login, class: 'pwd-form-input' %>
+              <%= f.text_field :login, class: 'pwd-form-input', id: 'vault_key_login' %>
             </div>
           </div>
 
@@ -43,7 +43,7 @@
           <div class="pwd-field">
             <div class="pwd-field-label"><%= t('key.attr.body') %></div>
             <div class="pwd-form-password">
-              <%= f.text_field :body, autocomplete: :off, class: 'pwd-form-input' %>
+              <%= f.text_field :body, autocomplete: :off, class: 'pwd-form-input', id: 'vault_key_body' %>
               <button type="button" class="pwd-generate-btn" id="generate_password_btn" onclick="generatePassword();">
                 <i class='fa fa-refresh'></i> Generate
               </button>
@@ -57,7 +57,7 @@
               <button type="button" class="pwd-upload-btn" onclick="document.getElementById('vault_key_file').click();">
                 <i class='fa fa-upload'></i> Upload File
               </button>
-              <%= f.file_field :file, style: "display: none;" %>
+              <%= f.file_field :file, style: "display: none;", id: 'vault_key_file' %>
             </div>
           </div>
 
@@ -65,7 +65,7 @@
           <div class="pwd-field">
             <div class="pwd-field-label"><%= t('key.attr.tags') %></div>
             <div class="pwd-form-group">
-              <%= f.text_field :tags, value: Vault::Tag.tags_to_string(@key.tags), class: 'pwd-form-input autocomplete' %>
+              <%= f.text_field :tags, value: Vault::Tag.tags_to_string(@key.tags), class: 'pwd-form-input autocomplete', id: 'vault_key_tags' %>
             </div>
           </div>
 
@@ -73,7 +73,7 @@
           <div class="pwd-field pwd-field-full-width">
             <div class="pwd-field-label"><%= t('key.attr.comment') %></div>
             <div class="pwd-form-group">
-              <%= f.text_area :comment, class: 'pwd-form-textarea wiki-edit' %>
+              <%= f.text_area :comment, class: 'pwd-form-textarea wiki-edit', id: 'vault_key_comment' %>
             </div>
           </div>
 
