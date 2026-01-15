@@ -118,7 +118,7 @@ module Vault
 
     # Check if file encryption is enabled
     def self.file_encryption_enabled?
-      Setting.plugin_vault['encrypt_files'] == 'true' || Setting.plugin_vault['encrypt_files'] == true
+      Setting.plugin_vault['encrypt_files']
     end
 
     def whitelisted?(user, project)
