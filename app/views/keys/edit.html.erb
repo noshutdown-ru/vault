@@ -1,6 +1,163 @@
-<h1><%= t('key.title.edit') %></h1>
+<div class="pwd-container">
+  <%= form_for @key.becomes(Vault::Key), url: { controller: :keys, action: :update } do |f| %>
 
-<%= render partial: 'form', locals: { key: @key.becomes(Vault::Key), action: :update } %>
+    <!-- Main Content -->
+    <div class="pwd-content">
+      <!-- Form Fields Section -->
+      <div class="pwd-main">
+        <div class="pwd-card">
+          <!-- Metadata Header Row (Read-only) -->
+          <div class="pwd-header-row">
+            <div class="pwd-header-item">
+              <div class="pwd-field-label"><%= t('key.attr.type') %></div>
+              <div class="pwd-form-group pwd-select-wrapper">
+                <%= f.select :type, key_types, {}, class: 'pwd-form-select' %>
+              </div>
+            </div>
+
+            <div class="pwd-header-item">
+              <div class="pwd-field-label"><%= t('key.attr.name') %></div>
+              <div class="pwd-form-group">
+                <%= f.text_field :name, class: 'pwd-form-input' %>
+              </div>
+            </div>
+
+            <div class="pwd-header-item">
+              <div class="pwd-field-label"><%= t('key.attr.created_at') %></div>
+              <div class="pwd-field-value">
+                <time datetime="<%= @key.created_at.iso8601 %>">
+                  <%= format_time(@key.created_at) if @key.created_at %>
+                </time>
+              </div>
+            </div>
+
+            <% if @key.updated_at && @key.updated_at != @key.created_at %>
+              <div class="pwd-header-item">
+                <div class="pwd-field-label"><%= t('key.attr.updated_at') %></div>
+                <div class="pwd-field-value">
+                  <time datetime="<%= @key.updated_at.iso8601 %>">
+                    <%= format_time(@key.updated_at) if @key.updated_at %>
+                  </time>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- URL Field -->
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.url') %></div>
+            <div class="pwd-form-group">
+              <%= f.text_field :url, class: 'pwd-form-input' %>
+            </div>
+          </div>
+
+          <!-- Login Field -->
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.login') %></div>
+            <div class="pwd-form-group">
+              <%= f.text_field :login, class: 'pwd-form-input' %>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.body') %></div>
+            <div class="pwd-form-password">
+              <%= f.text_field :body, autocomplete: :off, class: 'pwd-form-input' %>
+              <button type="button" class="pwd-generate-btn" id="generate_password_btn" onclick="generatePassword();">
+                <i class='fa fa-refresh'></i> Generate
+              </button>
+            </div>
+          </div>
+
+          <!-- File Field -->
+          <% if @key.type == 'Vault::KeyFile' || @key.type == 'Vault::Sftp' %>
+            <div class="pwd-field" id="vault_file_section">
+              <div class="pwd-field-label"><%= t('key.attr.file') %></div>
+              <div class="pwd-file-upload">
+                <% if @key.file.present? %>
+                  <div class="pwd-current-file">
+                    <span class="pwd-current-file-label">Current file:</span>
+                    <span class="pwd-current-file-name"><%= @key.file %></span>
+                  </div>
+                <% end %>
+                <button type="button" class="pwd-upload-btn" onclick="document.getElementById('vault_key_file').click();">
+                  <i class='fa fa-upload'></i> Upload New File
+                </button>
+                <%= f.file_field :file, style: "display: none;" %>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Tags Field -->
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.tags') %></div>
+            <div class="pwd-form-group">
+              <%= f.text_field :tags, value: Vault::Tag.tags_to_string(@key.tags), class: 'pwd-form-input autocomplete' %>
+            </div>
+            <% if @key.persisted? %>
+              <%= link_to t('key.btn.edit_tags'), project_key_tags_path(@project, @key), class: 'pwd-edit-tags-link' %>
+            <% end %>
+          </div>
+
+          <!-- Comment Field -->
+          <div class="pwd-field pwd-field-full-width">
+            <div class="pwd-field-label"><%= t('key.attr.comment') %></div>
+            <div class="pwd-form-group">
+              <%= f.text_area :comment, class: 'pwd-form-textarea wiki-edit' %>
+            </div>
+          </div>
+
+          <!-- Whitelist Field -->
+          <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
+            <%  whitelisted = @key.whitelist.split(",") %>
+            <%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+            <%  all_groups = @project.memberships.active.where(:users => {:type => 'Group'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
+            <%  all_users = all_groups|all_users %>
+            <div class="pwd-field pwd-field-full-width" id="vault_whitelist">
+              <div class="pwd-field-label"><%= t('key.attr.whitelist') %></div>
+              <div class="pwd-whitelist-container">
+                <div class="pwd-whitelist-column">
+                  <%= label_tag 'selected_users', t('key.whitelist.selected_members'), class: "pwd-whitelist-label" %>
+                  <%= select_tag 'whitelist',
+                    options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
+                    id: 'selected_users', multiple: true, size: 8, class: 'pwd-whitelist-select' %>
+                </div>
+                <div class="pwd-whitelist-buttons">
+                  <button type="button" class="pwd-whitelist-btn" onclick="moveOptions(this.form.selected_users, this.form.available_users);" title="Move to available">&#8594;</button>
+                  <button type="button" class="pwd-whitelist-btn" onclick="moveOptions(this.form.available_users, this.form.selected_users);" title="Move to selected">&#8592;</button>
+                </div>
+                <div class="pwd-whitelist-column">
+                  <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "pwd-whitelist-label" %>
+                  <%= select_tag 'available_users',
+                    options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
+                    id: 'available_users', multiple: true, size: 8, class: 'pwd-whitelist-select' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Audit Log Sidebar -->
+      <div class="pwd-sidebar">
+        <%= render 'audit_log' %>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="pwd-footer">
+      <div class="pwd-footer-left">
+        <%= link_to t('button_back'), project_keys_path(@project), class: 'pwd-btn pwd-btn-back' %>
+      </div>
+      <div class="pwd-footer-right">
+        <%= link_to t('button_view'), project_key_path(@project, @key), class: 'pwd-btn pwd-btn-view' %>
+        <button type="submit" class="pwd-btn pwd-btn-save">Save</button>
+      </div>
+    </div>
+
+  <% end %>
+</div>
 
 <script>
   $(function() {
@@ -11,7 +168,7 @@
     function extractLast( term ) {
       return split( term ).pop();
     }
- 
+
     $( "#vault_key_tags" )
       .bind( "keydown", function( event ) {
         if ( event.keyCode === $.ui.keyCode.TAB &&
@@ -22,12 +179,10 @@
       .autocomplete({
         minLength: 0,
         source: function( request, response ) {
-          // delegate back to autocomplete, but extract the last term
           response( $.ui.autocomplete.filter(
             availableTags, extractLast( request.term ) ) );
         },
         focus: function() {
-          // prevent value inserted on focus
           return false;
         },
         select: function( event, ui ) {
@@ -39,5 +194,512 @@
           return false;
         }
       });
+
+    // Toggle file section based on key type
+    function toggleFileSection() {
+      var keyType = $('#vault_key_type').val();
+      var fileSection = $('#vault_file_section');
+      if (keyType === 'Vault::Sftp' || keyType === 'Vault::KeyFile') {
+        fileSection.show();
+      } else {
+        fileSection.hide();
+      }
+    }
+
+    // Update select text display
+    function updateSelectDisplay() {
+      var select = $('#vault_key_type')[0];
+      var selectedOption = select.options[select.selectedIndex];
+      var selectedText = selectedOption ? selectedOption.text : '';
+
+      // Remove existing text label
+      $('#vault_key_type').siblings('.pwd-select-text').remove();
+
+      // Add new text label if value is selected
+      if (selectedText && selectedText.trim()) {
+        var textLabel = $('<div class="pwd-select-text">' + selectedText + '</div>');
+        $('#vault_key_type').parent().prepend(textLabel);
+      }
+    }
+
+    $('#vault_key_type').on('change', function() {
+      toggleFileSection();
+      updateSelectDisplay();
+    });
+
+    updateSelectDisplay(); // Update text display on page load
+
+    // Auto-fill name from selected file
+    $('#vault_key_file').on('change', function(){
+      if(this.files && this.files[0]){
+        var fileName = this.files[0].name;
+        $('#vault_key_name').val(fileName);
+      }
+    });
+
+    // Handle whitelist form submission
+    $('#vault_whitelist').closest('form').submit(function(){
+      $('#selected_users option').prop('selected', true);
+    });
   });
-  </script>
+
+  function generatePassword() {
+    const passwordField = document.getElementById('vault_key_body');
+    const currentPassword = passwordField.value.trim();
+
+    if (currentPassword !== '') {
+      if (!confirm('Are you sure you want to generate a new password? This will replace the current password.')) {
+        return;
+      }
+    }
+
+    const length = 20;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    passwordField.value = password;
+  }
+</script>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .pwd-container {
+    max-width: 1400px;
+    margin: 0;
+    clear: both;
+  }
+
+  /* Content Layout */
+  .pwd-content {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .pwd-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pwd-sidebar {
+    width: 450px;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  @media (max-width: 1400px) {
+    .pwd-sidebar {
+      width: 380px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .pwd-content {
+      flex-direction: column;
+    }
+
+    .pwd-sidebar {
+      width: 100%;
+      align-self: auto;
+    }
+  }
+
+  /* Card */
+  .pwd-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header Row */
+  .pwd-header-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .pwd-header-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .pwd-header-item .pwd-field-label {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    .pwd-header-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pwd-header-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Fields */
+  .pwd-field {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .pwd-field:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .pwd-field-full-width {
+    grid-column: 1 / -1;
+  }
+
+  .pwd-field-label {
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pwd-field-value {
+    padding: 10px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    word-break: break-all;
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.4;
+  }
+
+  /* Form Elements */
+  .pwd-form-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .pwd-form-input,
+  .pwd-form-select,
+  .pwd-form-textarea {
+    flex: 1;
+    padding: 10px 12px;
+    background-color: #fff !important;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+
+  .pwd-form-input,
+  .pwd-form-textarea {
+    color: #333;
+  }
+
+  .pwd-select-wrapper {
+    position: relative;
+  }
+
+  .pwd-form-select {
+    color: transparent !important;
+    background-color: #fff !important;
+  }
+
+  .pwd-form-select:focus {
+    color: #000 !important;
+  }
+
+  .pwd-select-text {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #000;
+    font-size: 0.9em;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .pwd-form-input:focus,
+  .pwd-form-select:focus,
+  .pwd-form-textarea:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  }
+
+  .pwd-form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .pwd-form-password {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .pwd-form-password .pwd-form-input {
+    flex: 1;
+  }
+
+  .pwd-generate-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s ease;
+    gap: 6px;
+    font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .pwd-generate-btn:hover {
+    background-color: #efefef;
+    border-color: #999;
+  }
+
+  .pwd-generate-btn i {
+    font-size: 0.9em;
+  }
+
+  /* File Upload */
+  .pwd-file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+
+  .pwd-current-file {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+  }
+
+  .pwd-current-file-label {
+    color: #666;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .pwd-current-file-name {
+    color: #555;
+    font-family: monospace;
+    word-break: break-all;
+  }
+
+  .pwd-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s ease;
+    font-size: 0.85em;
+    font-weight: 500;
+    width: fit-content;
+  }
+
+  .pwd-upload-btn:hover {
+    background-color: #efefef;
+    border-color: #1976d2;
+    color: #1976d2;
+  }
+
+  /* Tags */
+  .pwd-edit-tags-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #e3f2fd;
+    color: #1976d2;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+
+  .pwd-edit-tags-link:hover {
+    background-color: #bbdefb;
+  }
+
+  /* Whitelist */
+  .pwd-whitelist-container {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    max-width: 100%;
+  }
+
+  .pwd-whitelist-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pwd-whitelist-label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #666;
+  }
+
+  .pwd-whitelist-select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 0.9em;
+    width: 100%;
+    min-height: 150px;
+  }
+
+  .pwd-whitelist-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pwd-whitelist-btn {
+    padding: 10px 12px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s ease;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pwd-whitelist-btn:hover {
+    background-color: #efefef;
+    border-color: #1976d2;
+    color: #1976d2;
+  }
+
+  /* Footer */
+  .pwd-footer {
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .pwd-footer-left {
+    display: flex;
+    gap: 10px;
+  }
+
+  .pwd-footer-right {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Buttons */
+  .pwd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    gap: 8px;
+  }
+
+  .pwd-btn:hover {
+    background-color: #efefef;
+    border-color: #999;
+  }
+
+  .pwd-btn-back {
+    background-color: #f5f5f5;
+    color: #333;
+    border-color: #ddd;
+  }
+
+  .pwd-btn-back:hover {
+    background-color: #efefef;
+    border-color: #999;
+  }
+
+  .pwd-btn-view {
+    background-color: #fff;
+    color: #333;
+    border-color: #ddd;
+  }
+
+  .pwd-btn-view:hover {
+    background-color: #f5f5f5;
+    border-color: #999;
+  }
+
+  .pwd-btn-save {
+    background-color: #4caf50 !important;
+    color: #fff !important;
+    border-color: #4caf50 !important;
+    border: 1px solid #4caf50 !important;
+    padding: 8px 16px !important;
+    font-weight: 600;
+    font-size: 0.9em !important;
+    height: auto !important;
+  }
+
+  .pwd-btn-save:hover {
+    background-color: #45a049 !important;
+    border-color: #45a049 !important;
+  }
+</style>

@@ -4,28 +4,535 @@
   <%= javascript_include_tag 'vault', :plugin => 'vault' %>
 <% end %>
 
-<h1> <%= t('key.title.show') %> </h1>
+<div class="pwd-container">
 
-<%= t('key.attr.url') %>
+  <!-- Main Content -->
+  <div class="pwd-content">
+    <!-- Password Fields Section -->
+    <div class="pwd-main">
+      <div class="pwd-card">
+        <!-- Metadata Header Row -->
+        <div class="pwd-header-row">
+          <div class="pwd-header-item">
+            <div class="pwd-field-label"><%= t('key.attr.type') %></div>
+            <div class="pwd-field-value pwd-type-value"><%= @key.type %></div>
+          </div>
 
-<table class='list' id='keys_table'>
-  <thead>
-    <tr>
-      <th class="checkbox hide-when-print">
-         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
-               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
-      </th>
-      <th><%= t('key.attr.type') %></th>
-      <th><%= t('key.attr.name') %></th>
-      <th><%= t('key.attr.url') %></th>
-      <th><%= t('key.attr.login') %></th>
-      <th><%= t('key.attr.body') %></th>
-      <th><%= t('key.btn.actions') %></th>
-    </tr>
-  </thead>
-  <tbody>
-        <%= render partial: @key, locals: {show_project: false} %>
-  </tbody>
-</table>
+          <div class="pwd-header-item">
+            <div class="pwd-field-label"><%= t('key.attr.name') %></div>
+            <div class="pwd-field-value"><%= @key.name %></div>
+          </div>
 
-<%= link_to t('button_back'), project_keys_path(@project) %>
+          <div class="pwd-header-item">
+            <div class="pwd-field-label"><%= t('key.attr.created_at') %></div>
+            <div class="pwd-field-value">
+              <time datetime="<%= @key.created_at.iso8601 %>">
+                <%= format_time(@key.created_at) if @key.created_at %>
+              </time>
+            </div>
+          </div>
+
+          <% if @key.updated_at && @key.updated_at != @key.created_at %>
+            <div class="pwd-header-item">
+              <div class="pwd-field-label"><%= t('key.attr.updated_at') %></div>
+              <div class="pwd-field-value">
+                <time datetime="<%= @key.updated_at.iso8601 %>">
+                  <%= format_time(@key.updated_at) if @key.updated_at %>
+                </time>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- URL Field -->
+        <% if @key.url.present? %>
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.url') %></div>
+            <div class="pwd-field-content">
+              <a href="<%= @key.url %>" target="_blank" class="pwd-field-value pwd-url-link">
+                <%= @key.url %>
+              </a>
+              <button class="pwd-copy-btn" title="<%= t('key.btn.clipboard') %>" onclick="navigator.clipboard.writeText('<%= @key.url %>')">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Login Field -->
+        <% if @key.login.present? %>
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.login') %></div>
+            <div class="pwd-field-content">
+              <span class="pwd-field-value"><%= @key.login %></span>
+              <button class="pwd-copy-btn" title="<%= t('key.btn.clipboard') %>" onclick="navigator.clipboard.writeText('<%= @key.login %>')">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Password Field -->
+        <% if @key.body.present? %>
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.body') %></div>
+            <div class="pwd-field-content">
+              <span class="pwd-field-value pwd-password" id="password-body"><%= @key.body %></span>
+              <button class="pwd-copy-btn" title="<%= t('key.btn.clipboard') %>" onclick="navigator.clipboard.writeText('<%= @key.body %>')">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- File Field -->
+        <% if @key.type == 'Vault::KeyFile' || @key.type == 'Vault::Sftp' %>
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.file') %></div>
+            <% if @key.file.present? %>
+              <div class="pwd-file-info">
+                <div class="pwd-file-download">
+                  <% file_path = File.join(Vault::KEYFILES_DIR, @key.file) %>
+                  <%= link_to "#{@key.name}", "/projects/#{@project.identifier}/keys/#{@key.id}/download", class: 'pwd-file-link', title: "Download file" %>
+                  <% if File.exist?(file_path) %>
+                    <span class="pwd-file-size"><%= number_to_human_size(File.size(file_path)) %></span>
+                  <% end %>
+                </div>
+                <div class="pwd-file-path">
+                  <span class="pwd-file-path-label">Local Path:</span>
+                  <span class="pwd-file-path-value">keys/<%= @key.file %></span>
+                </div>
+              </div>
+            <% else %>
+              <div class="pwd-field-value pwd-no-file">No file attached</div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Tags -->
+        <% if @key.tags.any? %>
+          <div class="pwd-field">
+            <div class="pwd-field-label"><%= t('key.attr.tags') %></div>
+            <div class="pwd-tags">
+              <% @key.tags.each do |tag| %>
+                <span class="pwd-tag" style="background-color: <%= tag.color %>;">
+                  <%= tag.name %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Comment -->
+        <% if @key.comment.present? %>
+          <div class="pwd-field pwd-field-full-width">
+            <div class="pwd-field-label"><%= t('key.attr.comment') %></div>
+            <div class="pwd-comment">
+              <%= simple_format(@key.comment) %>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
+    <!-- Audit Log Sidebar -->
+    <div class="pwd-sidebar">
+      <%= render 'audit_log' %>
+    </div>
+  </div>
+
+  <!-- Navigation & Actions -->
+  <div class="pwd-footer">
+    <div class="pwd-footer-left">
+      <%= link_to t('button_back'), project_keys_path(@project), class: 'pwd-btn pwd-btn-back' %>
+    </div>
+    <div class="pwd-footer-right">
+      <%= link_to t('button_edit'), edit_project_key_path(@project, @key), class: 'pwd-btn pwd-btn-edit' %>
+      <%= link_to t('button_delete'), project_key_path(@project, @key), method: :delete, data: { confirm: t('confirm.key.delete') }, class: 'pwd-btn pwd-btn-delete' %>
+    </div>
+  </div>
+</div>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .pwd-container {
+    max-width: 1400px;
+    margin: 0;
+    clear: both;
+  }
+
+  /* Header */
+  .pwd-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .pwd-header-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  /* Content Layout */
+  .pwd-content {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .pwd-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pwd-sidebar {
+    width: 450px;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  @media (max-width: 1400px) {
+    .pwd-sidebar {
+      width: 380px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .pwd-content {
+      flex-direction: column;
+    }
+
+    .pwd-sidebar {
+      width: 100%;
+      align-self: auto;
+    }
+  }
+
+  /* Card */
+  .pwd-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header Row */
+  .pwd-header-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .pwd-header-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .pwd-header-item .pwd-field-label {
+    margin-bottom: 0;
+  }
+
+  .pwd-header-item .pwd-field-value {
+    padding: 8px 12px;
+  }
+
+  @media (max-width: 900px) {
+    .pwd-header-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pwd-header-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Fields */
+  .pwd-field {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .pwd-field:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .pwd-field-full-width {
+    grid-column: 1 / -1;
+  }
+
+  .pwd-field-label {
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pwd-field-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pwd-field-value {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    word-break: break-all;
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.4;
+  }
+
+  .pwd-url-link {
+    color: #1976d2;
+    text-decoration: none;
+  }
+
+  .pwd-url-link:hover {
+    text-decoration: underline;
+  }
+
+  .pwd-password {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+  }
+
+  .pwd-type-value {
+    background-color: #e3f2fd !important;
+    color: #1976d2 !important;
+    font-weight: 600;
+    padding: 6px 12px !important;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.75em;
+    letter-spacing: 0.5px;
+  }
+
+  /* Copy Button */
+  .pwd-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    font-size: 0.9em;
+  }
+
+  .pwd-copy-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #1976d2;
+    color: #1976d2;
+  }
+
+  .pwd-copy-btn:active {
+    background-color: #e3f2fd;
+  }
+
+  /* Tags */
+  .pwd-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pwd-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: white;
+  }
+
+  /* Comment */
+  .pwd-comment {
+    padding: 10px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  /* File Field */
+  .pwd-file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+
+  .pwd-file-download {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pwd-file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+    word-break: break-all;
+  }
+
+  .pwd-file-link:hover {
+    text-decoration: underline;
+  }
+
+  .pwd-file-link i {
+    font-size: 0.9em;
+    flex-shrink: 0;
+  }
+
+  .pwd-file-size {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: #e8f4f8;
+    color: #666;
+    border-radius: 3px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .pwd-file-path {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+  }
+
+  .pwd-file-path-label {
+    color: #666;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .pwd-file-path-value {
+    color: #555;
+    font-family: monospace;
+    word-break: break-all;
+  }
+
+  .pwd-no-file {
+    color: #999;
+    font-style: italic;
+  }
+
+
+  /* Footer */
+  .pwd-footer {
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .pwd-footer-left {
+    display: flex;
+    gap: 10px;
+  }
+
+  .pwd-footer-right {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Buttons */
+  .pwd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    gap: 8px;
+  }
+
+  .pwd-btn:hover {
+    background-color: #efefef;
+    border-color: #999;
+  }
+
+  .pwd-btn-back {
+    background-color: #f5f5f5;
+    color: #333;
+    border-color: #ddd;
+  }
+
+  .pwd-btn-back:hover {
+    background-color: #efefef;
+    border-color: #999;
+  }
+
+  .pwd-btn-edit {
+    background-color: #1976d2;
+    color: #fff !important;
+    border-color: #1976d2;
+    font-weight: 600;
+  }
+
+  .pwd-btn-edit:hover {
+    background-color: #1565c0;
+    border-color: #1565c0;
+  }
+
+  .pwd-btn-delete {
+    background-color: #d32f2f;
+    color: #fff !important;
+    border-color: #d32f2f;
+    font-weight: 600;
+  }
+
+  .pwd-btn-delete:hover {
+    background-color: #b71c1c;
+    border-color: #b71c1c;
+  }
+</style>

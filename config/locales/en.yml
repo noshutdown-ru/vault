@@ -1,5 +1,6 @@
 # English strings go here for Rails i18n
 en:
+  button_view: 'View'
   label_vault: 'Vault'
   label_module: 'Passwords'
   settings:
@@ -65,10 +66,21 @@ en:
       file: "Password File"
       comment: "Comment"
       whitelist: "Access list"
+      created_at: "Created"
+      updated_at: "Updated"
 
     whitelist:
       selected_members: "Selected Members"
       available_members: "Available Members"
+
+    audit_log:
+      title: "Audit Log"
+      action: "Action"
+      user: "User"
+      fields: "Fields Changed"
+      timestamp: "Timestamp"
+      no_entries: "No audit entries"
+      ago: "ago"
 
   context_menu:
     copy_key: "Copy Password"

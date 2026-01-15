@@ -1,0 +1,188 @@
+<div id="audit-log-section" class="audit-log">
+  <h2><%= t('key.audit_log.title') %></h2>
+
+  <% if @key.audit_logs.any? %>
+    <table class="list audit-logs-table">
+      <thead>
+        <tr>
+          <th><%= t('key.audit_log.action') %></th>
+          <th><%= t('key.audit_log.user') %></th>
+          <th><%= t('key.audit_log.fields') %></th>
+          <th><%= t('key.audit_log.timestamp') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @key.audit_logs.recent.each do |log| %>
+          <tr>
+            <td>
+              <span class="audit-action audit-action-<%= log.action %>">
+                <%= log.readable_action %>
+              </span>
+            </td>
+            <td><%= log.user_name %></td>
+            <td>
+              <% if log.fields_changed.any? %>
+                <span class="audit-fields">
+                  <%= log.fields_changed.join(', ') %>
+                </span>
+              <% else %>
+                <span class="audit-fields-none">-</span>
+              <% end %>
+            </td>
+            <td>
+              <time datetime="<%= log.created_at.iso8601 %>" title="<%= format_time(log.created_at) %>">
+                <%= distance_of_time_in_words(log.created_at, Time.current) %> <%= t('key.audit_log.ago') %>
+              </time>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="audit-log-empty">
+      <i class="fa fa-info-circle"></i>
+      <p><%= t('key.audit_log.no_entries') %></p>
+    </div>
+  <% end %>
+</div>
+
+<style>
+    .key-metadata {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-left: 3px solid #3b73b7;
+    }
+
+    .metadata-item {
+      margin-bottom: 10px;
+    }
+
+    .metadata-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .audit-log {
+      margin-top: 0;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    @media (min-width: 1200px) {
+      .audit-log {
+        position: sticky;
+        top: 20px;
+      }
+    }
+
+    .audit-log h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+      font-weight: bold;
+    }
+
+    .audit-logs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.75em;
+    }
+
+    .audit-logs-table th,
+    .audit-logs-table td {
+      padding: 4px 5px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .audit-logs-table th {
+      background-color: #efefef;
+      font-weight: bold;
+      color: #333;
+      font-size: 0.7em;
+    }
+
+    .audit-logs-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .audit-logs-table td {
+      word-break: break-word;
+    }
+
+    .audit-action {
+      display: inline-block;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 0.65em;
+      white-space: nowrap;
+    }
+
+    .audit-action-create {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .audit-action-update {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+
+    .audit-action-delete {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .audit-action-view {
+      background-color: #e2e3e5;
+      color: #383d41;
+    }
+
+    .audit-fields {
+      color: #555;
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+
+    .audit-fields-none {
+      color: #999;
+    }
+
+    /* Hide Fields Changed column on smaller screens and in parallel layout */
+    .audit-log-parallel .audit-logs-table th:nth-child(3),
+    .audit-log-parallel .audit-logs-table td:nth-child(3) {
+      display: none;
+    }
+
+    @media (max-width: 1400px) {
+      .audit-logs-table th:nth-child(3),
+      .audit-logs-table td:nth-child(3) {
+        display: none;
+      }
+    }
+
+    .audit-log-empty {
+      text-align: center;
+      padding: 15px 10px;
+      color: #999;
+    }
+
+    .audit-log-empty i {
+      font-size: 1.5em;
+      display: block;
+      margin-bottom: 8px;
+      color: #bbb;
+    }
+
+    .audit-log-empty p {
+      margin: 0;
+      font-size: 0.8em;
+      color: #666;
+    }
+  </style>

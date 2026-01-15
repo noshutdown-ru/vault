@@ -8,7 +8,7 @@ class VaultSettingsController < ApplicationController
   before_action :require_admin
 
   def index
-
+    @encryption_enabled = Setting.plugin_vault['encrypt_files'] == 'true' || Setting.plugin_vault['encrypt_files'] == true
   end
 
   def save
@@ -17,8 +17,29 @@ class VaultSettingsController < ApplicationController
       return
     end
 
+    # Check if encryption setting is changing
+    old_encrypt_files = Setting.plugin_vault['encrypt_files'] == 'true' || Setting.plugin_vault['encrypt_files'] == true
+    new_encrypt_files = params[:settings][:encrypt_files] == 'true' || params[:settings][:encrypt_files] == 'on'
+
+    # Save settings first
     Setting.send "plugin_vault=", params[:settings]
-    redirect_to vault_settings_path, notice: t('notice.settings.saved')
+
+    # Handle encryption state change
+    if old_encrypt_files != new_encrypt_files
+      if new_encrypt_files
+        # Enable encryption: encrypt all files
+        EncryptFilesJob.perform_later
+        flash[:notice] = "Settings saved. File encryption is being enabled. This may take a moment depending on the number of files."
+      else
+        # Disable encryption: decrypt all files
+        DecryptFilesJob.perform_later
+        flash[:notice] = "Settings saved. File encryption is being disabled and all files will be decrypted. This may take a moment depending on the number of files."
+      end
+    else
+      flash[:notice] = t('notice.settings.saved')
+    end
+
+    redirect_to vault_settings_path
   end
 
   def backup

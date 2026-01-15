@@ -32,6 +32,36 @@
               </div>
             </td>
           </tr>
+          <tr style="height: 0; border: none;">
+            <td colspan="2" style="border-top: 2px solid #ddd; padding: 0;"></td>
+          </tr>
+          <tr>
+            <th>Encrypt Files</th>
+            <td>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <%= check_box_tag('settings[encrypt_files]', 'true', Setting.plugin_vault['encrypt_files'] == 'true' || Setting.plugin_vault['encrypt_files'] == true) %>
+                <div style="font-size: 12px; color: #666; line-height: 1.5;">
+                  When enabled, all uploaded files will be encrypted on disk. When disabled, all files will be decrypted.
+                </div>
+              </div>
+              <div style="margin-top: 12px; padding: 12px; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 2px;">
+                <div style="font-size: 12px; color: #856404; font-weight: 600; margin-bottom: 6px;">
+                  ⚠️ Important: Backup Before Enabling/Disabling
+                </div>
+                <div style="font-size: 11px; color: #856404; line-height: 1.6;">
+                  Before toggling this setting, manually backup your files by copying the <code style="background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;">./keys</code> directory to another location on the server. This protects against data loss if the encryption/decryption process encounters errors.
+                  <br><br>
+                  <strong>How to backup (run in terminal from Rails root):</strong><br>
+                  <code style="background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px; display: block; margin-top: 4px;">mkdir keys.backup && cp -r ./keys/* ./keys.backup/</code>
+                  <div style="margin-top: 6px; font-size: 10px;">
+                    • <code>mkdir keys.backup</code> = create backup folder<br>
+                    • <code>&&</code> = run next command if first succeeds<br>
+                    • <code>cp -r ./keys/* ./keys.backup/</code> = copy all files
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
