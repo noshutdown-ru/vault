@@ -1,5 +1,5 @@
 <div class="pwd-container">
-  <%= form_for @key.becomes(Vault::Key), url: { controller: :keys, action: :create } do |f| %>
+  <%= form_for @key, url: { controller: :keys, action: :create } do |f| %>
 
     <!-- Main Content -->
     <div class="pwd-content">
@@ -11,7 +11,7 @@
             <div class="pwd-header-item">
               <div class="pwd-field-label"><%= t('key.attr.type') %></div>
               <div class="pwd-form-group pwd-select-wrapper">
-                <%= f.select :type, key_types, {}, class: 'pwd-form-select', id: 'vault_key_type' %>
+                <%= f.select :type, key_types, {}, { class: 'pwd-form-select', id: 'vault_key_type' } %>
               </div>
             </div>
 
