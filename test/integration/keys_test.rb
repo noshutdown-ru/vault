@@ -46,7 +46,7 @@ class KeysTest < Vault::IntegrationTest
   def test_create_new_key
     log_user('jsmith','jsmith')
     visit '/projects/1/keys/new'
-    within 'form' do
+    within 'form[id^="new_vault_key"]' do
       fill_in 'vault_key_name', with: 'FreeBSD server console'
       fill_in 'vault_key_login', with: 'root'
       fill_in 'vault_key_url', with: 'ssh root@freebsd'
@@ -71,7 +71,7 @@ class KeysTest < Vault::IntegrationTest
   def test_show_key
     log_user('jsmith','jsmith')
     visit '/projects/1/keys/1/edit'
-    within 'form' do
+    within 'form[id^="edit_vault_key"]' do
       assert_equal 'server1', find_field('vault_key_name').value
       assert_equal 'root', find_field('vault_key_login').value
       assert_equal '123456', find_field('vault_key_body').value
