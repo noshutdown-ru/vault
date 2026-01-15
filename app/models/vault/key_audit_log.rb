@@ -1,5 +1,5 @@
 module Vault
-  class KeyAuditLog < ApplicationRecord
+  class KeyAuditLog < ActiveRecord::Base
     self.table_name = 'key_audit_logs'
 
     belongs_to :key, class_name: 'Vault::Key', foreign_key: 'key_id'
