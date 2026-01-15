@@ -1,5 +1,5 @@
 <div class="pwd-container">
-  <%= form_for @key, url: { controller: :keys, action: :update } do |f| %>
+  <%= form_for @key, url: { controller: :keys, action: :update }, as: :vault_key do |f| %>
 
     <!-- Main Content -->
     <div class="pwd-content">
