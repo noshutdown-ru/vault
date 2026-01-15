@@ -26,7 +26,7 @@
           <tr>
             <th><%= t('settings.redmine_title_encription_key') %></th>
             <td>
-              <%= check_box_tag('settings[use_redmine_encryption]',Setting.plugin_vault['use_redmine_encryption'], Setting.plugin_vault['use_redmine_encryption']) %>
+              <%= check_box_tag('settings[use_redmine_encryption]', Setting.plugin_vault['use_redmine_encryption'], Setting.plugin_vault['use_redmine_encryption']) %>
               <div style="font-size: 12px; color: #333; margin-top: 5px; line-height: 1.5; display: inline-block; margin-left: 5px;">
                 <%= t('settings.redmine_encryption_notice') %>
               </div>
@@ -39,7 +39,7 @@
             <th>Encrypt Files</th>
             <td>
               <div style="display: flex; gap: 10px; align-items: center;">
-                <%= check_box_tag('settings[encrypt_files]', 'true', Setting.plugin_vault['encrypt_files'] == 'true' || Setting.plugin_vault['encrypt_files'] == true) %>
+                <%= check_box_tag('settings[encrypt_files]', Setting.plugin_vault['encrypt_files'], Setting.plugin_vault['encrypt_files']) %>
                 <div style="font-size: 12px; color: #666; line-height: 1.5;">
                   When enabled, all uploaded files will be encrypted on disk. When disabled, all files will be decrypted.
                 </div>
