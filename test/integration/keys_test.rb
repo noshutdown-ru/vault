@@ -46,16 +46,14 @@ class KeysTest < Vault::IntegrationTest
   def test_create_new_key
     log_user('jsmith','jsmith')
     visit '/projects/1/keys/new'
-    within 'form#new_vault_key' do
-      fill_in 'Name', with: 'FreeBSD server console'
-      fill_in 'Login', with: 'root'
-      fill_in 'URL', with: 'ssh root@freebsd'
-      fill_in 'Password', with: '123456'
-      fill_in 'Tags', with: 'ssh'
-      fill_in 'Comment', with: 'Very important'
-      select  'Password', from: 'Type'
-      click_button 'Save'
-    end
+    fill_in 'vault_key_name', with: 'FreeBSD server console'
+    fill_in 'vault_key_login', with: 'root'
+    fill_in 'vault_key_url', with: 'ssh root@freebsd'
+    fill_in 'vault_key_body', with: '123456'
+    fill_in 'vault_key_tags', with: 'ssh'
+    fill_in 'vault_key_comment', with: 'Very important'
+    select 'Password', from: 'vault_key_type'
+    click_button 'Create'
     assert page.has_content? 'Password was successfully created'
     key = Vault::Key.find_by_name('FreeBSD server console')
     refute_nil key
@@ -71,14 +69,12 @@ class KeysTest < Vault::IntegrationTest
   def test_show_key
     log_user('jsmith','jsmith')
     visit '/projects/1/keys/1/edit'
-    within 'form.edit_vault_key' do
-      assert_equal 'server1', find_field('Name').value
-      assert_equal 'root', find_field('Login').value
-      assert_equal '123456', find_field('Password').value
-      assert_equal 'Important', find_field('Comment').value
-      assert_equal 'Vault::Password', find_field('Type').value
-      assert_equal 'ssh', find_field('Tags').value
-    end
+    assert_equal 'server1', find_field('vault_key_name').value
+    assert_equal 'root', find_field('vault_key_login').value
+    assert_equal '123456', find_field('vault_key_body').value
+    assert_equal 'Important', find_field('vault_key_comment').value
+    assert_equal 'Vault::Password', find_field('vault_key_type').value
+    assert_equal 'ssh', find_field('vault_key_tags').value
   end
 
 end

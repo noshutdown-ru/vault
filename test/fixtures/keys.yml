@@ -2,6 +2,7 @@
 keys_001:
   id: 1
   project_id: 1
+  type: Vault::Password
   name: server1
   login: root
   body: 123456
@@ -10,6 +11,7 @@ keys_001:
 keys_002:
   id: 2
   project_id: 2
+  type: Vault::Password
   name: server2
   login: admin
   body: 000000

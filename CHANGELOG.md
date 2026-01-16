@@ -1,6 +1,8 @@
-## Version: 0.8.2
+## Version: 0.9.0
 ### Improvements
-- 
+- Enable encryption for files (https://github.com/noshutdown-ru/vault/issues/84)
+- Adding created/updated date time (https://github.com/noshutdown-ru/vault/issues/40)
+- Added audit log for keys, logging modifications
 
 # Changelog
 ## Version: 0.8.1

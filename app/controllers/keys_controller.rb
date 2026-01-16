@@ -2,6 +2,7 @@ class KeysController < ApplicationController
   before_action :find_project_by_project_id, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned]
   before_action :authorize, except: [:all, :edit_orphaned, :update_orphaned, :destroy_orphaned, :download]
   before_action :find_key, only: [:show, :edit, :update, :destroy, :copy]
+  before_action :set_audit_user, only: [:create, :update, :update_orphaned, :destroy, :destroy_orphaned]
   accept_api_auth :index, :show, :create, :update, :destroy, :all
 
   helper :sort
@@ -129,7 +130,8 @@ class KeysController < ApplicationController
     @key.safe_attributes = key_params.except(:tags)
     @key.tags = key_params[:tags]
     @key.project = @project
-    
+    @key.audit_user = User.current
+
     self.update_wishlist
 
     respond_to do |format|
@@ -148,6 +150,7 @@ class KeysController < ApplicationController
     respond_to do |format|
       self.update_wishlist
       @key.safe_attributes = key_params.except(:tags)
+      @key.audit_user = User.current
 
       if @key.update(key_params)
         @key.tags = key_params[:tags]
@@ -196,7 +199,8 @@ class KeysController < ApplicationController
   end
 
   def destroy
-    Vault::Key.find(params[:id]).destroy
+    @key.audit_user = User.current
+    @key.destroy
     respond_to do |format|
       format.html do
         redirect_to project_keys_path(@project)
@@ -226,7 +230,24 @@ class KeysController < ApplicationController
     end
 
     if @key.file.present?
-      send_file "#{Vault::KEYFILES_DIR}/#{@key.file}", filename: @key.name
+      file_path = "#{Vault::KEYFILES_DIR}/#{@key.file}"
+
+      if File.exist?(file_path)
+        # Get file content (automatically decrypts if encrypted)
+        file_content = @key.file_content
+
+        if file_content
+          # Log the download in audit log
+          Vault::KeyAuditLog.log_action(@key, 'view', User.current)
+
+          # Send file content with proper headers
+          send_data file_content, filename: @key.name, type: 'application/octet-stream'
+        else
+          render_error "Failed to read file"
+        end
+      else
+        render_error "File not found"
+      end
     else
       render_error "File not found"
     end
@@ -274,6 +295,7 @@ class KeysController < ApplicationController
 
     if project_id.present?
       @key.project_id = project_id
+      @key.audit_user = User.current
       if @key.save
         redirect_to keys_all_path, notice: t('notice.key.update.success')
       else
@@ -295,6 +317,7 @@ class KeysController < ApplicationController
 
     @key = Vault::Key.find(params[:id])
     if @key.project.nil?
+      @key.audit_user = User.current
       @key.destroy
       respond_to do |format|
         format.html do
@@ -310,6 +333,10 @@ class KeysController < ApplicationController
   # ===================== End Orphaned Key Operations =====================
 
   private
+
+  def set_audit_user
+    # Placeholder for audit user - actual assignment happens in each action
+  end
 
   def find_key
     @key = Vault::Key.find(params[:id])

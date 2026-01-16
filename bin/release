@@ -20,6 +20,24 @@ end
 current_version = version_match[1]
 puts "Found version in CHANGELOG: #{current_version}"
 
+# Validate that current version entry is complete (doesn't have placeholder)
+next_version_match = changelog_content.match(/## Version: #{Regexp.escape(current_version)}\n(.*?)\n(?:## Version:|$)/m)
+current_version_entry = next_version_match[1] if next_version_match
+
+if current_version_entry && current_version_entry.include?('Prepare for next release')
+  puts "ERROR: CHANGELOG for version #{current_version} contains 'Prepare for next release' placeholder"
+  puts "Please complete the changelog entry before releasing"
+  exit 1
+end
+
+if current_version_entry && current_version_entry.strip.empty?
+  puts "ERROR: CHANGELOG for version #{current_version} is empty"
+  puts "Please add release notes before merging"
+  exit 1
+end
+
+puts "Validated CHANGELOG entry for #{current_version}"
+
 # Update init.rb with new version
 init_content = File.read(init_path)
 updated_init = init_content.gsub(/version '[^']*'/, "version '#{current_version}'")
@@ -37,7 +55,13 @@ version_parts[-1] = (version_parts[-1].to_i + 1).to_s
 next_version = version_parts.join('.')
 
 # Prepare next version entry in CHANGELOG.md
-new_changelog_entry = "## Version: #{next_version}\n### Improvements\n- \n\n"
+new_changelog_entry = <<~CHANGELOG
+  ## Version: #{next_version}
+  ### Improvements
+  - Prepare for next release
+
+  CHANGELOG
+
 updated_changelog = new_changelog_entry + changelog_content
 
 File.write(changelog_path, updated_changelog)
@@ -49,10 +73,10 @@ system('git', 'config', 'user.name', 'GitHub Action') or raise "Failed to set gi
 
 system('git', 'add', init_path, changelog_path) or raise "Failed to add files"
 system('git', 'commit', '-m', "Release version #{current_version}") or raise "Failed to commit"
-system('git', 'tag', current_version) or raise "Failed to create tag"
+system('git', 'tag', "release_#{current_version}") or raise "Failed to create tag"
 
 system('git', 'push', 'origin', 'HEAD:master') or raise "Failed to push commit"
-system('git', 'push', 'origin', current_version) or raise "Failed to push tag"
+system('git', 'push', 'origin', "release_#{current_version}") or raise "Failed to push tag"
 
 puts "Release #{current_version} completed successfully!"
 puts JSON.generate({
