@@ -1,3 +1,7 @@
+## Version: 0.9.1
+### Improvements
+- Prepare for next release
+
 ## Version: 0.9.0
 ### Improvements
 - Enable encryption for files (https://github.com/noshutdown-ru/vault/issues/84)
