@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.10.1
+### Improvements
+- Prepare for next release
+
 ## Version: 0.10.0
 ### Improvements
 - Added permission audit in plugin settings, preparing for migration from whitelists to tags based access control
