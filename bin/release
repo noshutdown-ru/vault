@@ -55,14 +55,23 @@ version_parts[-1] = (version_parts[-1].to_i + 1).to_s
 next_version = version_parts.join('.')
 
 # Prepare next version entry in CHANGELOG.md
-new_changelog_entry = <<~CHANGELOG
-  ## Version: #{next_version}
-  ### Improvements
-  - Prepare for next release
+# Ensure # Changelog header stays at top
+if changelog_content.start_with?("# Changelog\n")
+  header = "# Changelog\n"
+  rest_of_changelog = changelog_content[header.length..-1]
 
-  CHANGELOG
+  new_changelog_entry = <<~CHANGELOG
+    ## Version: #{next_version}
+    ### Improvements
+    - Prepare for next release
 
-updated_changelog = new_changelog_entry + changelog_content
+    CHANGELOG
+
+  updated_changelog = header + new_changelog_entry + rest_of_changelog
+else
+  puts "ERROR: CHANGELOG.md must start with '# Changelog' header"
+  exit 1
+end
 
 File.write(changelog_path, updated_changelog)
 puts "Added new entry to CHANGELOG.md for version #{next_version}"

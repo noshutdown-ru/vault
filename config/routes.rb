@@ -24,3 +24,6 @@ resources :vault_settings do
     post :save, to: 'vault_settings#save'
   end
 end
+
+# Admin - Permissions Audit
+get 'vault_admin/permissions_audit', to: 'vault_admin#permissions_audit', as: 'vault_admin_permissions_audit'

@@ -6,6 +6,18 @@
     <%= javascript_include_tag 'vault', :plugin => 'vault' %>
 <% end %>
 
+<!-- Admin Tools -->
+<div style="margin-bottom: 30px; padding: 15px; background: #e3f2fd; border: 1px solid #1976d2; border-radius: 4px;">
+  <h3 style="margin-top: 0;">Admin Tools</h3>
+  <p>
+    <%= link_to '🔍 Permissions Audit', vault_admin_permissions_audit_path,
+        class: 'btn', style: 'background: #1976d2; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; display: inline-block;' %>
+  </p>
+  <p style="margin-bottom: 0; font-size: 0.9em; color: #555;">
+    Check which users have access to which keys and understand why. Useful for debugging permissions and planning migration to tag-based permissions.
+  </p>
+</div>
+
 <div id="settings">
   <%= form_tag({:action => :save}) do %>
       <div class="box tabular settings">
