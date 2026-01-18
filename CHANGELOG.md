@@ -1,3 +1,10 @@
+# Changelog
+## Version: 0.10.0
+### Improvements
+- Added permission audit in plugin settings, preparing for migration from whitelists to tags based access control
+- Improved Github release logic
+- Improved Backups mechanism, files also saved and could be restored
+
 ## Version: 0.9.1
 ### Improvements
 - Prepare for next release
@@ -7,8 +14,10 @@
 - Enable encryption for files (https://github.com/noshutdown-ru/vault/issues/84)
 - Adding created/updated date time (https://github.com/noshutdown-ru/vault/issues/40)
 - Added audit log for keys, logging modifications
+### Database changes
+- Added created_on and updated_on to keys table
+- Added audit_logs table
 
-# Changelog
 ## Version: 0.8.1
 ### Improvements
 - Github Actions CI workflow improved to support auto release on merge in master

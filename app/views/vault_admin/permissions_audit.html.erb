@@ -1,0 +1,617 @@
+<div class="vault-permissions-audit">
+  <h1>Vault Permissions Audit</h1>
+  <p class="description">Check which keys users can access and understand why.</p>
+
+  <!-- Navigation Tabs -->
+  <div class="audit-tabs">
+    <%= link_to 'User Access Audit', vault_admin_permissions_audit_path(type: 'user'),
+        class: "tab-button #{@audit_type == 'user' ? 'active' : ''}" %>
+    <%= link_to 'Key Access Audit', vault_admin_permissions_audit_path(type: 'key'),
+        class: "tab-button #{@audit_type == 'key' ? 'active' : ''}" %>
+  </div>
+
+  <% if @audit_type == 'user' %>
+    <!-- USER ACCESS AUDIT -->
+    <div class="audit-section user-audit">
+      <h2>Which Keys Can User Access?</h2>
+
+      <!-- User Selection Form -->
+      <div class="selection-form">
+        <%= form_with method: :get, local: true do |f| %>
+          <%= f.hidden_field :type, value: 'user' %>
+          <label>Select User:</label>
+          <%= select_tag :user_id,
+              options_from_collection_for_select(@users, :id, :name, params[:user_id]),
+              { prompt: 'Choose user...', class: 'form-control' } %>
+          <%= submit_tag 'View Access', class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+
+      <% if @selected_user && @accessible_keys.present? %>
+        <!-- Results Section -->
+        <div class="results-section">
+          <h3>Access Summary for <%= @selected_user.name %></h3>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value"><%= @accessible_keys.count %></div>
+              <div class="stat-label">Total Keys</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_reasons['admin']&.count || 0 %></div>
+              <div class="stat-label">Via Admin</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_reasons['permissions']&.count || 0 %></div>
+              <div class="stat-label">Via Permissions</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_reasons['whitelist']&.count || 0 %></div>
+              <div class="stat-label">Via Whitelist</div>
+            </div>
+          </div>
+
+          <!-- Keys Table -->
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>Key Name</th>
+                <th>Project</th>
+                <th>Type</th>
+                <th>Access Reason</th>
+                <th>Details</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @accessible_keys.each do |key| %>
+                <% reason = @key_reasons[key.id] %>
+                <tr class="access-row access-<%= reason[:type] %>">
+                  <td>
+                    <strong><%= key.name %></strong>
+                  </td>
+                  <td><%= key.project&.name || '—' %></td>
+                  <td>
+                    <span class="badge key-type">
+                      <%= key.type.demodulize %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="access-badge access-<%= reason[:type] %>">
+                      <%= reason[:type].upcase %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="reason-text">
+                      <% if reason[:reason] %>
+                        <%= reason[:reason] %>
+                      <% end %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if key.project.present? %>
+                      <%= link_to 'Edit', edit_project_key_path(key.project, key),
+                          class: 'btn btn-small' %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <!-- Migration Info -->
+          <div class="migration-notice">
+            <div class="notice-header">
+              <strong>📋 Migration Information</strong>
+            </div>
+            <p>
+              This user has access to <strong><%= @access_reasons['whitelist']&.count || 0 %> keys via whitelist</strong>.
+            </p>
+            <p class="migration-hint">
+              💡 <strong>Tip:</strong> Whitelist entries are being deprecated.
+              Consider migrating to tag-based permissions for cleaner access management.
+            </p>
+          </div>
+        </div>
+      <% elsif @selected_user && @accessible_keys.empty? %>
+        <div class="no-results">
+          <p><em>User <%= @selected_user.name %> has access to no keys.</em></p>
+        </div>
+      <% end %>
+    </div>
+
+  <% elsif @audit_type == 'key' %>
+    <!-- KEY ACCESS AUDIT -->
+    <div class="audit-section key-audit">
+      <h2>Which Users Can Access Key?</h2>
+
+      <!-- Key Selection Form -->
+      <div class="selection-form">
+        <%= form_with method: :get, local: true do |f| %>
+          <%= f.hidden_field :type, value: 'key' %>
+          <label>Select Key:</label>
+          <%= select_tag :key_id,
+              options_from_collection_for_select(@keys, :id, ->(k) { "#{k.project&.name} / #{k.name}" }, params[:key_id]),
+              { prompt: 'Choose key...', class: 'form-control' } %>
+          <%= submit_tag 'View Access', class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+
+      <% if @selected_key && @accessible_users.present? %>
+        <!-- Results Section -->
+        <div class="results-section">
+          <h3>Users with Access to "<%= @selected_key.name %>"</h3>
+
+          <!-- Key Info Card -->
+          <div class="key-info-card">
+            <div class="info-row">
+              <span class="label">Project:</span>
+              <span class="value"><%= @selected_key.project&.name %></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Type:</span>
+              <span class="value"><%= @selected_key.type.demodulize %></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Tags:</span>
+              <span class="value">
+                <% if @selected_key.tags.any? %>
+                  <% @selected_key.tags.each do |tag| %>
+                    <span class="tag-badge" style="background: <%= tag.color %>; color: #fff;">
+                      <%= tag.name %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <em>No tags</em>
+                <% end %>
+              </span>
+            </div>
+            <div class="info-row">
+              <span class="label">Whitelist:</span>
+              <span class="value">
+                <% if @selected_key.whitelist.present? %>
+                  <strong><%= @selected_key.whitelist.split(',').length %> entries</strong>
+                <% else %>
+                  <em>Empty</em>
+                <% end %>
+              </span>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value"><%= @accessible_users.count %></div>
+              <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_breakdown['admin']&.count || 0 %></div>
+              <div class="stat-label">Via Admin</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_breakdown['permissions']&.count || 0 %></div>
+              <div class="stat-label">Via Permissions</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><%= @access_breakdown['whitelist']&.count || 0 %></div>
+              <div class="stat-label">Via Whitelist</div>
+            </div>
+          </div>
+
+          <!-- Users Table -->
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Login</th>
+                <th>Groups</th>
+                <th>Access Source</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @accessible_users.each do |user| %>
+                <% reason = @user_reasons[user.id] %>
+                <tr class="access-row access-<%= reason[:type] %>">
+                  <td><strong><%= user.name %></strong></td>
+                  <td><code><%= user.login %></code></td>
+                  <td>
+                    <% if user.groups.any? %>
+                      <%= user.groups.map(&:name).join(', ') %>
+                    <% else %>
+                      <em>—</em>
+                    <% end %>
+                  </td>
+                  <td>
+                    <span class="access-badge access-<%= reason[:type] %>">
+                      <%= reason[:type].upcase %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="reason-text"><%= reason[:reason] %></span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <!-- Migration Info -->
+          <div class="migration-notice">
+            <div class="notice-header">
+              <strong>📋 Migration Information</strong>
+            </div>
+            <% if @selected_key.whitelist.present? %>
+              <p>
+                This key has <strong><%= @selected_key.whitelist.split(',').length %> whitelist entries</strong>.
+              </p>
+              <p class="migration-hint">
+                💡 <strong>Tip:</strong> Consider moving to tag-based permissions.
+                Tag-based access is cleaner and easier to manage at scale.
+              </p>
+            <% end %>
+
+            <% if @selected_key.tags.any? %>
+              <p class="tag-info">
+                <strong>ℹ️ Tags on this key:</strong>
+                <%= @selected_key.tags.map(&:name).join(', ') %>
+              </p>
+              <p class="tag-hint">
+                📌 In future versions, you'll be able to grant access to this key
+                by granting access to its tags.
+              </p>
+            <% end %>
+          </div>
+        </div>
+      <% elsif @selected_key && @accessible_users.empty? %>
+        <div class="no-results">
+          <p><em>No users have access to this key.</em></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .vault-permissions-audit {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .vault-permissions-audit h1 {
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+  }
+
+  .vault-permissions-audit .description {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+  }
+
+  /* Tabs */
+  .audit-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 1em;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    text-decoration: none;
+  }
+
+  .tab-button:hover {
+    color: #333;
+  }
+
+  .tab-button.active {
+    color: #1976d2;
+    border-bottom-color: #1976d2;
+  }
+
+  /* Selection Form */
+  .selection-form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .selection-form label {
+    font-weight: bold;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .selection-form .form-control {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 300px;
+    height: 40px;
+    font-size: 0.95em;
+    background-color: white;
+  }
+
+  .selection-form .form-control:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #f5f5f5 0%, #efefef 100%);
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+
+  .stat-card .stat-value {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #1976d2;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.85em;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Table */
+  .audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .audit-table th {
+    background: #f0f0f0;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    font-size: 0.9em;
+  }
+
+  .audit-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .audit-table tr:hover {
+    background: #f9f9f9;
+  }
+
+  .audit-table .access-row.access-admin {
+    background: #ffebee;
+  }
+
+  .audit-table .access-row.access-permissions {
+    background: #e3f2fd;
+  }
+
+  .audit-table .access-row.access-whitelist {
+    background: #fff3e0;
+  }
+
+  /* Badges */
+  .access-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .access-badge.access-admin {
+    background: #ffcdd2;
+    color: #c62828;
+  }
+
+  .access-badge.access-permissions {
+    background: #bbdefb;
+    color: #1565c0;
+  }
+
+  .access-badge.access-whitelist {
+    background: #ffe0b2;
+    color: #e65100;
+  }
+
+  .access-badge.access-unknown {
+    background: #e0e0e0;
+    color: #333;
+  }
+
+  .badge.key-type {
+    background: #e0e0e0;
+    color: #333;
+    padding: 2px 8px;
+    font-size: 0.85em;
+    border-radius: 3px;
+  }
+
+  .tag-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.85em;
+  }
+
+  /* Key Info Card */
+  .key-info-card {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+
+  .key-info-card .info-row {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .key-info-card .info-row:last-child {
+    border-bottom: none;
+  }
+
+  .key-info-card .label {
+    font-weight: 600;
+    width: 120px;
+    color: #666;
+  }
+
+  .key-info-card .value {
+    flex: 1;
+  }
+
+  /* Migration Notice */
+  .migration-notice {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border: 1px solid #4caf50;
+    border-left: 4px solid #4caf50;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 30px;
+  }
+
+  .migration-notice .notice-header {
+    margin-bottom: 10px;
+    color: #2e7d32;
+  }
+
+  .migration-notice p {
+    margin: 8px 0;
+    color: #555;
+  }
+
+  .migration-notice .migration-hint {
+    color: #1b5e20;
+    font-style: italic;
+  }
+
+  .migration-notice .tag-info {
+    color: #1b5e20;
+    margin-top: 15px;
+  }
+
+  .migration-notice .tag-hint {
+    color: #558b2f;
+    font-size: 0.95em;
+  }
+
+  /* No Results */
+  .no-results {
+    background: #f5f5f5;
+    padding: 30px;
+    border-radius: 4px;
+    text-align: center;
+    color: #999;
+  }
+
+  /* Reason Text */
+  .reason-text {
+    color: #555;
+    font-size: 0.9em;
+  }
+
+  code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background: #efefef;
+    border-color: #bbb;
+  }
+
+  .btn-primary {
+    background: #1976d2;
+    color: white;
+    border-color: #1565c0;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    background: #1565c0;
+    border-color: #0d47a1;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  }
+
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 0.85em;
+  }
+
+  /* Override submit button styling */
+  input[type="submit"],
+  input[type="submit"].btn-primary {
+    padding: 8px 16px;
+    background: #1976d2 !important;
+    color: white !important;
+    border: 1px solid #1565c0 !important;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 40px;
+  }
+
+  input[type="submit"]:hover,
+  input[type="submit"].btn-primary:hover {
+    background: #1565c0 !important;
+    border-color: #0d47a1 !important;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  }
+</style>
