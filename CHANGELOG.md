@@ -1,17 +1,12 @@
 # Changelog
 ## Version: 0.10.1
 ### Improvements
-- Prepare for next release
+- Fixing changelog
 
 ## Version: 0.10.0
 ### Improvements
 - Added permission audit in plugin settings, preparing for migration from whitelists to tags based access control
 - Improved Github release logic
-- Improved Backups mechanism, files also saved and could be restored
-
-## Version: 0.9.1
-### Improvements
-- Prepare for next release
 
 ## Version: 0.9.0
 ### Improvements
