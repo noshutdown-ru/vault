@@ -1,4 +1,8 @@
 class AddTimestampsToKeys < ActiveRecord::Migration[5.2]
+  class Key < ActiveRecord::Base
+    self.table_name = 'keys'
+  end
+
   def up
     if table_exists?(:keys)
       unless column_exists?(:keys, :created_at)
