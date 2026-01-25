@@ -7,7 +7,7 @@ module Vault
 
     belongs_to :project
     has_and_belongs_to_many :tags, join_table: 'keys_vault_tags'
-    has_many :audit_logs, class_name: 'Vault::KeyAuditLog', foreign_key: 'key_id', dependent: :delete_all
+    has_many :audit_logs, class_name: 'Vault::KeyAuditLog', foreign_key: 'key_id', dependent: :destroy
 
     safe_attributes 'project_id', 'name', 'body', 'login', 'type', 'file', 'url', 'comment', 'whitelist'
 
