@@ -11,8 +11,8 @@ class CreateKeyAuditLogs < ActiveRecord::Migration[5.2]
         t.timestamps
       end
 
-      add_foreign_key :key_audit_logs, :keys, column: :key_id if table_exists?(:keys)
-      add_foreign_key :key_audit_logs, :users, column: :user_id if table_exists?(:users)
+      add_foreign_key :key_audit_logs, :keys, column: :key_id, on_delete: :cascade if table_exists?(:keys)
+      add_foreign_key :key_audit_logs, :users, column: :user_id, on_delete: :nullify if table_exists?(:users)
       add_index :key_audit_logs, [:key_id, :created_at], name: 'index_key_audit_logs_by_key_and_time'
     end
   end
