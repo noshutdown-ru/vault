@@ -1,6 +1,6 @@
 # Changelog
 ## Version: 0.10.2
-### Improvements
+### Bugfix
 - [Fixing DB migration to use ActiveRecord](https://github.com/noshutdown-ru/vault/issues/117)
 - [Fixing deletion of KeyFiles](https://github.com/noshutdown-ru/vault/issues/118)
 
