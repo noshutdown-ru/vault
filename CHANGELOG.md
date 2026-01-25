@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.10.3
+### Improvements
+- Prepare for next release
+
 ## Version: 0.10.2
 ### Bugfix
 - [Fixing DB migration to use ActiveRecord](https://github.com/noshutdown-ru/vault/issues/117)
