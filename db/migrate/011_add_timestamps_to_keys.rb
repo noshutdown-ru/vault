@@ -1,5 +1,5 @@
 class AddTimestampsToKeys < ActiveRecord::Migration[5.2]
-  def change
+  def up
     if table_exists?(:keys)
       unless column_exists?(:keys, :created_at)
         add_column :keys, :created_at, :datetime
@@ -9,12 +9,15 @@ class AddTimestampsToKeys < ActiveRecord::Migration[5.2]
         add_column :keys, :updated_at, :datetime
       end
 
-      # Set default timestamps for existing records
-      reversible do |dir|
-        dir.up do
-          execute("UPDATE keys SET created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE created_at IS NULL")
-        end
-      end
+      # Set default timestamps for existing records using ORM
+      Key.where(created_at: nil).update_all(created_at: Time.current, updated_at: Time.current)
+    end
+  end
+
+  def down
+    if table_exists?(:keys)
+      remove_column :keys, :created_at if column_exists?(:keys, :created_at)
+      remove_column :keys, :updated_at if column_exists?(:keys, :updated_at)
     end
   end
 end
