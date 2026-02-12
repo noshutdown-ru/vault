@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.10.4
+### Improvements
+- Prepare for next release
+
 ## Version: 0.10.3
 ### Bugfix
 - [MySQL error when upgrading plugin (CreateKeyAuditLogs)](https://github.com/noshutdown-ru/vault/issues/120)
