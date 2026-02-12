@@ -5,8 +5,8 @@ class CreateKeyAuditLogs < ActiveRecord::Migration[5.2]
         t.integer :key_id, null: false, index: true
         t.integer :user_id, null: true, index: true
         t.string :action, null: false, index: true
-        t.json :fields_changed, default: []
-        t.json :data, default: {}
+        t.json :fields_changed, default: "[]"
+        t.json :data, default: "{}"
 
         t.timestamps
       end
