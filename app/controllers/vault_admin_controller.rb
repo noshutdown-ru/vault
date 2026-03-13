@@ -6,7 +6,7 @@ class VaultAdminController < ApplicationController
 
   def permissions_audit
     @audit_type = params[:type] || 'user'
-    @users = User.active.order(:name)
+    @users = User.active.order(:login)
     @keys = Vault::Key.includes(:project).order('keys.name')
 
     case @audit_type
@@ -82,7 +82,7 @@ class VaultAdminController < ApplicationController
       # Placeholder for tag-based access when implemented
     end
 
-    users.uniq.sort_by(&:name)
+    users.uniq.sort_by(&:login)
   end
 
   def categorize_access_reasons(user, keys)
