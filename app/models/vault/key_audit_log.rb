@@ -5,6 +5,10 @@ module Vault
     belongs_to :key, class_name: 'Vault::Key', foreign_key: 'key_id'
     belongs_to :user, optional: true
 
+    # Explicitly declare JSON attributes for MySQL compatibility
+    attribute :fields_changed, :json, default: []
+    attribute :data, :json, default: {}
+
     validates :key_id, :action, presence: true
 
     ACTIONS = %w[create update delete view].freeze
