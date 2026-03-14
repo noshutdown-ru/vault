@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.10.5
+### Improvements
+- Prepare for next release
+
 ## Version: 0.10.4
 ### Bugfix
 - [https://github.com/noshutdown-ru/vault/issues/122](Error with checking permissions)
