@@ -53,7 +53,7 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout redmine repo
         run: git clone --depth=1 --branch=$REDMINE_VER $REDMINE_GIT_REPO $REDMINE_PATH
