@@ -1,0 +1,21 @@
+test:
+  adapter: postgresql
+  database: redmine_test
+  host: localhost
+  username: postgres
+  password: password
+  encoding: unicode
+
+production:
+  adapter: postgresql
+  database: redmine_production
+  host: localhost
+  username: postgres
+  password: password
+
+development:
+  adapter: postgresql
+  database: redmine_development
+  host: localhost
+  username: postgres
+  password: password

@@ -1,0 +1,22 @@
+test:
+  adapter: mysql2
+  database: redmine_test
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: password
+  encoding: utf8mb4
+
+production:
+  adapter: mysql2
+  database: redmine_production
+  host: 127.0.0.1
+  username: root
+  password: password
+
+development:
+  adapter: mysql2
+  database: redmine_development
+  host: 127.0.0.1
+  username: root
+  password: password
