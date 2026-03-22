@@ -3,7 +3,7 @@ class CreateKeyAuditLogs < ActiveRecord::Migration[5.2]
     unless table_exists?(:key_audit_logs)
       create_table :key_audit_logs do |t|
         t.bigint :key_id, null: false, index: true
-        t.bigint :user_id, null: true, index: true
+        t.integer :user_id, null: true, index: true
         t.string :action, null: false, index: true
         t.json :fields_changed
         t.json :data
