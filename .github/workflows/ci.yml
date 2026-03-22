@@ -82,6 +82,7 @@ jobs:
       - name: Create screenshot index
         if: failure()
         run: |
+          mkdir -p ${{ env.REDMINE_PATH }}/tmp/capybara
           cd ${{ env.REDMINE_PATH }}/tmp/capybara
           cat > index.html << 'EOF'
           <!DOCTYPE html>
