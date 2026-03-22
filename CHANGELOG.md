@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.10.6
+### Improvements
+- Prepare for next release
+
 ## Version: 0.10.5
 ### Bugfix
 - [Fix foreign key type mismatch in migration 012 for MySQL/MariaDB](https://github.com/noshutdown-ru/vault/issues/124)
