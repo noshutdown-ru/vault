@@ -1,11 +1,13 @@
 # Changelog
 ## Version: 0.10.5
+### Bugfix
+- [Fix foreign key type mismatch in migration 012 for MySQL/MariaDB](https://github.com/noshutdown-ru/vault/issues/124)
 ### Improvements
-- Prepare for next release
+- CI now runs tests against SQLite, MySQL, and PostgreSQL
 
 ## Version: 0.10.4
 ### Bugfix
-- [https://github.com/noshutdown-ru/vault/issues/122](Error with checking permissions)
+- [Error with checking permissions](https://github.com/noshutdown-ru/vault/issues/122)
 
 ## Version: 0.10.3
 ### Bugfix

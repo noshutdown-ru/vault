@@ -7,8 +7,37 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         ruby-version: [3.2]
+        db: [sqlite, mysql, postgresql]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: redmine_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      postgresql:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: redmine_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     env:
       REDMINE_VER: 5.1-stable
@@ -24,7 +53,7 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout redmine repo
         run: git clone --depth=1 --branch=$REDMINE_VER $REDMINE_GIT_REPO $REDMINE_PATH
@@ -32,13 +61,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y sqlite3
+          sudo apt-get install -y sqlite3 libsqlite3-dev default-libmysqlclient-dev libpq-dev
 
       - name: Set up database
         run: |
           cd $REDMINE_PATH
           ln -s ${{ github.workspace }} $REDMINE_PATH/plugins/$PLUGIN_NAME
-          cp ${{ github.workspace }}/.github/database.yml $REDMINE_PATH/config/database.yml
+          cp ${{ github.workspace }}/.github/database-${{ matrix.db }}.yml $REDMINE_PATH/config/database.yml
           bundle install
           bundle exec rake db:create db:migrate redmine:plugins:migrate
 
@@ -53,6 +82,7 @@ jobs:
       - name: Create screenshot index
         if: failure()
         run: |
+          mkdir -p ${{ env.REDMINE_PATH }}/tmp/capybara
           cd ${{ env.REDMINE_PATH }}/tmp/capybara
           cat > index.html << 'EOF'
           <!DOCTYPE html>
@@ -92,6 +122,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-screenshots
+          name: test-screenshots-${{ matrix.db }}
           path: ${{ env.REDMINE_PATH }}/tmp/capybara/
           retention-days: 7
