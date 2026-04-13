@@ -87,3 +87,20 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
     color: transparent !important;
     background-color: #fff !important;
 }
+
+/* Tag box widget */
+.vault-tag-type-input-field {
+    /* inherits .tabular input styles naturally */
+}
+.vault-tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: 180px;
+    padding: 4px 0 6px 0;
+    min-height: 0;
+}
+.vault-tag-chips:empty {
+    display: none;
+}
+/* Select2 tag color chip overrides */

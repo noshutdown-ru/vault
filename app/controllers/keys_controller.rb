@@ -133,7 +133,6 @@ class KeysController < ApplicationController
     save_file if key_params[:file]
     @key = Vault::Key.new
     @key.safe_attributes = key_params.except(:tags)
-    @key.tags = key_params[:tags]
     @key.project = @project
     @key.audit_user = User.current
 
@@ -141,6 +140,7 @@ class KeysController < ApplicationController
 
     respond_to do |format|
       if @key.save
+        @key.tags = key_params[:tags]
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.create.success') }
         format.json { render json: { key: @key }, status: :created, location: project_key_path(@project, @key) }
       else
@@ -157,7 +157,7 @@ class KeysController < ApplicationController
       @key.safe_attributes = key_params.except(:tags)
       @key.audit_user = User.current
 
-      if @key.update(key_params)
+      if @key.update(key_params.except(:tags))
         @key.tags = key_params[:tags]
         format.html { redirect_to project_keys_path(@project), notice: t('notice.key.update.success') }
         format.json { render json: { key: @key }, status: :ok }

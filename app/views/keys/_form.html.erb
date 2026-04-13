@@ -72,10 +72,13 @@
 
     <p>
       <%= f.label :tags, t('key.attr.tags') %>
-      <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %>
-      <% if @key.persisted? %>
-        <%= link_to t('key.btn.edit_tags'), project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
-      <% end %>
+      <% project_tags = Vault::Tag.tags_list_with_colors(@project.id) %>
+      <%= f.hidden_field :tags, value: Vault::Tag.tags_to_string(key.tags), id: 'vault_key_tags_hidden' %>
+      <script>
+        var vaultProjectTags = <%= raw project_tags.to_json %>;
+        var vaultCurrentTags = <%= raw key.tags.map { |t| { id: t.name, text: t.name, color: t.color } }.to_json %>;
+      </script>
+      <select id="vault_tags_select" multiple="multiple" style="width:300px;"></select>
     </p>
 
     <p>
@@ -160,6 +163,41 @@
     // Handle whitelist form submission
     $('#vault_whitelist').closest('form').submit(function(){
       $('#selected_users option').prop('selected', true);
+    });
+
+    // Select2 tags
+    function vaultTagColor(id) {
+      var match = $.grep(vaultProjectTags, function(t) { return t.name === id; });
+      return match.length ? match[0].color : '#888888';
+    }
+
+    // Pre-populate select with current tags
+    $.each(vaultCurrentTags, function(i, tag) {
+      $('#vault_tags_select').append(new Option(tag.text, tag.id, true, true));
+    });
+
+    $('#vault_tags_select').select2({
+      tags: true,
+      tokenSeparators: [','],
+      placeholder: '',
+      data: $.map(vaultProjectTags, function(t) { return { id: t.name, text: t.name }; }),
+      templateResult: function(item) {
+        if (!item.id) { return item.text; }
+        var color = vaultTagColor(item.id);
+        var label = $('<span>').text(item.text).html();
+        return $('<span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:' + color + ';flex-shrink:0;display:inline-block;"></span><span>' + label + '</span></span>');
+      },
+      templateSelection: function(item) {
+        var color = vaultTagColor(item.id);
+        var label = $('<span>').text(item.text).html();
+        return $('<span style="background:' + color + ';color:#fff;padding:1px 5px;border-radius:2px;text-shadow:0 1px 1px rgba(0,0,0,0.25);">' + label + '</span>');
+      }
+    });
+
+    // Sync Select2 values to hidden field before submit
+    $('#vault_tags_select').closest('form').on('submit', function() {
+      var selected = $('#vault_tags_select').val() || [];
+      $('#vault_key_tags_hidden').val(selected.join(', '));
     });
   });
 
