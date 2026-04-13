@@ -103,7 +103,7 @@
   <% end %>
 </div>
 
-<p><%= link_to l(:button_back), project_keys_path(@project) %></p>
+<p><%= link_to sprite_icon('reload', l(:button_back)), project_keys_path(@project), :class => 'icon icon-reload' %></p>
 
 <% content_for :sidebar do %>
   <%= render 'audit_log' %>

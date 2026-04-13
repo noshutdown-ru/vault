@@ -7,8 +7,15 @@
 <% end %>
 
 <div class="contextual">
-  <%= link_to_if_authorized t('key.btn.new'), { :controller => 'keys', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
+  <%= link_to_if_authorized sprite_icon('add', t('key.btn.new')), { :controller => 'keys', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
 </div>
+
+<h2 class="keys-search-title">
+  <%= @query.new_record? ? t('label_module') : h(@query.name) %>
+  <span class="live_search" style="margin-left: 12px;">
+    <%= text_field_tag(:search, @search, :autocomplete => 'off', :id => 'search', :class => 'live_search_field', :placeholder => t('key.btn.find'), :form => 'query_form') %>
+  </span>
+</h2>
 
 <%= form_tag({ :controller => 'keys', :action => 'index', :project_id => @project }, :method => :get, :id => 'query_form') do %>
   <script type="text/javascript">
@@ -29,13 +36,6 @@
       });
     });
   </script>
-
-  <h2 class="keys-search-title">
-    <%= @query.new_record? ? t('label_module') : h(@query.name) %>
-    <span class="live_search">
-      <%= text_field_tag(:search, @search, :autocomplete => 'off', :id => 'search', :class => 'live_search_field', :placeholder => t('key.btn.find')) %>
-    </span>
-  </h2>
 
   <%= hidden_field_tag 'set_filter', '1' %>
 
@@ -64,8 +64,8 @@
     </div>
 
     <p class="buttons hide-when-print">
-      <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
-      <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload' %>
+      <%= link_to_function sprite_icon('checked', l(:button_apply)), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+      <%= link_to sprite_icon('reload', l(:button_clear)), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload' %>
     </p>
   </div>
 <% end %>

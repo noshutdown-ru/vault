@@ -4,7 +4,7 @@
 <% end %>
 
 <div class="contextual">
-  <%= link_to t('button_view'), project_key_path(@project, @key), class: 'icon icon-list' %>
+  <%= link_to sprite_icon('watch', t('button_view')), project_key_path(@project, @key), class: 'icon icon-watch' %>
 </div>
 
 <h2><%= t('key.title.edit') %></h2>

@@ -81,9 +81,9 @@
     <p>
       <%= f.label :comment, t('key.attr.comment') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
-        <%= f.text_area :comment, class: 'wiki-edit' %>
+        <%= f.text_area :comment, class: 'wiki-edit', rows: 6 %>
       <% else %>
-        <%= f.text_area :comment, class: 'wiki-edit', :readonly => true %>
+        <%= f.text_area :comment, class: 'wiki-edit', rows: 6, :readonly => true %>
       <% end %>
     </p>
 
@@ -130,7 +130,7 @@
   <% if User.current.allowed_to?(:edit_keys, @project) %>
     <%= f.submit t('button_save') %>
   <% end %>
-  <%= link_to t('button_back'), project_keys_path(@project) %>
+  <%= link_to sprite_icon('reload', t('button_back')), project_keys_path(@project), :class => 'icon icon-reload' %>
 <% end %>
 
 <%= javascript_tag do %>
