@@ -1,4 +1,4 @@
-<%= form_for key, url: { controller: :keys, action: action } do |f| %>
+  <%= form_for key, as: :vault_key, url: { controller: :keys, action: action } do |f| %>
   <div class='box tabular'>
     <p>
       <%= f.label :name, t('key.attr.name') %>
@@ -7,6 +7,11 @@
       <% else %>
         <%= f.text_field :name, :readonly => true %>
       <% end %>
+    </p>
+
+    <p>
+      <%= f.label :type, t('key.attr.type') %>
+      <%= f.select :type, key_types %>
     </p>
 
     <p>
@@ -28,21 +33,16 @@
     </p>
 
     <p>
-      <%= f.label :type %>
-      <%= f.select :type, key_types %>
-    </p>
-
-    <p>
       <%= f.label :body, t('key.attr.body') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
-        <div style="display: inline-flex; gap: 8px; align-items: center;">
-          <%= f.text_field :body, :autocomplete => :off %>
-          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();">
-            <i class='fa fa-refresh fa-fw'></i> Generate
+        <span style="display: inline-flex; gap: 8px; align-items: center; max-width: 100%;">
+          <%= f.password_field :body, :autocomplete => 'new-password', :size => 50, :style => 'min-width: 280px;', :id => 'vault_key_body' %>
+          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-refresh fa-fw'></i> <%= t('key.btn.generate', default: 'Generate') %>
           </button>
-        </div>
+        </span>
       <% else %>
-        <%= f.text_field :body, :readonly => true %>
+        <%= f.password_field :body, :readonly => true, :size => 50, :id => 'vault_key_body' %>
       <% end %>
     </p>
 
@@ -55,7 +55,7 @@
           <% end %>
         <% end %>
         <% if User.current.allowed_to?(:edit_keys, @project) %>
-          <button type="button" class="btn btn-small" onclick="document.getElementById('vault_key_file').click();">
+          <button type="button" class="btn btn-small" onclick="document.getElementById('vault_key_file').click();" style="cursor: pointer;">
             <i class='fa fa-upload fa-fw'></i> Upload
           </button>
           <%= f.file_field :file, style: "display: none;" %>
@@ -164,7 +164,10 @@
   });
 
   function generatePassword() {
-    const passwordField = document.getElementById('vault_key_body');
+    const passwordField = document.getElementById('vault_key_body') || document.querySelector('input[name$="[body]"]');
+    if (!passwordField) {
+      return;
+    }
     const currentPassword = passwordField.value.trim();
 
     // If field is not empty, ask for confirmation

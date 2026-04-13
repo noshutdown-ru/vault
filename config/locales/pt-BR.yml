@@ -4,6 +4,9 @@ pt-BR:
   button_view: 'Visualizar'
   label_vault: 'Senhas'
   label_module: 'Acessos'
+  field_has_url: 'Tem URL'
+  field_has_login: 'Tem login'
+  field_body: 'Senha'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
@@ -15,6 +18,7 @@ pt-BR:
     models:
       password: "Senha"
       sftp: "SFTP"
+      key_file: "Arquivo de senha"
 
   backups:
     title: "Backup acessos"
@@ -50,6 +54,7 @@ pt-BR:
       new: "Novo acesso"
       actions: "Ações"
       clipboard: "Copiar para área de transferência"
+      generate: "Gerar"
       find: "Procurar"
       move: "Atribuir ao Projeto"
       edit_tags: "Editar Marcadores"

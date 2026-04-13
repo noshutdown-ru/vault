@@ -7,6 +7,8 @@ class KeysController < ApplicationController
 
   helper :sort
   include SortHelper
+  helper :queries
+  include QueriesHelper
 
   def index
     unless Setting.plugin_vault['use_redmine_encryption'] ||
@@ -17,42 +19,45 @@ class KeysController < ApplicationController
       end
     end
 
-    sort_init 'name', 'asc'
-    sort_update 'name' => "#{Vault::Key.table_name}.name"
+    retrieve_query(Vault::KeyQuery)
+    sort_init(@query.sort_criteria.empty? ? [['name', 'asc']] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+    @query.sort_criteria = sort_criteria.to_a
+    @search = params[:search].to_s
 
-    @keys = @project.keys
-    @keys = @keys.order(sort_clause)
-    @keys = @keys.select { |key| key.whitelisted?(User.current, @project) }
-    @keys = [] if @keys.nil? # hack for decryption
+    if @query.valid?
+      @limit = per_page_option
 
-    # Filter by tag if query parameter contains #tagname
-    @query = params[:query]
-    if @query && !@query.empty? && @query.match(/#/)
-      tag_string = (@query.match(/(#)([^,]+)/))[2]
-      tag = Vault::Tag.find_by_name(tag_string)
-      @keys = tag.nil? ? [] : @keys.select { |key| key.tags.include?(tag) }
-    end
+      scoped_keys = @query.results_scope(
+        search: @search,
+        order: sort_clause
+      )
 
-    @limit = per_page_option
-    @key_count = @keys.count
-    @key_pages = Paginator.new @key_count, @limit, params[:page]
-    @offset ||= @key_pages.offset
+      all_visible_keys = scoped_keys.to_a.select { |key| key.whitelisted?(User.current, @project) }
+      @key_count = all_visible_keys.size
+      @key_pages = Paginator.new(@key_count, @limit, params[:page])
+      @offset ||= @key_pages.offset
+      @keys = all_visible_keys.drop(@offset).first(@limit)
+      @keys.each(&:decrypt!)
 
-    if @key_count > 0
-      @keys = @keys.drop(@offset).first(@limit)
-    end
-
-    @keys.map(&:decrypt!)
-
-    respond_to do |format|
-      format.html
-      format.pdf do
-        unless User.current.allowed_to?(:export_keys, @project)
-          render_error t("error.user.not_allowed")
-          return
+      respond_to do |format|
+        format.html do
+          render partial: 'list', layout: false if request.xhr?
         end
+        format.pdf do
+          unless User.current.allowed_to?(:export_keys, @project)
+            render_error t("error.user.not_allowed")
+            return
+          end
       end
-      format.json { render json: { keys: @keys } }
+        format.json { render json: { keys: @keys } }
+      end
+    else
+      respond_to do |format|
+        format.html { render template: 'keys/index', layout: !request.xhr? }
+        format.any(:pdf) { render plain: '' }
+        format.json { render_validation_errors(@query) }
+      end
     end
   end
 
