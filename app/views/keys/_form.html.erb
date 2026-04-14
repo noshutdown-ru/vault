@@ -133,7 +133,6 @@
   <% if User.current.allowed_to?(:edit_keys, @project) %>
     <%= f.submit key.new_record? ? 'Create' : t('button_save') %>
   <% end %>
-  <%= link_to sprite_icon('reload', t('button_back')), project_keys_path(@project), :class => 'icon icon-reload' %>
 <% end %>
 
 <%= javascript_tag do %>
