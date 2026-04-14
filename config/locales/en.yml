@@ -125,3 +125,11 @@ en:
       required: "Project is required"
     user:
       not_allowed: "You are not allowed to view this passwords"
+
+  permission_export_keys: "Export passwords"
+  permission_keys_all: "View all passwords"
+  permission_download_keys: "Download password files"
+  permission_view_keys: "View passwords"
+  permission_edit_keys: "Edit passwords"
+  permission_manage_whitelist_keys: "Manage password access list"
+  permission_whitelist_keys: "Access list"

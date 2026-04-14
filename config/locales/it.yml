@@ -98,3 +98,11 @@ it:
       not_whitelisted: "Chiave non consentita per te"
     user:
       not_allowed: "Non sei autorizzato a visualizzare queste password"
+
+  permission_export_keys: "Esporta password"
+  permission_keys_all: "Visualizza tutte le password"
+  permission_download_keys: "Scarica file password"
+  permission_view_keys: "Visualizza password"
+  permission_edit_keys: "Modifica password"
+  permission_manage_whitelist_keys: "Gestisci lista di accesso"
+  permission_whitelist_keys: "Lista di accesso"

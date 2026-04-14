@@ -126,3 +126,11 @@ pt-BR:
       required: "Projeto é obrigatório"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
+
+  permission_export_keys: "Exportar acessos"
+  permission_keys_all: "Visualizar todos os acessos"
+  permission_download_keys: "Baixar arquivos de acesso"
+  permission_view_keys: "Visualizar acessos"
+  permission_edit_keys: "Editar acessos"
+  permission_manage_whitelist_keys: "Gerenciar lista de acesso"
+  permission_whitelist_keys: "Lista de acesso"

@@ -13,7 +13,7 @@ fr:
     models:
       password: "Clef"
       sftp: "SFTP"
-      
+
   backups:
     title: "Sauvegarder les clefs"
     title_restore: "Restaurer depuis une sauvegarde"
@@ -98,3 +98,11 @@ fr:
       not_whitelisted: "Clef non autoirisée à la consultation"
     user:
       not_allowed: "Vous n'êtes pas autorisé à voir ces mots de passe"
+
+  permission_export_keys: "Exporter les mots de passe"
+  permission_keys_all: "Voir tous les mots de passe"
+  permission_download_keys: "Télécharger les fichiers de mot de passe"
+  permission_view_keys: "Voir les mots de passe"
+  permission_edit_keys: "Modifier les mots de passe"
+  permission_manage_whitelist_keys: "Gérer la liste d'accès"
+  permission_whitelist_keys: "Liste d'accès"

@@ -98,3 +98,11 @@ es:
       not_whitelisted: "Usted no tiene acceso a esta clave"
     user:
       not_allowed: "No tienes permiso para ver estas contraseñas"
+
+  permission_export_keys: "Exportar contraseñas"
+  permission_keys_all: "Ver todas las contraseñas"
+  permission_download_keys: "Descargar archivos de contraseña"
+  permission_view_keys: "Ver contraseñas"
+  permission_edit_keys: "Editar contraseñas"
+  permission_manage_whitelist_keys: "Gestionar lista de acceso"
+  permission_whitelist_keys: "Lista de acceso"
