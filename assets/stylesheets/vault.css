@@ -49,7 +49,8 @@ a.keys-links:hover, a.keys-links:active { color: #c61a1a; text-decoration: none;
 }
 
 .controller-keys #content .keys-search-title {
-    display: inline;
+    display: flex;
+    align-items: center;
 }
 .controller-keys #content .keys-search-title .live_search {
     vertical-align: middle;
