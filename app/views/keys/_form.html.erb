@@ -36,13 +36,21 @@
       <%= f.label :body, t('key.attr.body') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
         <span style="display: inline-flex; gap: 8px; align-items: center; max-width: 100%;">
-          <%= f.password_field :body, :autocomplete => 'new-password', :size => 50, :style => 'min-width: 280px;', :id => 'vault_key_body', :value => key.body %>
+          <%= f.password_field :body, :autocomplete => 'new-password', :style => 'width: 300px;', :id => 'vault_key_body', :value => key.body %>
+          <button type="button" class="btn btn-small" id="reveal_password_btn" onclick="togglePassword('vault_key_body', 'reveal_password_icon');" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-eye fa-fw' id="reveal_password_icon"></i>
+          </button>
           <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();" style="padding: 4px 8px; cursor: pointer;">
             <i class='fa fa-refresh fa-fw'></i> <%= t('key.btn.generate', default: 'Generate') %>
           </button>
         </span>
       <% else %>
-        <%= f.password_field :body, :readonly => true, :size => 50, :id => 'vault_key_body', :value => key.body %>
+        <span style="display: inline-flex; gap: 8px; align-items: center;">
+          <%= f.password_field :body, :readonly => true, :style => 'width: 300px;', :id => 'vault_key_body', :value => key.body %>
+          <button type="button" class="btn btn-small" onclick="togglePassword('vault_key_body', 'reveal_password_icon_ro');" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-eye fa-fw' id="reveal_password_icon_ro"></i>
+          </button>
+        </span>
       <% end %>
     </p>
 
@@ -199,6 +207,19 @@
       $('#vault_key_tags').val(selected.join(', '));
     });
   });
+
+  function togglePassword(fieldId, iconId) {
+    var field = document.getElementById(fieldId);
+    var icon = document.getElementById(iconId);
+    if (!field) return;
+    if (field.type === 'password') {
+      field.type = 'text';
+      if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+    } else {
+      field.type = 'password';
+      if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+    }
+  }
 
   function generatePassword() {
     const passwordField = document.getElementById('vault_key_body') || document.querySelector('input[name$="[body]"]');
