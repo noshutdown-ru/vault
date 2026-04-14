@@ -1,17 +1,24 @@
 pt-BR:
+  project_module_keys: Acessos
+
+  button_view: 'Visualizar'
   label_vault: 'Senhas'
   label_module: 'Acessos'
+  field_has_url: 'Tem URL'
+  field_has_login: 'Tem login'
+  field_body: 'Senha'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
     redmine_title_encription_key: "Use Criptografia Redmine"
     vault_encription_notice: "Usado apenas pelo método de criptografia do Vault"
-    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config / configuration.yml. IMPORTANTE: execute o rake redmine: plugins: vault: converte depois de mudar este interruptor."
+    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config/configuration.yml. IMPORTANTE: execute o rake redmine:plugins:vault:convert depois de mudar este interruptor."
 
   activerecord:
     models:
       password: "Senha"
       sftp: "SFTP"
+      key_file: "Arquivo de senha"
 
   backups:
     title: "Backup acessos"
@@ -36,15 +43,21 @@ pt-BR:
       edit: "Editar acesso"
       copy: "Copiar acesso"
       clone: "Clonar acesso"
-      show: "Mostar acesso"
+      show: "Mostrar acesso"
       new: "Novo acesso"
       list: "Busca"
+
+    project_not_exist: "Projeto com ID %{id} não existe"
+    project_id: "ID:"
 
     btn:
       new: "Novo acesso"
       actions: "Ações"
       clipboard: "Copiar para área de transferência"
+      generate: "Gerar"
       find: "Procurar"
+      move: "Atribuir ao Projeto"
+      edit_tags: "Editar Marcadores"
 
     attr:
       lock: "Bloqueado"
@@ -54,26 +67,38 @@ pt-BR:
       login: "Login"
       url: "URL"
       type: "Tipo"
+      project: "Projeto"
       tags: "Marcadores"
       file: "Arquivo de senha"
       comment: "Comentário"
       whitelist: "Membros"
+      created_at: "Criado em"
+      updated_at: "Alterado em"
 
     whitelist:
       selected_members: "Membros selecionados"
       available_members: "Membros disponíveis"
+
+    audit_log:
+      title: "Log de Auditoria"
+      action: "Ação"
+      user: "Usuário"
+      fields: "Campos Alterados"
+      timestamp: "Data/Hora"
+      no_entries: "Nenhum registro de auditoria"
+      ago: "atrás"
 
   context_menu:
     copy_key: "Copiar senha"
     copy_url: "Copiar URL"
     copy_login: "Copiar login"
     delete: "Excluir acesso"
-    edit: "Excluir acesso"
+    edit: "Editar acesso"
     clone: "Clonar acesso"
 
   alert:
     key:
-      not_found: "Acesso não encotrado"
+      not_found: "Acesso não encontrado"
 
   confirm:
     key:
@@ -95,5 +120,17 @@ pt-BR:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
       not_whitelisted: "Você não possuí permissão ao acesso"
+      length: "A chave de criptografia deve ter exatamente 16 símbolos"
+      not_orphaned: "Esta chave não está órfã"
+    project:
+      required: "Projeto é obrigatório"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
+
+  permission_export_keys: "Exportar acessos"
+  permission_keys_all: "Visualizar todos os acessos"
+  permission_download_keys: "Baixar arquivos de acesso"
+  permission_view_keys: "Visualizar acessos"
+  permission_edit_keys: "Editar acessos"
+  permission_manage_whitelist_keys: "Gerenciar lista de acesso"
+  permission_whitelist_keys: "Lista de acesso"

@@ -14,16 +14,13 @@
       </span>
     <% end %>
 <% elsif User.current.allowed_to?(:edit_keys, key.project) %>
-    <%= link_to project_key_path(key.project,key), class: 'keys-actions', title: t('button_view') do %>
-      <i class='fa fa-eye fa-fw'></i>
+
+    <%= link_to project_copy_key_path(key.project,key), class: 'keys-actions', title: t('key.title.copy') do %>
+      <i class='fa fa-files-o fa-fw'></i>
     <% end %>
 
     <%= link_to edit_project_key_path(key.project,key), class: 'keys-actions', title: t('button_edit') do %>
       <i class='fa fa-pencil fa-fw'></i>
-    <% end %>
-
-    <%= link_to project_copy_key_path(key.project,key), class: 'keys-actions', title: t('key.title.copy') do %>
-      <i class='fa fa-files-o fa-fw'></i>
     <% end %>
 
     <%= link_to project_key_path(key.project,key), class: 'keys-actions', title: t('button_delete'), data: {confirm: t('confirm.key.delete')}, method: :delete do %>

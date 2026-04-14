@@ -98,3 +98,11 @@ ja:
         not_whitelisted: "Key not allowed for you"
       user:
         not_allowed: "You are not allowed to view this passwords"
+
+  permission_export_keys: "パスワードをエクスポート"
+  permission_keys_all: "全パスワードを表示"
+  permission_download_keys: "パスワードファイルをダウンロード"
+  permission_view_keys: "パスワードを表示"
+  permission_edit_keys: "パスワードを編集"
+  permission_manage_whitelist_keys: "アクセスリストを管理"
+  permission_whitelist_keys: "アクセスリスト"

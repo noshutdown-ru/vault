@@ -24,7 +24,7 @@ Redmine::Plugin.register :vault do
     permission :whitelist_keys, keys: [ :index, :edit, :show ]
   end
 
-  menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('label_module')}, after: :activity, param: :project_id
+  menu :project_menu, :keys, { controller: 'keys', action: 'index' }, caption: Proc.new {I18n.t('label_module')}, param: :project_id
   menu :top_menu, :keys, { controller: 'keys', action: 'all' }, caption: Proc.new {I18n.t('label_module')}, :if => Proc.new {User.current.allowed_to?({:controller => 'keys', :action => 'all'}, nil, :global => true)}
 
   settings :default => {

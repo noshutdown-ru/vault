@@ -12,7 +12,7 @@ de:
     models:
       password: "Passwört"
       sftp: "SFTP"
-      
+
   backups:
     title: "Passwortbackup "
     title_restore: "aus Backup wiederherstellen"
@@ -97,3 +97,11 @@ de:
       not_whitelisted: "Kein Zugriff auf das Passwort"
     user:
       not_allowed: "Sie sind nicht berechtigt, diese Passwörter anzusehen"
+
+  permission_export_keys: "Passwörter exportieren"
+  permission_keys_all: "Alle Passwörter ansehen"
+  permission_download_keys: "Passwortdateien herunterladen"
+  permission_view_keys: "Passwörter ansehen"
+  permission_edit_keys: "Passwörter bearbeiten"
+  permission_manage_whitelist_keys: "Zugriffsliste verwalten"
+  permission_whitelist_keys: "Zugriffsliste"
