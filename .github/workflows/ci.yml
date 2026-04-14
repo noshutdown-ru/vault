@@ -40,7 +40,7 @@ jobs:
           --health-retries=5
 
     env:
-      REDMINE_VER: 5.1-stable
+      REDMINE_VER: 6.1-stable
       PLUGIN_NAME: vault
       REDMINE_GIT_REPO: https://github.com/redmine/redmine.git
       REDMINE_PATH: ${{ github.workspace }}/redmine
