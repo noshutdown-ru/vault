@@ -17,7 +17,7 @@
       <% if key.project.nil? %>
         <span style="color: #999; text-decoration: line-through;"><%= key.name %></span>
       <% else %>
-        <%= link_to key.name, edit_project_key_path(key.project, key), class: 'keys-links' %>
+        <%= link_to key.name, project_key_path(key.project, key), class: 'keys-links' %>
       <% end %>
     <% when 'url' %>
       <% unless key.url.blank? %>

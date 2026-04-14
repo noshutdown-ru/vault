@@ -1,9 +1,9 @@
-<tr class='file <%= defined?(parity) ? parity : '' %>'>
-  <td class='checkbox hide-when-print'>
+<tr class='file <%= defined?(parity) ? parity : '' %>' style='cursor:pointer;' onclick="window.location='<%= key_file.project ? project_key_path(key_file.project, key_file) : '#' %>'">
+  <td class='checkbox hide-when-print' onclick='event.stopPropagation()'>
     <%= check_box_tag('ids[]', key_file.id, false, id: nil) %>
   </td>
   <%= render partial: 'shared/key_fields', locals: {key: key_file} %>
-  <td class='buttons'>
+  <td class='buttons' onclick='event.stopPropagation()'>
     <%= render partial: 'shared/key_actions', locals: {key: key_file} %>
   </td>
 </tr>

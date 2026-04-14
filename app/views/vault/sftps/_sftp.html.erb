@@ -1,9 +1,9 @@
-<tr class='key <%= defined?(parity) ? parity : '' %>'>
-  <td class='checkbox hide-when-print'>
+<tr class='key <%= defined?(parity) ? parity : '' %>' style='cursor:pointer;' onclick="window.location='<%= sftp.project ? project_key_path(sftp.project, sftp) : '#' %>'">
+  <td class='checkbox hide-when-print' onclick='event.stopPropagation()'>
     <%= check_box_tag('ids[]', sftp.id, false, id: nil) %>
   </td>
   <%= render partial: 'shared/key_fields', locals: {key: sftp} %>
-  <td class='buttons'>
+  <td class='buttons' onclick='event.stopPropagation()'>
     <%= render partial: 'shared/key_actions', locals: {key: sftp} %>
   </td>
 </tr>

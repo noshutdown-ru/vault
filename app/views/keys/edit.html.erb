@@ -5,10 +5,6 @@
   <%= javascript_include_tag 'select2.min', :plugin => 'vault' %>
 <% end %>
 
-<div class="contextual">
-  <%= link_to sprite_icon('watch', t('button_view')), project_key_path(@project, @key), class: 'icon icon-watch' %>
-</div>
-
 <h2><%= t('key.title.edit') %></h2>
 
 <%= render partial: 'form', locals: { key: @key, action: :update } %>
