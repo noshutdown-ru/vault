@@ -78,7 +78,7 @@
 <% if Redmine::VERSION.to_s.start_with?('3.4') or Redmine::VERSION.to_s.start_with?('4') or Redmine::VERSION.to_s.start_with?('5') %>
     <%= context_menu %>
 <% else %>
-    <%= context_menu project_keys_context_menus_path(@project) %>
+    <%= context_menu %>
 <% end %>
 
 <script type="text/javascript">

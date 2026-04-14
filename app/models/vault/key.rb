@@ -5,9 +5,8 @@ module Vault
   class Vault::Key < ActiveRecord::Base
     belongs_to :project
     has_and_belongs_to_many :tags
-    unloadable
 
-    attr_accessible :project_id, :name, :body, :login, :type, :file, :project, :url, :comment, :whitelist
+    attr_accessible :project_id, :name, :body, :forall, :login, :type, :file, :project, :url, :comment, :whitelist
 
     #def tags=(tags_string)
     #  @tags = Vault::Tag.create_from_string(tags_string)
@@ -37,6 +36,7 @@ module Vault
 							body: decryptb,
 							login: rhash['login'],
 							type: rhash['type'],
+							forall: rhash['forall'],
 							file: rhash['file'],
 							url: rhash['url'],
 							comment: rhash['comment'],
@@ -54,6 +54,7 @@ module Vault
 						body: decryptb,
 						login: rhash['login'],
 						type: rhash['type'],
+						forall: rhash['forall'],
 						file: rhash['file'],
 						url: rhash['url'],
 						comment: rhash['comment'],
@@ -67,7 +68,11 @@ module Vault
     end
 
     def whitelisted?(user,project)
-      return true if user.current.admin or !user.current.allowed_to?(:whitelist_keys, project)
+      return true if user.current.admin
+      if self.forall
+      	
+      end
+      return true if self.whitelist.blank?
       self.whitelist.split(",").each do |id|
         return true if User.in_group(id).where(:id => user.current.id).count == 1
       end

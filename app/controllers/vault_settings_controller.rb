@@ -2,7 +2,7 @@ require 'csv'
 require 'zip'
 
 class VaultSettingsController < ApplicationController
-  unloadable
+  # unloadable
   menu_item :vault_settings
 
   layout 'admin'

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 redmine_version_file = File.expand_path("../../../lib/redmine/version.rb",__FILE__)
 
-if (!File.exists? redmine_version_file)
+if (!File.exist? redmine_version_file)
   redmine_version_file = File.expand_path("lib/redmine/version.rb");
 end
 
@@ -12,7 +12,6 @@ redmine_version_major = version_file.match(/MAJOR =/).post_match.match(/\d/)[0].
 
 gem 'roo'
 gem 'iconv'
-gem 'rubyzip', '~> 2.3.0'
 gem 'zip-zip'
 
 group :test, :development do
@@ -21,5 +20,5 @@ group :test, :development do
 end
 
 if Gem::Version.new(redmine_version_major) >= Gem::Version.new('4') 
-  gem 'protected_attributes_continued', '1.8.2' 
+  gem 'protected_attributes_continued'
 end

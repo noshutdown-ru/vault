@@ -1,5 +1,5 @@
 class KeysController < ApplicationController
-  unloadable
+  # unloadable
 
   before_action :find_project_by_project_id, except: [:all]
   before_action :authorize, except: [:all]
@@ -96,7 +96,7 @@ class KeysController < ApplicationController
       if User.current.admin?
         @projects = Project.active  
       else
-        @projects = projects_for_jump_box(User.current)
+        @projects = User.current.projects.active
       end
       
       if @query.present?
@@ -254,7 +254,7 @@ class KeysController < ApplicationController
   end
 
   def key_params
-    params.require(:vault_key).permit(:type, :name, :body, :login, :file, :url, :comment, :tags)
+    params.require(:vault_key).permit(:type, :forall, :name, :body, :login, :file, :url, :comment, :tags)
   end
 
   def index_params

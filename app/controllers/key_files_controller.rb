@@ -1,8 +1,6 @@
 class KeyFilesController < ApplicationController
-   unloadable
- 
-   before_action :find_project_by_project_id
-   before_action :authorize
+  before_action :find_project_by_project_id
+  before_action :authorize
 
    def download
      find_key

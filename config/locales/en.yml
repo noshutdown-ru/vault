@@ -35,6 +35,7 @@ en:
       show: "Showing Password"
       new: "New Password"
       list: "List of Passwords"
+      forall: "Show to all"
 
     btn:
       new: "New Password"

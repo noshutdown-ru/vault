@@ -48,6 +48,13 @@
       <%= f.text_area :comment, class: 'wiki-edit',:readonly => true %></p>
     <% end %>
 
+    <p><%= f.label :comment, t('key.attr.forall') %>
+    <% if User.current.allowed_to?(:edit_keys, @project) %>
+      <%= f.check_box :forall %></p>
+    <% else %>
+      <%= f.check_box :forall,:readonly => true %></p>
+    <% end %>
+
     <% if User.current.allowed_to?(:manage_whitelist_keys, @project) %>
       <%  whitelisted = @key.whitelist.split(",") %>
         <%  all_users = @project.memberships.active.where(:users => {:type => 'User'}).sort.map {|u| [u.principal, u.principal.id.to_s]} %>
