@@ -6,30 +6,34 @@ module Vault
 
     validates :name, presence: true, uniqueness: true
 
-    def Tag::create_from_string(string)
+    def self.create_from_string(string)
       return [] if string.blank?
 
       words = string.downcase.split(/,\s*/).map(&:strip)
-      Tag.create(words.map { |t| {name: t} })
-      tags = Tag.all.reduce({}) { |tags, t| tags.merge({t.name => t}) }
-      return words.map { |w| tags[w] }
+      Tag.create(words.map { |t| { name: t } })
+      tags = Tag.all.index_by(&:name)
+      words.map { |w| tags[w] }
     end
 
-    def Tag::tags_to_string(tags)
+    def self.tags_to_string(tags)
       return '' if tags.empty?
-      return (tags.map { |t| t.name }).join(', ')
+      tags.map(&:name).join(', ')
     end
 
-    def Tag::cloud_for_project(pid)
-      tags_with_score = Vault::Tag.joins(:keys).where(keys: {project_id: pid}).group('vault_tags.name').count
-      (tags_with_score.sort_by { |tag,count| count }).map(&:first).reverse.take(20)
+    def self.cloud_for_project(pid)
+      tags_with_score = joins(:keys)
+        .where(keys: { project_id: pid })
+        .group('vault_tags.name')
+        .count
+
+      tags_with_score.sort_by { |tag, count| count }.map(&:first).reverse.take(20)
     end
 
-    def Tag::tags_list(pid)
-      tags_with_score = Vault::Tag.joins(:keys).where(
-          keys: {project_id: pid}
-      ).group('vault_tags.name').group('vault_tags.id').map(&:name) #OPTIMIZE_ME!
+    def self.tags_list(pid)
+      joins(:keys)
+        .where(keys: { project_id: pid })
+        .distinct
+        .pluck(:name)
     end
-
   end
 end
