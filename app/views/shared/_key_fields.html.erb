@@ -45,7 +45,7 @@
       <% end %>
     <% when 'body' %>
       <% if (key.type == 'Vault::Sftp' || key.type == 'Vault::KeyFile') && key.file.present? && key.project.present? %>
-        <%= link_to "/projects/#{key.project.identifier}/keys/#{key.id}/download", class: 'keys-actions', title: 'Download file' do %>
+        <%= link_to "/projects/#{key.project.identifier}/keys/#{key.id}/download", class: 'keys-actions', title: 'Download file', id: "keyfile_dl_#{key.id}" do %>
           <i class='fa fa-download fa-fw'></i>
         <% end %>
       <% end %>

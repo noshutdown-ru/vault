@@ -36,13 +36,13 @@
       <%= f.label :body, t('key.attr.body') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
         <span style="display: inline-flex; gap: 8px; align-items: center; max-width: 100%;">
-          <%= f.password_field :body, :autocomplete => 'new-password', :size => 50, :style => 'min-width: 280px;', :id => 'vault_key_body' %>
+          <%= f.password_field :body, :autocomplete => 'new-password', :size => 50, :style => 'min-width: 280px;', :id => 'vault_key_body', :value => key.body %>
           <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();" style="padding: 4px 8px; cursor: pointer;">
             <i class='fa fa-refresh fa-fw'></i> <%= t('key.btn.generate', default: 'Generate') %>
           </button>
         </span>
       <% else %>
-        <%= f.password_field :body, :readonly => true, :size => 50, :id => 'vault_key_body' %>
+        <%= f.password_field :body, :readonly => true, :size => 50, :id => 'vault_key_body', :value => key.body %>
       <% end %>
     </p>
 
@@ -73,7 +73,7 @@
     <p>
       <%= f.label :tags, t('key.attr.tags') %>
       <% project_tags = Vault::Tag.tags_list_with_colors(@project.id) %>
-      <%= f.hidden_field :tags, value: Vault::Tag.tags_to_string(key.tags), id: 'vault_key_tags_hidden' %>
+      <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), id: 'vault_key_tags', style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;' %>
       <script>
         var vaultProjectTags = <%= raw project_tags.to_json %>;
         var vaultCurrentTags = <%= raw key.tags.map { |t| { id: t.name, text: t.name, color: t.color } }.to_json %>;
@@ -131,7 +131,7 @@
   </div>
 
   <% if User.current.allowed_to?(:edit_keys, @project) %>
-    <%= f.submit t('button_save') %>
+    <%= f.submit key.new_record? ? 'Create' : t('button_save') %>
   <% end %>
   <%= link_to sprite_icon('reload', t('button_back')), project_keys_path(@project), :class => 'icon icon-reload' %>
 <% end %>
@@ -197,7 +197,7 @@
     // Sync Select2 values to hidden field before submit
     $('#vault_tags_select').closest('form').on('submit', function() {
       var selected = $('#vault_tags_select').val() || [];
-      $('#vault_key_tags_hidden').val(selected.join(', '));
+      $('#vault_key_tags').val(selected.join(', '));
     });
   });
 

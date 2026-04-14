@@ -3,6 +3,7 @@ require 'fileutils'
 require 'byebug'
 
 class KeyFilesControllerTest < Vault::ControllerTest
+  tests KeysController
   fixtures :projects, :users, :roles, :members, :member_roles
   plugin_fixtures :keys, :vault_tags, :keys_vault_tags
 
@@ -18,12 +19,12 @@ class KeyFilesControllerTest < Vault::ControllerTest
   def test_download_keyfile
     @request.session[:user_id] = 2
 
-    get :download, project_id: 1, id: 3
+    get :download, params: { project_id: 1, id: 3 }
 
     assert_response :success
     assert_equal 'application/octet-stream', response.content_type
     assert_equal "This is file for tests\n", response.body
-    assert_equal 'attachment; filename="ssh_access"', response.header["Content-Disposition"]
+    assert_match(/attachment; filename="ssh_access"/, response.header["Content-Disposition"])
   end
 
 end

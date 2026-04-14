@@ -18,7 +18,7 @@
       <td class="name" style="vertical-align: top;">
         <h3><%= h @key.name %></h3>
         <p class="author">
-          <%= l(:label_updated_time, time_tag(@key.updated_at || @key.created_at)).html_safe %>
+          <%= l(:label_updated_time, :value => time_tag(@key.updated_at || @key.created_at)).html_safe %>
         </p>
         <% if @key.tags.any? %>
           <div class="tags">
