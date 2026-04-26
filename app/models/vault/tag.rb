@@ -38,6 +38,12 @@ module Vault
       ).group('vault_tags.name').group('vault_tags.id').map(&:name) # OPTIMIZE_ME!
     end
 
+    def self.tags_list_with_colors(pid)
+      Vault::Tag.joins(:keys).where(keys: { project_id: pid })
+        .group('vault_tags.id').select('vault_tags.name, vault_tags.color')
+        .map { |t| { name: t.name, color: t.color } }
+    end
+
     def self.get_color(tag_name)
       tag = find_by(name: tag_name)
       tag.color if tag

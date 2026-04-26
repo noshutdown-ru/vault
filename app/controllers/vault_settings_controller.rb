@@ -19,10 +19,10 @@ class VaultSettingsController < ApplicationController
 
     # Check if encryption setting is changing
     old_encrypt_files = Setting.plugin_vault['encrypt_files']
-    new_encrypt_files = params[:settings][:encrypt_files]
+    new_encrypt_files = settings['encrypt_files']
 
     # Save settings first
-    Setting.send "plugin_vault=", params[:settings]
+    Setting.send "plugin_vault=", settings
 
     # Handle encryption state change
     if old_encrypt_files != new_encrypt_files

@@ -98,3 +98,11 @@ nl:
       not_whitelisted: "Sleutel niet toegestaan voor jou"
     user:
       not_allowed: "U mag deze wachtwoorden niet bekijken"
+
+  permission_export_keys: "Wachtwoorden exporteren"
+  permission_keys_all: "Alle wachtwoorden bekijken"
+  permission_download_keys: "Wachtwoordbestanden downloaden"
+  permission_view_keys: "Wachtwoorden bekijken"
+  permission_edit_keys: "Wachtwoorden bewerken"
+  permission_manage_whitelist_keys: "Toegangslijst beheren"
+  permission_whitelist_keys: "Toegangslijst"

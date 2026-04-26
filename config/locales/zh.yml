@@ -98,3 +98,11 @@ zh:
       not_whitelisted: "关键不允许你"
     user:
       not_allowed: "您无权查看这些密码"
+
+  permission_export_keys: "导出密码"
+  permission_keys_all: "查看所有密码"
+  permission_download_keys: "下载密码文件"
+  permission_view_keys: "查看密码"
+  permission_edit_keys: "编辑密码"
+  permission_manage_whitelist_keys: "管理访问列表"
+  permission_whitelist_keys: "访问列表"

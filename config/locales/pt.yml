@@ -98,3 +98,11 @@ pt:
       not_whitelisted: "Chave não permitida para você"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
+
+  permission_export_keys: "Exportar senhas"
+  permission_keys_all: "Ver todas as senhas"
+  permission_download_keys: "Descarregar ficheiros de senha"
+  permission_view_keys: "Ver senhas"
+  permission_edit_keys: "Editar senhas"
+  permission_manage_whitelist_keys: "Gerir lista de acesso"
+  permission_whitelist_keys: "Lista de acesso"
