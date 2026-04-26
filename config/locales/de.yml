@@ -1,9 +1,13 @@
 de:
+  button_view: "Anzeigen"
   label_vault: 'Vault'
   label_module: 'Passwörter'
+  field_has_url: 'Hat URL'
+  field_has_login: 'Hat Login'
+  field_body: 'Passwort'
   settings:
     title: "Vault Einstellungen"
-    vault_title_encription_key: "Encryption key"
+    vault_title_encription_key: "Verschlüsselungsschlüssel"
     redmine_title_encription_key: "Verschlüsselung von Redmine verwenden"
     vault_encription_notice: "Vault-eigene Verschlüsselung verwenden"
     redmine_encryption_notice: "Empfohlen. Der Schlüssel muss unter 'database_cipher_key' in der Konfiguration config/configuration.yml hinterlegt werden. WICHTIG: führe danach »rake redmine:plugins:vault:convert« aus."
@@ -12,9 +16,10 @@ de:
     models:
       password: "Passwört"
       sftp: "SFTP"
-      
+      key_file: "Passwortdatei"
+
   backups:
-    title: "Passwortbackup "
+    title: "Passwortbackup"
     title_restore: "aus Backup wiederherstellen"
     btn:
       download_backup: "Backup erstellen"
@@ -28,7 +33,7 @@ de:
 
   tag:
     title:
-      popular: "beliebte Tags"
+      popular: "Beliebte Tags"
 
   key:
     title:
@@ -37,14 +42,20 @@ de:
       copy: "Passwort kopieren"
       clone: "Passwort duplizieren"
       show: "Passwort anzeigen"
-      new: "neues Passwort"
+      new: "Neues Passwort"
       list: "Passwörter"
 
+    project_not_exist: "Projekt mit ID %{id} existiert nicht"
+    project_id: "ID:"
+
     btn:
-      new: "neues Passwort"
+      new: "Neues Passwort"
       actions: "Aktionen"
       clipboard: "In die Zwischenablage kopieren"
+      generate: "Generieren"
       find: "Suchen"
+      move: "Projekt zuweisen"
+      edit_tags: "Tags bearbeiten"
 
     attr:
       lock: "Lock"
@@ -54,14 +65,26 @@ de:
       login: "Benutzername"
       url: "URL"
       type: "Typ"
+      project: "Projekt"
       tags: "Tags"
       file: "Schlüsseldatei"
       comment: "Kommentar"
       whitelist: "Zugriffsliste"
+      created_at: "Erstellt"
+      updated_at: "Geändert"
 
     whitelist:
       selected_members: "Benutzer mit Zugriff"
-      available_members: "verfügbare Benutzer"
+      available_members: "Verfügbare Benutzer"
+
+    audit_log:
+      title: "Audit-Log"
+      action: "Aktion"
+      user: "Benutzer"
+      fields: "Geänderte Felder"
+      timestamp: "Zeitstempel"
+      no_entries: "Keine Einträge"
+      ago: "vor"
 
   context_menu:
     copy_key: "Passwort kopieren"
@@ -95,5 +118,17 @@ de:
     key:
       not_set: "Encryption key wurde nicht in den Einstellungen hinterlegt"
       not_whitelisted: "Kein Zugriff auf das Passwort"
+      length: "Der Verschlüsselungsschlüssel muss genau 16 Zeichen lang sein"
+      not_orphaned: "Dieses Passwort ist nicht verwaist"
+    project:
+      required: "Projekt ist erforderlich"
     user:
       not_allowed: "Sie sind nicht berechtigt, diese Passwörter anzusehen"
+
+  permission_export_keys: "Passwörter exportieren"
+  permission_keys_all: "Alle Passwörter ansehen"
+  permission_download_keys: "Passwortdateien herunterladen"
+  permission_view_keys: "Passwörter ansehen"
+  permission_edit_keys: "Passwörter bearbeiten"
+  permission_manage_whitelist_keys: "Zugriffsliste verwalten"
+  permission_whitelist_keys: "Zugriffsliste"

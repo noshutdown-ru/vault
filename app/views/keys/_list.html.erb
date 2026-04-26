@@ -1,0 +1,19 @@
+<table class='list' id='keys_table'>
+  <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+      </th>
+      <% @query.inline_columns.each do |column| %>
+        <%= column_header(@query, column) %>
+      <% end %>
+      <th style="width: 1%; white-space: nowrap;"><%= t('key.btn.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% (@keys || []).each do |key| %>
+      <%= render partial: key, locals: { parity: cycle('odd', 'even') } %>
+    <% end %>
+  </tbody>
+</table>

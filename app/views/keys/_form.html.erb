@@ -1,4 +1,4 @@
-<%= form_for key, url: { controller: :keys, action: action } do |f| %>
+  <%= form_for key, as: :vault_key, url: { controller: :keys, action: action } do |f| %>
   <div class='box tabular'>
     <p>
       <%= f.label :name, t('key.attr.name') %>
@@ -7,6 +7,11 @@
       <% else %>
         <%= f.text_field :name, :readonly => true %>
       <% end %>
+    </p>
+
+    <p>
+      <%= f.label :type, t('key.attr.type') %>
+      <%= f.select :type, key_types %>
     </p>
 
     <p>
@@ -28,21 +33,24 @@
     </p>
 
     <p>
-      <%= f.label :type %>
-      <%= f.select :type, key_types %>
-    </p>
-
-    <p>
       <%= f.label :body, t('key.attr.body') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
-        <div style="display: inline-flex; gap: 8px; align-items: center;">
-          <%= f.text_field :body, :autocomplete => :off %>
-          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();">
-            <i class='fa fa-refresh fa-fw'></i> Generate
+        <span style="display: inline-flex; gap: 8px; align-items: center; max-width: 100%;">
+          <%= f.password_field :body, :autocomplete => 'new-password', :style => 'width: 300px;', :id => 'vault_key_body', :value => key.body %>
+          <button type="button" class="btn btn-small" id="reveal_password_btn" onclick="togglePassword('vault_key_body', 'reveal_password_icon');" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-eye fa-fw' id="reveal_password_icon"></i>
           </button>
-        </div>
+          <button type="button" class="btn btn-small" id="generate_password_btn" onclick="generatePassword();" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-refresh fa-fw'></i> <%= t('key.btn.generate', default: 'Generate') %>
+          </button>
+        </span>
       <% else %>
-        <%= f.text_field :body, :readonly => true %>
+        <span style="display: inline-flex; gap: 8px; align-items: center;">
+          <%= f.password_field :body, :readonly => true, :style => 'width: 300px;', :id => 'vault_key_body', :value => key.body %>
+          <button type="button" class="btn btn-small" onclick="togglePassword('vault_key_body', 'reveal_password_icon_ro');" style="padding: 4px 8px; cursor: pointer;">
+            <i class='fa fa-eye fa-fw' id="reveal_password_icon_ro"></i>
+          </button>
+        </span>
       <% end %>
     </p>
 
@@ -55,7 +63,7 @@
           <% end %>
         <% end %>
         <% if User.current.allowed_to?(:edit_keys, @project) %>
-          <button type="button" class="btn btn-small" onclick="document.getElementById('vault_key_file').click();">
+          <button type="button" class="btn btn-small" onclick="document.getElementById('vault_key_file').click();" style="cursor: pointer;">
             <i class='fa fa-upload fa-fw'></i> Upload
           </button>
           <%= f.file_field :file, style: "display: none;" %>
@@ -72,18 +80,21 @@
 
     <p>
       <%= f.label :tags, t('key.attr.tags') %>
-      <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), class: 'autocomplete' %>
-      <% if @key.persisted? %>
-        <%= link_to t('key.btn.edit_tags'), project_key_tags_path(@project, @key), class: 'btn btn-primary' %>
-      <% end %>
+      <% project_tags = Vault::Tag.tags_list_with_colors(@project.id) %>
+      <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), id: 'vault_key_tags', style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;' %>
+      <script>
+        var vaultProjectTags = <%= json_escape project_tags.to_json %>;
+        var vaultCurrentTags = <%= json_escape key.tags.map { |t| { id: t.name, text: t.name, color: t.color } }.to_json %>;
+      </script>
+      <select id="vault_tags_select" multiple="multiple" style="width:300px;"></select>
     </p>
 
     <p>
       <%= f.label :comment, t('key.attr.comment') %>
       <% if User.current.allowed_to?(:edit_keys, @project) %>
-        <%= f.text_area :comment, class: 'wiki-edit' %>
+        <%= f.text_area :comment, class: 'wiki-edit', rows: 6 %>
       <% else %>
-        <%= f.text_area :comment, class: 'wiki-edit', :readonly => true %>
+        <%= f.text_area :comment, class: 'wiki-edit', rows: 6, :readonly => true %>
       <% end %>
     </p>
 
@@ -128,9 +139,8 @@
   </div>
 
   <% if User.current.allowed_to?(:edit_keys, @project) %>
-    <%= f.submit t('button_save') %>
+    <%= f.submit key.new_record? ? 'Create' : t('button_save') %>
   <% end %>
-  <%= link_to t('button_back'), project_keys_path(@project) %>
 <% end %>
 
 <%= javascript_tag do %>
@@ -161,10 +171,61 @@
     $('#vault_whitelist').closest('form').submit(function(){
       $('#selected_users option').prop('selected', true);
     });
+
+    // Select2 tags
+    function vaultTagColor(id) {
+      var match = $.grep(vaultProjectTags, function(t) { return t.name === id; });
+      return match.length ? match[0].color : '#888888';
+    }
+
+    // Pre-populate select with current tags
+    $.each(vaultCurrentTags, function(i, tag) {
+      $('#vault_tags_select').append(new Option(tag.text, tag.id, true, true));
+    });
+
+    $('#vault_tags_select').select2({
+      tags: true,
+      tokenSeparators: [','],
+      placeholder: '',
+      data: $.map(vaultProjectTags, function(t) { return { id: t.name, text: t.name }; }),
+      templateResult: function(item) {
+        if (!item.id) { return item.text; }
+        var color = vaultTagColor(item.id);
+        var label = $('<span>').text(item.text).html();
+        return $('<span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:' + color + ';flex-shrink:0;display:inline-block;"></span><span>' + label + '</span></span>');
+      },
+      templateSelection: function(item) {
+        var color = vaultTagColor(item.id);
+        var label = $('<span>').text(item.text).html();
+        return $('<span style="background:' + color + ';color:#fff;padding:1px 5px;border-radius:2px;text-shadow:0 1px 1px rgba(0,0,0,0.25);">' + label + '</span>');
+      }
+    });
+
+    // Sync Select2 values to hidden field before submit
+    $('#vault_tags_select').closest('form').on('submit', function() {
+      var selected = $('#vault_tags_select').val() || [];
+      $('#vault_key_tags').val(selected.join(', '));
+    });
   });
 
+  function togglePassword(fieldId, iconId) {
+    var field = document.getElementById(fieldId);
+    var icon = document.getElementById(iconId);
+    if (!field) return;
+    if (field.type === 'password') {
+      field.type = 'text';
+      if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+    } else {
+      field.type = 'password';
+      if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+    }
+  }
+
   function generatePassword() {
-    const passwordField = document.getElementById('vault_key_body');
+    const passwordField = document.getElementById('vault_key_body') || document.querySelector('input[name$="[body]"]');
+    if (!passwordField) {
+      return;
+    }
     const currentPassword = passwordField.value.trim();
 
     // If field is not empty, ask for confirmation

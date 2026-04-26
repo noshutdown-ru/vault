@@ -3,6 +3,9 @@ en:
   button_view: 'View'
   label_vault: 'Vault'
   label_module: 'Passwords'
+  field_has_url: 'Has URL'
+  field_has_login: 'Has login'
+  field_body: 'Password'
   settings:
     title: "Passwords settings"
     vault_title_encription_key: "Encryption Key"
@@ -14,6 +17,7 @@ en:
     models:
       password: "Password"
       sftp: "SFTP"
+      key_file: "Password File"
 
   backups:
     title: "Backup Passwords"
@@ -49,6 +53,7 @@ en:
       new: "New Password"
       actions: "Actions"
       clipboard: "Copy to Clipboard"
+      generate: "Generate"
       find: "Find"
       move: "Assign to Project"
       edit_tags: "Edit Tags"
@@ -120,3 +125,11 @@ en:
       required: "Project is required"
     user:
       not_allowed: "You are not allowed to view this passwords"
+
+  permission_export_keys: "Export passwords"
+  permission_keys_all: "View all passwords"
+  permission_download_keys: "Download password files"
+  permission_view_keys: "View passwords"
+  permission_edit_keys: "Edit passwords"
+  permission_manage_whitelist_keys: "Manage password access list"
+  permission_whitelist_keys: "Access list"

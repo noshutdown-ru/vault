@@ -21,7 +21,7 @@ namespace :redmine do
         code = if Setting.plugin_vault['use_redmine_encryption']
           Encryptor.decrypt_all(Vault::Password,:body, engine: VaultCipher) &&
             Encryptor.encrypt_all(Vault::Password,:body, engine: RedmineCipher)
-        else 
+        else
           Encryptor.decrypt_all(Vault::Password,:body, engine: RedmineCipher) &&
             Encryptor.encrypt_all(Vault::Password,:body, engine: VaultCipher)
         end
@@ -34,7 +34,6 @@ namespace :redmine do
           raise "File does not save"
         end
       end
-
     end
   end
 end

@@ -1,7 +1,29 @@
 # Changelog
-## Version: 0.10.6
+
+## Version: 0.11.0
 ### Improvements
-- Prepare for next release
+- Refactored the search page to support query-based patterns
+- Removed custom CSS styles to ensure compatibility with themes
+- Updated form components to better match Redmine visual standards
+- Adjusted UI navigation for consistency with Redmine structure
+- Integrated Select2 JavaScript component for enhanced tag selection
+- Added support for Redmine 6.1
+### Bugfix
+- Fixed misindented `end` in `keys_controller` index action causing misleading code structure
+- Fixed XSS-pattern in form view: replaced `raw` with `json_escape` for inline JSON tag data
+- Fixed `_key_fields` partial depending on `@query` instance variable; now accepts a `query` local with `@query` fallback
+- Fixed tag assignment in `create` action: tags are now set after save so the join table has a valid `key_id`
+- Fixed `update` action passing tags through mass-assignment; tags are now handled separately
+### Locales
+- Fixed broken YAML structure in `ja.yml` (all keys were incorrectly nested under `activerecord`)
+- Translated all remaining English strings in `ja.yml`
+- Added missing `key_file` model name to `de`, `es`, `fr`, `it`, `ja`, `nl` locales
+- Added missing `field_has_url`, `field_has_login`, `field_body`, `key.btn.generate` to all non-English locales
+- Added missing `key.audit_log`, `key.btn.move/edit_tags`, `key.attr.project/created_at/updated_at`, `error.key.length/not_orphaned`, `error.project.required` to all non-English locales
+- Fixed untranslated strings in `de`, `fr`, `it`, `nl`, `zh` locales
+- Added `permission_keys_all` to `ru` locale
+### Tests
+- Added `test/unit/locale_test.rb` to assert all locales contain every key defined in `en.yml`
 
 ## Version: 0.10.5
 ### Bugfix
@@ -51,10 +73,10 @@
 ### Bugfix
 - [During view/edit key no link to download file](https://github.com/noshutdown-ru/vault/issues/92)
 - [Json format export fixed to Redmine standard](https://github.com/noshutdown-ru/vault/issues/90)
-- Fixed broken filter by tags 
-- Translation fixes 
+- Fixed broken filter by tags
+- Translation fixes
 
-## Version: 0.7.3 
+## Version: 0.7.3
 ### Bugfix
 - [Fixing error viewing Key File types](https://github.com/noshutdown-ru/vault/issues/110)
 
@@ -97,7 +119,7 @@
 - Added Github Actions for CI
 
 ### Braking changes
-- Deleted code which checks Redmine version  
+- Deleted code which checks Redmine version
   - `Redmine::VERSION.to_s.start_with?`
   - 3.1/3.2/3.3/3.4/4
 
@@ -127,14 +149,14 @@
 - Added French translation.
 - [Import from backup update existing keys by name instead of create new ones.](https://github.com/noshutdown-ru/vault/pull/53)
 - [Whitelists support groups.](https://github.com/noshutdown-ru/vault/pull/51)
-### Bugfixes                   
+### Bugfixes
 - [Export keys not working on Windows.](https://github.com/noshutdown-ru/vault/pull/52)
 - [Error in redmine subdir icons display.](https://github.com/noshutdown-ru/vault/pull/47)
 
 ## Version: 0.3.11
 ### Improvements
 - [Support Redmine 4.0.* .](https://github.com/noshutdown-ru/vault/pull/45)
-### Bugfixes 
+### Bugfixes
 - [Menu admin no icon.](https://github.com/noshutdown-ru/vault/issues/46)
 
 ## Version: 0.3.10
@@ -157,11 +179,11 @@
 - [Copy to clipboard.](https://github.com/noshutdown-ru/vault/issues/28)
 
 ## Version: 0.3.7
-### Bugfixes 
+### Bugfixes
 - [Search not working.](https://github.com/noshutdown-ru/vault/issues/24)
 
 ## Version: 0.3.6
-### Bugfixes 
+### Bugfixes
 - [Undefined method 'offset'.](https://github.com/noshutdown-ru/vault/issues/23)
 
 ## Version: 0.3.5
@@ -169,7 +191,7 @@
 - [White lists not block user by direct link.](https://github.com/noshutdown-ru/vault/issues/22)
 
 ## Version: 0.3.4
-- [Error on searching by Name/URL (PostgreSQL).](https://github.com/noshutdown-ru/vault/issues/13) 
+- [Error on searching by Name/URL (PostgreSQL).](https://github.com/noshutdown-ru/vault/issues/13)
 - [Right click no url (Redmine 3.4).](https://github.com/noshutdown-ru/vault/issues/17)
 
 ## Version: 0.3.3
@@ -180,7 +202,7 @@
 ### Features
 - Added support Redmine 3.4 .
 - Added copy by click on the fields: url, login.
-- Added China translation. 
+- Added China translation.
 - Added Dutch translation.
 - Added Italian translation.
 ### Bugfixes

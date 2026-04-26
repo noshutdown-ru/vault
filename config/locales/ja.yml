@@ -1,100 +1,135 @@
 # Japanese strings go here for Rails i18n
 ja:
+  button_view: "表示"
   label_vault: 'Vault'
-  label_module: 'Keys'
+  label_module: 'パスワード'
+  field_has_url: 'URLあり'
+  field_has_login: 'ログインあり'
+  field_body: 'パスワード'
   settings:
     title: "Vault 設定"
     vault_title_encription_key: "暗号化キー"
-    redmine_title_encription_key: "Use Redmine encryption"
-    vault_encription_notice: "Used only by Vault encryption method"
-    redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
+    redmine_title_encription_key: "Redmine暗号化を使用"
+    vault_encription_notice: "Vault暗号化メソッドのみで使用"
+    redmine_encryption_notice: "推奨。config/configuration.ymlのdatabase_cipher_keyにキーを設定してください。重要: この設定変更後、rake redmine:plugins:vault:convertを実行してください。"
 
   activerecord:
     models:
-      password: "Password"
+      password: "パスワード"
       sftp: "SFTP"
+      key_file: "パスワードファイル"
 
-    backups:
-      title: "Backup keys"
-      title_restore: "Restore from backup"
-      btn:
-        download_backup: "Download backup"
-        upload_backup: "Restore from backup"
+  backups:
+    title: "パスワードのバックアップ"
+    title_restore: "バックアップから復元"
+    btn:
+      download_backup: "バックアップをダウンロード"
+      upload_backup: "バックアップから復元"
 
-    export:
-      title:
-        pdf: "PDF"
-      pdf:
-        title: "keys"
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "パスワード"
 
-    tag:
-      title:
-        popular: "Popular Tags"
+  tag:
+    title:
+      popular: "人気のタグ"
 
+  key:
+    title:
+      delete: "パスワードを削除"
+      edit: "パスワードを編集"
+      copy: "パスワードをコピー"
+      clone: "パスワードを複製"
+      show: "パスワードを表示"
+      new: "新しいパスワード"
+      list: "パスワード一覧"
+
+    project_not_exist: "ID %{id} のプロジェクトが存在しません"
+    project_id: "ID:"
+
+    btn:
+      new: "新しいパスワード"
+      actions: "操作"
+      clipboard: "クリップボードにコピー"
+      generate: "生成"
+      find: "検索"
+      move: "プロジェクトに割り当て"
+      edit_tags: "タグを編集"
+
+    attr:
+      lock: "ロック"
+      owner: "作成者"
+      body: "パスワード"
+      name: "名前"
+      login: "ログイン"
+      url: "URL"
+      type: "種類"
+      project: "プロジェクト"
+      tags: "タグ"
+      file: "パスワードファイル"
+      comment: "コメント"
+      whitelist: "アクセスリスト"
+      created_at: "作成日時"
+      updated_at: "更新日時"
+
+    whitelist:
+      selected_members: "選択されたメンバー"
+      available_members: "利用可能なメンバー"
+
+    audit_log:
+      title: "監査ログ"
+      action: "操作"
+      user: "ユーザー"
+      fields: "変更されたフィールド"
+      timestamp: "タイムスタンプ"
+      no_entries: "監査項目なし"
+      ago: "前"
+
+  context_menu:
+    copy_key: "パスワードをコピー"
+    copy_url: "URLをコピー"
+    copy_login: "ログインをコピー"
+    delete: "パスワードを削除"
+    edit: "パスワードを編集"
+    clone: "パスワードを複製"
+
+  alert:
     key:
-      title:
-        delete: "Delete Key"
-        edit: "Editing Key"
-        copy: "Copy Key"
-        clone: "Clone Key"
-        show: "Showing Key"
-        new: "New Key"
-        list: "Listing Keys"
+      not_found: "パスワードが見つかりません"
 
-        btn:
-          new: "New Key"
-          actions: "Actions"
-          clipboard: "Copy to clipboard"
-          find: "Find"
+  confirm:
+    key:
+      delete: "このパスワードを削除してもよろしいですか？"
 
-        attr:
-          lock: "Lock"
-          owner: "Owner"
-          body: "Key"
-          name: "Name"
-          login: "Login"
-          url: "URL"
-          type: "Type"
-          tags: "Tags"
-          file: "Key File"
-          comment: "Comment"
-          whitelist: "Access list"
+  notice:
+    settings:
+      saved: "設定を保存しました"
+      keys_restore: "パスワードを復元しました"
+    key:
+      update:
+        success: "パスワードを更新しました"
+      delete:
+        success: "パスワードを削除しました"
+      create:
+        success: "パスワードを作成しました"
 
-        whitelist:
-          selected_members: "Selected Members"
-          available_members: "Available Members"
+  error:
+    key:
+      not_set: "設定で暗号化キーが設定されていません"
+      not_whitelisted: "このパスワードへのアクセスが許可されていません"
+      length: "暗号化キーは正確に16文字でなければなりません"
+      not_orphaned: "このパスワードは孤立していません"
+    project:
+      required: "プロジェクトは必須です"
+    user:
+      not_allowed: "これらのパスワードを表示する権限がありません"
 
-    context_menu:
-      copy_key: "Copy Key"
-      copy_url: "Copy URL"
-      copy_login: "Copy Login"
-      delete: "Delete Key"
-      edit: "Edit Key"
-      clone: "Clone Key"
-
-    alert:
-      key:
-        not_found: "Key not found"
-
-    confirm:
-      key:
-        delete: "Do you want to delete this key?"
-
-    notice:
-      settings:
-        saved: "Settings saved"
-        keys_restore: "Keys restored"
-      key:
-        update:
-          success: "Key was successfully modified"
-        delete:
-          success: "Key was successfully deleted"
-        create:
-          success: "Key was successfully created"
-
-    error:
-      key:
-        not_set: "The encryption key is not set in the settings"
-        not_whitelisted: "Key not allowed for you"
-      user:
-        not_allowed: "You are not allowed to view this passwords"
+  permission_export_keys: "パスワードをエクスポート"
+  permission_keys_all: "全パスワードを表示"
+  permission_download_keys: "パスワードファイルをダウンロード"
+  permission_view_keys: "パスワードを表示"
+  permission_edit_keys: "パスワードを編集"
+  permission_manage_whitelist_keys: "アクセスリストを管理"
+  permission_whitelist_keys: "アクセスリスト"
