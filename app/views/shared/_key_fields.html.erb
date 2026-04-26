@@ -1,4 +1,5 @@
-<% @query.inline_columns.each do |column| %>
+<% query = local_assigns.fetch(:query, @query) %>
+<% query.inline_columns.each do |column| %>
   <td class="<%= column.css_classes %>">
     <% case column.name.to_s %>
     <% when 'type' %>

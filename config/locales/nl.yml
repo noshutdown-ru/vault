@@ -1,18 +1,23 @@
 # Dutch strings go here for Rails i18n
 nl:
+  button_view: "Bekijken"
   label_vault: 'Kluis'
-  label_module: 'Keys'
+  label_module: 'Sleutels'
+  field_has_url: 'Heeft URL'
+  field_has_login: 'Heeft login'
+  field_body: 'Wachtwoord'
   settings:
     title: "Kluis instellingen"
     vault_title_encription_key: "Encryptiesleutel"
     redmine_title_encription_key: "Gebruik Redmine encryptie"
     vault_encription_notice: "Wordt alleen gebruikt door de encryptie methode van de kluis"
-    redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sluitel in de database_cipher_key in config/configuration toe te passen. Belangrijk: voer het commando: \"rake redmine:plugins:vault:convert\" nadat je deze wijzigingen hebt toegepast."
+    redmine_encryption_notice: "Aanbevolen. Vergeet niet om jouw eigen sleutel in de database_cipher_key in config/configuration.yml toe te passen. Belangrijk: voer het commando \"rake redmine:plugins:vault:convert\" nadat je deze wijzigingen hebt toegepast."
 
   activerecord:
     models:
-      password: "Password"
+      password: "Wachtwoord"
       sftp: "SFTP"
+      key_file: "Wachtwoordbestand"
 
   backups:
     title: "Backup sleutels"
@@ -25,7 +30,7 @@ nl:
     title:
       pdf: "PDF"
     pdf:
-      title: "sleutels"
+      title: "Sleutels"
 
   tag:
     title:
@@ -39,13 +44,19 @@ nl:
       clone: "Dupliceer sleutel"
       show: "Resultaat sleutel"
       new: "Nieuwe sleutel"
-      list: "Listing Keys"
+      list: "Sleutels"
+
+    project_not_exist: "Project met ID %{id} bestaat niet"
+    project_id: "ID:"
 
     btn:
       new: "Nieuwe sleutel"
       actions: "Acties"
       clipboard: "Kopieer naar klembord"
+      generate: "Genereren"
       find: "Zoekopdracht"
+      move: "Aan project toewijzen"
+      edit_tags: "Tags bewerken"
 
     attr:
       lock: "Sluit"
@@ -55,14 +66,26 @@ nl:
       login: "Login"
       url: "URL"
       type: "Type"
+      project: "Project"
       tags: "Tags"
       file: "Sleutel bestand"
       comment: "Commentaar"
       whitelist: "Toegangslijst"
+      created_at: "Aangemaakt"
+      updated_at: "Bijgewerkt"
 
     whitelist:
       selected_members: "Geselecteerde leden"
       available_members: "Beschikbare leden"
+
+    audit_log:
+      title: "Auditlog"
+      action: "Actie"
+      user: "Gebruiker"
+      fields: "Gewijzigde velden"
+      timestamp: "Tijdstempel"
+      no_entries: "Geen auditrecords"
+      ago: "geleden"
 
   context_menu:
     copy_key: "Kopieer sleutel"
@@ -82,8 +105,8 @@ nl:
 
   notice:
     settings:
-      saved: "Settings saved"
-      keys_restore: "Keys restored"
+      saved: "Instellingen opgeslagen"
+      keys_restore: "Sleutels hersteld"
     key:
       update:
         success: "Sleutel succesvol aangepast"
@@ -96,6 +119,10 @@ nl:
     key:
       not_set: "De encryptie sleutel is niet gezet in de instellingen"
       not_whitelisted: "Sleutel niet toegestaan voor jou"
+      length: "De encryptiesleutel moet exact 16 tekens lang zijn"
+      not_orphaned: "Deze sleutel is niet weesloos"
+    project:
+      required: "Project is vereist"
     user:
       not_allowed: "U mag deze wachtwoorden niet bekijken"
 

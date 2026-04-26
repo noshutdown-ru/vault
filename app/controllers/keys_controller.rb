@@ -49,7 +49,7 @@ class KeysController < ApplicationController
             render_error t("error.user.not_allowed")
             return
           end
-      end
+        end
         format.json { render json: { keys: @keys } }
       end
     else

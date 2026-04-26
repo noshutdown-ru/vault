@@ -1,18 +1,23 @@
 # Chinese strings go here for Rails i18n
 zh:
+  button_view: "查看"
   label_vault: 'Vault'
   label_module: '密钥'
+  field_has_url: '有URL'
+  field_has_login: '有登录名'
+  field_body: '密钥'
   settings:
     title: "Vault选项"
     vault_title_encription_key: "密钥"
     redmine_title_encription_key: "使用Redmine加密法"
     vault_encription_notice: "只用Vault加密法有效"
-    redmine_encryption_notice: "推荐选项。 请记得设置密钥database_cipher_key在config/configuration.yml文件。 注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
+    redmine_encryption_notice: "推荐选项。请记得设置密钥database_cipher_key在config/configuration.yml文件。注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
 
   activerecord:
     models:
       password: "密钥"
       sftp: "SFTP"
+      key_file: "密钥文件"
 
   backups:
     title: "密钥备份"
@@ -24,13 +29,13 @@ zh:
   export:
     title:
       pdf: "PDF"
-
     pdf:
       title: "密钥"
 
   tag:
-      title:
-        popular: "常用标签"
+    title:
+      popular: "常用标签"
+
   key:
     title:
       delete: "删除密钥"
@@ -41,11 +46,17 @@ zh:
       new: "新建密钥"
       list: "密钥"
 
+    project_not_exist: "ID为 %{id} 的项目不存在"
+    project_id: "ID:"
+
     btn:
       new: "新建密钥"
       actions: "操作"
-      clipboard: "复制到剪贴板中"
+      clipboard: "复制到剪贴板"
+      generate: "生成"
       find: "搜索"
+      move: "分配到项目"
+      edit_tags: "编辑标签"
 
     attr:
       lock: "锁"
@@ -55,22 +66,34 @@ zh:
       login: "用户名"
       url: "URL"
       type: "类型"
+      project: "项目"
       tags: "标签"
       file: "密钥文件"
       comment: "备注"
       whitelist: "访问表"
+      created_at: "创建时间"
+      updated_at: "更新时间"
 
     whitelist:
       selected_members: "已选成员"
       available_members: "可选成员"
 
+    audit_log:
+      title: "审计日志"
+      action: "操作"
+      user: "用户"
+      fields: "修改的字段"
+      timestamp: "时间戳"
+      no_entries: "无审计记录"
+      ago: "前"
+
   context_menu:
-      copy_key: "复制密钥"
-      copy_url: "复制URL"
-      copy_login: "复制用户名"
-      delete: "删除密钥"
-      edit: "修改密钥"
-      clone: "克隆密钥"
+    copy_key: "复制密钥"
+    copy_url: "复制URL"
+    copy_login: "复制用户名"
+    delete: "删除密钥"
+    edit: "修改密钥"
+    clone: "克隆密钥"
 
   alert:
     key:
@@ -86,7 +109,7 @@ zh:
       keys_restore: "密钥已恢复"
     key:
       update:
-        success:  "成功修改密钥"
+        success: "成功修改密钥"
       delete:
         success: "成功删除密钥"
       create:
@@ -94,8 +117,12 @@ zh:
 
   error:
     key:
-      not_set: "选项钥设置加密方法及密钥"
-      not_whitelisted: "关键不允许你"
+      not_set: "选项未设置加密密钥"
+      not_whitelisted: "您无权访问此密钥"
+      length: "加密密钥必须恰好为16个字符"
+      not_orphaned: "此密钥不是孤立密钥"
+    project:
+      required: "项目是必填项"
     user:
       not_allowed: "您无权查看这些密码"
 

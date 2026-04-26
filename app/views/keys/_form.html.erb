@@ -83,8 +83,8 @@
       <% project_tags = Vault::Tag.tags_list_with_colors(@project.id) %>
       <%= f.text_field :tags, value: Vault::Tag.tags_to_string(key.tags), id: 'vault_key_tags', style: 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;' %>
       <script>
-        var vaultProjectTags = <%= raw project_tags.to_json %>;
-        var vaultCurrentTags = <%= raw key.tags.map { |t| { id: t.name, text: t.name, color: t.color } }.to_json %>;
+        var vaultProjectTags = <%= json_escape project_tags.to_json %>;
+        var vaultCurrentTags = <%= json_escape key.tags.map { |t| { id: t.name, text: t.name, color: t.color } }.to_json %>;
       </script>
       <select id="vault_tags_select" multiple="multiple" style="width:300px;"></select>
     </p>

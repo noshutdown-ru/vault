@@ -1,18 +1,23 @@
 # Portuguese - Portugal strings go here for Rails i18n
 pt:
+  button_view: "Ver"
   label_vault: 'Senhas'
   label_module: 'Chaves'
+  field_has_url: 'Tem URL'
+  field_has_login: 'Tem login'
+  field_body: 'Chave'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
     redmine_title_encription_key: "Use Criptografia Redmine"
     vault_encription_notice: "Usado apenas pelo método de criptografia do Vault"
-    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config / configuration.yml. IMPORTANTE: execute o rake redmine: plugins: vault: converte depois de mudar este interruptor."
+    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config/configuration.yml. IMPORTANTE: execute o rake redmine:plugins:vault:convert depois de mudar este interruptor."
 
   activerecord:
     models:
       password: "Chave"
       sftp: "SFTP"
+      key_file: "Arquivo de chave"
 
   backups:
     title: "Backup Chaves"
@@ -37,15 +42,21 @@ pt:
       edit: "Editar Chave"
       copy: "Copiar Chave"
       clone: "Clonar Chave"
-      show: "Mostar Chave"
+      show: "Mostrar Chave"
       new: "Nova Chave"
       list: "Chaves"
+
+    project_not_exist: "Projeto com ID %{id} não existe"
+    project_id: "ID:"
 
     btn:
       new: "Nova Chave"
       actions: "Ações"
       clipboard: "Copiar para clipboard"
+      generate: "Gerar"
       find: "Procurar"
+      move: "Atribuir ao Projeto"
+      edit_tags: "Editar Tags"
 
     attr:
       lock: "Bloqueado"
@@ -55,14 +66,26 @@ pt:
       login: "Login"
       url: "URL"
       type: "Tipo"
+      project: "Projeto"
       tags: "Tags"
       file: "Chave em Arquivo"
       comment: "Comentário"
       whitelist: "Lista de Acesso"
+      created_at: "Criado"
+      updated_at: "Atualizado"
 
     whitelist:
       selected_members: "Selecionar Membros"
       available_members: "Membros disponíveis"
+
+    audit_log:
+      title: "Log de Auditoria"
+      action: "Ação"
+      user: "Utilizador"
+      fields: "Campos Alterados"
+      timestamp: "Data/Hora"
+      no_entries: "Sem registos de auditoria"
+      ago: "atrás"
 
   context_menu:
     copy_key: "Copiar Chave"
@@ -74,7 +97,7 @@ pt:
 
   alert:
     key:
-      not_found: "Chave não encotrada"
+      not_found: "Chave não encontrada"
 
   confirm:
     key:
@@ -82,7 +105,7 @@ pt:
 
   notice:
     settings:
-      saved: "Salvar Configurações"
+      saved: "Configurações guardadas"
       keys_restore: "Chaves restauradas"
     key:
       update:
@@ -96,6 +119,10 @@ pt:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
       not_whitelisted: "Chave não permitida para você"
+      length: "A chave de criptografia deve ter exatamente 16 caracteres"
+      not_orphaned: "Esta chave não está órfã"
+    project:
+      required: "Projeto é obrigatório"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
 

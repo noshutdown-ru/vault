@@ -1,9 +1,5 @@
 # Changelog
 
-## Version: 0.10.1
-### Improvements
-- Prepare for next release
-
 ## Version: 0.11.0
 ### Improvements
 - Refactored the search page to support query-based patterns
@@ -12,6 +8,22 @@
 - Adjusted UI navigation for consistency with Redmine structure
 - Integrated Select2 JavaScript component for enhanced tag selection
 - Added support for Redmine 6.1
+### Bugfix
+- Fixed misindented `end` in `keys_controller` index action causing misleading code structure
+- Fixed XSS-pattern in form view: replaced `raw` with `json_escape` for inline JSON tag data
+- Fixed `_key_fields` partial depending on `@query` instance variable; now accepts a `query` local with `@query` fallback
+- Fixed tag assignment in `create` action: tags are now set after save so the join table has a valid `key_id`
+- Fixed `update` action passing tags through mass-assignment; tags are now handled separately
+### Locales
+- Fixed broken YAML structure in `ja.yml` (all keys were incorrectly nested under `activerecord`)
+- Translated all remaining English strings in `ja.yml`
+- Added missing `key_file` model name to `de`, `es`, `fr`, `it`, `ja`, `nl` locales
+- Added missing `field_has_url`, `field_has_login`, `field_body`, `key.btn.generate` to all non-English locales
+- Added missing `key.audit_log`, `key.btn.move/edit_tags`, `key.attr.project/created_at/updated_at`, `error.key.length/not_orphaned`, `error.project.required` to all non-English locales
+- Fixed untranslated strings in `de`, `fr`, `it`, `nl`, `zh` locales
+- Added `permission_keys_all` to `ru` locale
+### Tests
+- Added `test/unit/locale_test.rb` to assert all locales contain every key defined in `en.yml`
 
 ## Version: 0.10.5
 ### Bugfix

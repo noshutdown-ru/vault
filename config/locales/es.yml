@@ -1,7 +1,11 @@
 # Spanish strings go here for Rails i18n
 es:
+  button_view: "Ver"
   label_vault: 'Vault'
   label_module: 'Claves'
+  field_has_url: 'Tiene URL'
+  field_has_login: 'Tiene usuario'
+  field_body: 'Clave'
   settings:
     title: "Configuración de Vault"
     vault_title_encription_key: "Clave de encriptación"
@@ -13,6 +17,7 @@ es:
     models:
       password: "Clave"
       sftp: "SFTP"
+      key_file: "Archivo de clave"
 
   backups:
     title: "Copia de seguridad de las claves"
@@ -41,11 +46,17 @@ es:
       new: "Nueva Clave"
       list: "Claves"
 
+    project_not_exist: "El proyecto con ID %{id} no existe"
+    project_id: "ID:"
+
     btn:
       new: "Nueva Clave"
       actions: "Acciones"
       clipboard: "Copiar al portapapeles"
+      generate: "Generar"
       find: "Buscar"
+      move: "Asignar al Proyecto"
+      edit_tags: "Editar Etiquetas"
 
     attr:
       lock: "Bloquear"
@@ -55,14 +66,26 @@ es:
       login: "Usuario"
       url: "URL"
       type: "Tipo"
+      project: "Proyecto"
       tags: "Etiquetas"
       file: "Archivo de Clave"
       comment: "Comentario"
       whitelist: "Lista de accesos"
+      created_at: "Creado"
+      updated_at: "Actualizado"
 
     whitelist:
       selected_members: "Miembros seleccionados"
       available_members: "Miembros disponibles"
+
+    audit_log:
+      title: "Registro de auditoría"
+      action: "Acción"
+      user: "Usuario"
+      fields: "Campos modificados"
+      timestamp: "Marca de tiempo"
+      no_entries: "Sin entradas de auditoría"
+      ago: "hace"
 
   context_menu:
     copy_key: "Copiar Clave"
@@ -96,6 +119,10 @@ es:
     key:
       not_set: "Clave de encriptación no está configurada"
       not_whitelisted: "Usted no tiene acceso a esta clave"
+      length: "La clave de encriptación debe tener exactamente 16 símbolos"
+      not_orphaned: "Esta clave no es huérfana"
+    project:
+      required: "El proyecto es obligatorio"
     user:
       not_allowed: "No tienes permiso para ver estas contraseñas"
 

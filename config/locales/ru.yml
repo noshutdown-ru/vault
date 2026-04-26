@@ -1,7 +1,11 @@
 # Russian strings go here for Rails i18n
 ru:
+  button_view: "Просмотр"
   label_vault: 'Vault'
   label_module: 'Ключи'
+  field_has_url: 'Есть URL'
+  field_has_login: 'Есть логин'
+  field_body: 'Пароль'
   settings:
     title: "Настройки Vault"
     vault_title_encription_key: "Ключ шифрования"
@@ -13,6 +17,7 @@ ru:
     models:
       password: "Ключ"
       sftp: "SFTP"
+      key_file: "Файл ключа"
 
   backups:
     title: "Управление резервными копиями"
@@ -24,13 +29,13 @@ ru:
   export:
     title:
       pdf: "PDF"
-
     pdf:
-      title: "ключи"
+      title: "Ключи"
 
   tag:
-      title:
-        popular: "Популярные теги"
+    title:
+      popular: "Популярные теги"
+
   key:
     title:
       delete: "Удалить ключ"
@@ -41,11 +46,17 @@ ru:
       new: "Новый ключ"
       list: "Ключи"
 
+    project_not_exist: "Проект с ID %{id} не существует"
+    project_id: "ID:"
+
     btn:
       new: "Добавить ключ"
       actions: "Действия"
       clipboard: "Копировать в буфер"
+      generate: "Сгенерировать"
       find: "Искать"
+      move: "Назначить проекту"
+      edit_tags: "Редактировать теги"
 
     attr:
       lock: "Замок"
@@ -55,22 +66,34 @@ ru:
       login: "Пользователь"
       url: "URL"
       type: "Тип"
+      project: "Проект"
       tags: "Теги"
       file: "Файл ключа"
       comment: "Комментарий"
       whitelist: "Список доступа"
+      created_at: "Создан"
+      updated_at: "Изменён"
 
     whitelist:
       selected_members: "Выбранные участники"
       available_members: "Доступные участники"
 
+    audit_log:
+      title: "Журнал аудита"
+      action: "Действие"
+      user: "Пользователь"
+      fields: "Изменённые поля"
+      timestamp: "Время"
+      no_entries: "Записей нет"
+      ago: "назад"
+
   context_menu:
-      copy_key: "Копировать ключ"
-      copy_url: "Копировать URL"
-      copy_login: "Копировать логин"
-      delete: "Удалить ключ"
-      edit: "Редактировать ключ"
-      clone: "Клонировать ключ"
+    copy_key: "Копировать ключ"
+    copy_url: "Копировать URL"
+    copy_login: "Копировать логин"
+    delete: "Удалить ключ"
+    edit: "Редактировать ключ"
+    clone: "Клонировать ключ"
 
   alert:
     key:
@@ -97,10 +120,14 @@ ru:
       not_set: "Ключ шифрования не установлен в настройках"
       not_whitelisted: "Ключ вам не доступен"
       length: "Ключ шифрования должен быть из 16 символов"
+      not_orphaned: "Этот ключ не является сиротой"
+    project:
+      required: "Проект обязателен"
     user:
       not_allowed: "Вам не разрешено просматривать эти пароли"
 
   permission_export_keys: "Экспортировать ключи"
+  permission_keys_all: "Просматривать все ключи"
   permission_download_keys: "Скачивать ключи"
   permission_view_keys: "Просматривать ключи"
   permission_edit_keys: "Редактировать ключи"

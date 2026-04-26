@@ -1,7 +1,11 @@
 # Italian strings go here for Rails i18n
 it:
+  button_view: "Visualizza"
   label_vault: 'Vault'
-  label_module: 'Keys'
+  label_module: 'Chiavi'
+  field_has_url: 'Ha URL'
+  field_has_login: 'Ha login'
+  field_body: 'Password'
   settings:
     title: "Impostazioni Vault"
     vault_title_encription_key: "Chiave crittografica"
@@ -13,19 +17,20 @@ it:
     models:
       password: "Chiavi"
       sftp: "SFTP"
+      key_file: "File chiave"
 
   backups:
     title: "Backup chiavi"
     title_restore: "Ripristinare dal backup"
     btn:
       download_backup: "Download backup"
-      upload_backup: "Restore from backup"
+      upload_backup: "Ripristina dal backup"
 
   export:
     title:
       pdf: "PDF"
     pdf:
-      title: "chiavi"
+      title: "Chiavi"
 
   tag:
     title:
@@ -39,13 +44,19 @@ it:
       clone: "Clona Chiave"
       show: "Mostra la chiave"
       new: "Nuova Chiave"
-      list: "Chiave"
+      list: "Chiavi"
+
+    project_not_exist: "Il progetto con ID %{id} non esiste"
+    project_id: "ID:"
 
     btn:
       new: "Nuova Chiave"
       actions: "Azioni"
       clipboard: "Copia negli appunti"
+      generate: "Genera"
       find: "Ricerca"
+      move: "Assegna al Progetto"
+      edit_tags: "Modifica Tag"
 
     attr:
       lock: "Blocca"
@@ -55,14 +66,26 @@ it:
       login: "Utente"
       url: "URL"
       type: "Tipo"
+      project: "Progetto"
       tags: "Tag"
       file: "File Chiave"
       comment: "Commento"
       whitelist: "Elenco di accesso"
+      created_at: "Creato"
+      updated_at: "Aggiornato"
 
     whitelist:
       selected_members: "Membri selezionati"
       available_members: "Membri disponibili"
+
+    audit_log:
+      title: "Log di audit"
+      action: "Azione"
+      user: "Utente"
+      fields: "Campi modificati"
+      timestamp: "Data/Ora"
+      no_entries: "Nessuna voce di audit"
+      ago: "fa"
 
   context_menu:
     copy_key: "Copia Chiave"
@@ -96,6 +119,10 @@ it:
     key:
       not_set: "La chiave crittografata non è definita nelle impostazioni"
       not_whitelisted: "Chiave non consentita per te"
+      length: "La chiave crittografica deve essere di esattamente 16 caratteri"
+      not_orphaned: "Questa chiave non è orfana"
+    project:
+      required: "Il progetto è obbligatorio"
     user:
       not_allowed: "Non sei autorizzato a visualizzare queste password"
 
