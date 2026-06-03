@@ -1,7 +1,11 @@
 # Russian strings go here for Rails i18n
 ru:
+  button_view: 'Просмотр'
   label_vault: 'Vault'
   label_module: 'Ключи'
+  field_has_url: 'Есть URL'
+  field_has_login: 'Есть логин'
+  field_body: 'Пароль'
   settings:
     title: "Настройки Vault"
     vault_title_encription_key: "Ключ шифрования"
@@ -28,6 +32,7 @@ ru:
     models:
       password: "Ключ"
       sftp: "SFTP"
+      key_file: "Файл пароля"
 
   backups:
     title: "Управление резервными копиями"
@@ -56,12 +61,17 @@ ru:
       new: "Новый ключ"
       list: "Ключи"
 
+    project_not_exist: "Проект с ID %{id} не существует"
+    project_id: "ID:"
+
     btn:
       new: "Добавить ключ"
       actions: "Действия"
       clipboard: "Копировать в буфер"
       generate: "Сгенерировать"
       find: "Искать"
+      move: "Присвоить проекту"
+      edit_tags: "Редактировать теги"
 
     attr:
       lock: "Замок"
@@ -71,10 +81,22 @@ ru:
       login: "Пользователь"
       url: "URL"
       type: "Тип"
+      project: "Проект"
       tags: "Теги"
       file: "Файл ключа"
       comment: "Комментарий"
       whitelist: "Список доступа"
+      created_at: "Создан"
+      updated_at: "Обновлен"
+
+    audit_log:
+      title: "Журнал аудита"
+      action: "Действие"
+      user: "Пользователь"
+      fields: "Изменённые поля"
+      timestamp: "Временная метка"
+      no_entries: "Нет записей аудита"
+      ago: "назад"
 
     whitelist:
       selected_members: "Выбранные участники"
@@ -115,10 +137,14 @@ ru:
       not_set: "Ключ шифрования не установлен в настройках"
       not_whitelisted: "Ключ вам не доступен"
       length: "Ключ шифрования должен быть из 16 символов"
+      not_orphaned: "Этот ключ не является осиротой"
+    project:
+      required: "Проект обязателен"
     user:
       not_allowed: "Вам не разрешено просматривать эти пароли"
 
   permission_export_keys: "Экспортировать ключи"
+  permission_keys_all: "Просмотр всех ключей"
   permission_download_keys: "Скачивать ключи"
   permission_view_keys: "Просматривать ключи"
   permission_edit_keys: "Редактировать ключи"

@@ -1,7 +1,11 @@
 # Chinese strings go here for Rails i18n
 zh:
+  button_view: '查看'
   label_vault: 'Vault'
-  label_module: '密钥'
+  label_module: '密鑰'
+  field_has_url: '有 URL'
+  field_has_login: '有登录名'
+  field_body: '密码'
   settings:
     title: "Vault选项"
     vault_title_encription_key: "密钥"
@@ -28,6 +32,7 @@ zh:
     models:
       password: "密钥"
       sftp: "SFTP"
+      key_file: "密码文件"
 
   backups:
     title: "密钥备份"
@@ -56,12 +61,17 @@ zh:
       new: "新建密钥"
       list: "密钥"
 
+    project_not_exist: "ID为 %{id} 的项目不存在"
+    project_id: "ID:"
+
     btn:
-      new: "新建密钥"
+      new: "新建密鑰"
       actions: "操作"
       clipboard: "复制到剪贴板中"
       generate: "生成"
       find: "搜索"
+      move: "分配到项目"
+      edit_tags: "编辑标签"
 
     attr:
       lock: "锁"
@@ -71,10 +81,22 @@ zh:
       login: "用户名"
       url: "URL"
       type: "类型"
+      project: "项目"
       tags: "标签"
-      file: "密钥文件"
+      file: "密鑰文件"
       comment: "备注"
       whitelist: "访问表"
+      created_at: "创建时间"
+      updated_at: "更新时间"
+
+    audit_log:
+      title: "审计日志"
+      action: "操作"
+      user: "用户"
+      fields: "修改的字段"
+      timestamp: "时间戳"
+      no_entries: "无审计记录"
+      ago: "前"
 
     whitelist:
       selected_members: "已选成员"
@@ -114,6 +136,10 @@ zh:
     key:
       not_set: "选项钥设置加密方法及密钥"
       not_whitelisted: "关键不允许你"
+      length: "加密密鑰必须恰好是 16 个字符"
+      not_orphaned: "此密鑰不是孤儿记录"
+    project:
+      required: "项目是必填项"
     user:
       not_allowed: "您无权查看这些密码"
 

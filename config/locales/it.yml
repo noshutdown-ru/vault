@@ -1,7 +1,11 @@
 # Italian strings go here for Rails i18n
 it:
+  button_view: 'Visualizza'
   label_vault: 'Vault'
   label_module: 'Keys'
+  field_has_url: 'Ha URL'
+  field_has_login: 'Ha login'
+  field_body: 'Password'
   settings:
     title: "Impostazioni Vault"
     vault_title_encription_key: "Chiave crittografica"
@@ -28,6 +32,7 @@ it:
     models:
       password: "Chiavi"
       sftp: "SFTP"
+      key_file: "File password"
 
   backups:
     title: "Backup chiavi"
@@ -56,12 +61,17 @@ it:
       new: "Nuova Chiave"
       list: "Chiave"
 
+    project_not_exist: "Il progetto con ID %{id} non esiste"
+    project_id: "ID:"
+
     btn:
       new: "Nuova Chiave"
       actions: "Azioni"
       clipboard: "Copia negli appunti"
       generate: "Genera"
       find: "Ricerca"
+      move: "Assegna al progetto"
+      edit_tags: "Modifica tag"
 
     attr:
       lock: "Blocca"
@@ -71,10 +81,22 @@ it:
       login: "Utente"
       url: "URL"
       type: "Tipo"
+      project: "Progetto"
       tags: "Tag"
       file: "File Chiave"
       comment: "Commento"
       whitelist: "Elenco di accesso"
+      created_at: "Creato"
+      updated_at: "Aggiornato"
+
+    audit_log:
+      title: "Registro audit"
+      action: "Azione"
+      user: "Utente"
+      fields: "Campi modificati"
+      timestamp: "Timestamp"
+      no_entries: "Nessuna voce di audit"
+      ago: "fa"
 
     whitelist:
       selected_members: "Membri selezionati"
@@ -114,6 +136,10 @@ it:
     key:
       not_set: "La chiave crittografata non è definita nelle impostazioni"
       not_whitelisted: "Chiave non consentita per te"
+      length: "La chiave di crittografia deve essere di esattamente 16 caratteri"
+      not_orphaned: "Questa chiave non è orfana"
+    project:
+      required: "Il progetto è obbligatorio"
     user:
       not_allowed: "Non sei autorizzato a visualizzare queste password"
 

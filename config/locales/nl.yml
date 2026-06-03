@@ -1,7 +1,11 @@
 # Dutch strings go here for Rails i18n
 nl:
+  button_view: 'Bekijken'
   label_vault: 'Kluis'
   label_module: 'Keys'
+  field_has_url: 'Heeft URL'
+  field_has_login: 'Heeft login'
+  field_body: 'Wachtwoord'
   settings:
     title: "Kluis instellingen"
     vault_title_encription_key: "Encryptiesleutel"
@@ -28,6 +32,7 @@ nl:
     models:
       password: "Password"
       sftp: "SFTP"
+      key_file: "Wachtwoordbestand"
 
   backups:
     title: "Backup sleutels"
@@ -56,12 +61,17 @@ nl:
       new: "Nieuwe sleutel"
       list: "Listing Keys"
 
+    project_not_exist: "Project met ID %{id} bestaat niet"
+    project_id: "ID:"
+
     btn:
       new: "Nieuwe sleutel"
       actions: "Acties"
       clipboard: "Kopieer naar klembord"
       generate: "Genereren"
       find: "Zoekopdracht"
+      move: "Toewijzen aan project"
+      edit_tags: "Tags bewerken"
 
     attr:
       lock: "Sluit"
@@ -71,10 +81,22 @@ nl:
       login: "Login"
       url: "URL"
       type: "Type"
+      project: "Project"
       tags: "Tags"
       file: "Sleutel bestand"
       comment: "Commentaar"
       whitelist: "Toegangslijst"
+      created_at: "Aangemaakt"
+      updated_at: "Bijgewerkt"
+
+    audit_log:
+      title: "Auditlogboek"
+      action: "Actie"
+      user: "Gebruiker"
+      fields: "Gewijzigde velden"
+      timestamp: "Tijdstempel"
+      no_entries: "Geen auditregistraties"
+      ago: "geleden"
 
     whitelist:
       selected_members: "Geselecteerde leden"
@@ -114,6 +136,10 @@ nl:
     key:
       not_set: "De encryptie sleutel is niet gezet in de instellingen"
       not_whitelisted: "Sleutel niet toegestaan voor jou"
+      length: "Versleutelingssleutel moet exact 16 tekens zijn"
+      not_orphaned: "Deze sleutel is niet wees"
+    project:
+      required: "Project is verplicht"
     user:
       not_allowed: "U mag deze wachtwoorden niet bekijken"
 

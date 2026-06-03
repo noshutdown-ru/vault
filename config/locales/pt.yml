@@ -1,7 +1,11 @@
 # Portuguese - Portugal strings go here for Rails i18n
 pt:
+  button_view: 'Ver'
   label_vault: 'Senhas'
   label_module: 'Chaves'
+  field_has_url: 'Tem URL'
+  field_has_login: 'Tem login'
+  field_body: 'Senha'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
@@ -28,6 +32,7 @@ pt:
     models:
       password: "Chave"
       sftp: "SFTP"
+      key_file: "Ficheiro de senha"
 
   backups:
     title: "Backup Chaves"
@@ -56,12 +61,17 @@ pt:
       new: "Nova Chave"
       list: "Chaves"
 
+    project_not_exist: "Projeto com ID %{id} não existe"
+    project_id: "ID:"
+
     btn:
       new: "Nova Chave"
       actions: "Ações"
       clipboard: "Copiar para clipboard"
       generate: "Gerar"
       find: "Procurar"
+      move: "Atribuir ao projeto"
+      edit_tags: "Editar tags"
 
     attr:
       lock: "Bloqueado"
@@ -71,10 +81,22 @@ pt:
       login: "Login"
       url: "URL"
       type: "Tipo"
+      project: "Projeto"
       tags: "Tags"
       file: "Chave em Arquivo"
       comment: "Comentário"
       whitelist: "Lista de Acesso"
+      created_at: "Criado"
+      updated_at: "Atualizado"
+
+    audit_log:
+      title: "Registo de auditoria"
+      action: "Ação"
+      user: "Utilizador"
+      fields: "Campos alterados"
+      timestamp: "Data/hora"
+      no_entries: "Sem entradas de auditoria"
+      ago: "atrás"
 
     whitelist:
       selected_members: "Selecionar Membros"
@@ -114,6 +136,10 @@ pt:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
       not_whitelisted: "Chave não permitida para você"
+      length: "A chave de encriptação deve ter exatamente 16 caracteres"
+      not_orphaned: "Esta chave não é órfã"
+    project:
+      required: "O projeto é obrigatório"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
 

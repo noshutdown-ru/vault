@@ -1,7 +1,11 @@
 # French strings go here for Rails i18n (Translate from en and it version)
 fr:
+  button_view: 'Voir'
   label_vault: 'Vault'
   label_module: 'clefs'
+  field_has_url: 'A une URL'
+  field_has_login: 'A un login'
+  field_body: 'Mot de passe'
   settings:
     title: "Vault settings"
     vault_title_encription_key: "clef de chiffrement"
@@ -28,6 +32,7 @@ fr:
     models:
       password: "Clef"
       sftp: "SFTP"
+      key_file: "Fichier de mot de passe"
 
   backups:
     title: "Sauvegarder les clefs"
@@ -56,12 +61,17 @@ fr:
       new: "Nouvelle clef"
       list: "Clefs"
 
+    project_not_exist: "Le projet avec l'ID %{id} n'existe pas"
+    project_id: "ID :"
+
     btn:
       new: "Nouvelle clef"
       actions: "Actions"
       clipboard: "Copier vers le presse papier"
       generate: "Générer"
       find: "Recherche"
+      move: "Assigner au projet"
+      edit_tags: "Modifier les tags"
 
     attr:
       lock: "Verrou"
@@ -71,10 +81,22 @@ fr:
       login: "Login"
       url: "URL"
       type: "Type"
+      project: "Projet"
       tags: "Tags"
       file: "Fichier de le clef"
       comment: "Commentaire"
       whitelist: "Autorisation des membres"
+      created_at: "Créé"
+      updated_at: "Modifié"
+
+    audit_log:
+      title: "Journal d'audit"
+      action: "Action"
+      user: "Utilisateur"
+      fields: "Champs modifiés"
+      timestamp: "Horodatage"
+      no_entries: "Aucune entrée d'audit"
+      ago: "il y a"
 
     whitelist:
       selected_members: "Membres autorisés"
@@ -114,6 +136,10 @@ fr:
     key:
       not_set: "La clé de chiffrement n'est pas déclarée dans la configuration"
       not_whitelisted: "Clef non autoirisée à la consultation"
+      length: "La clé de chiffrement doit faire exactement 16 caractères"
+      not_orphaned: "Cette clé n'est pas orpheline"
+    project:
+      required: "Le projet est obligatoire"
     user:
       not_allowed: "Vous n'êtes pas autorisé à voir ces mots de passe"
 

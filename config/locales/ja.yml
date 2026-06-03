@@ -24,98 +24,125 @@ ja:
       permissions_audit: "権限監査"
       description: "どのユーザーがどのキーにアクセスできるか、その理由を確認します。権限のデバッグやタグベース権限への移行計画に役立ちます。"
 
+  button_view: '表示'
+  field_has_url: 'URLあり'
+  field_has_login: 'ログインあり'
+  field_body: 'パスワード'
+
   activerecord:
     models:
-      password: "Password"
+      password: "パスワード"
       sftp: "SFTP"
+      key_file: "パスワードファイル"
 
-    backups:
-      title: "Backup keys"
-      title_restore: "Restore from backup"
-      btn:
-        download_backup: "Download backup"
-        upload_backup: "Restore from backup"
+  backups:
+    title: "パスワードのバックアップ"
+    title_restore: "バックアップから復元"
+    btn:
+      download_backup: "バックアップをダウンロード"
+      upload_backup: "バックアップから復元"
 
-    export:
-      title:
-        pdf: "PDF"
-      pdf:
-        title: "keys"
+  export:
+    title:
+      pdf: "PDF"
+    pdf:
+      title: "パスワード"
 
-    tag:
-      title:
-        popular: "Popular Tags"
+  tag:
+    title:
+      popular: "人気のタグ"
 
+  key:
+    title:
+      delete: "パスワードを削除"
+      edit: "パスワードを編集"
+      copy: "パスワードをコピー"
+      clone: "パスワードをクローン"
+      show: "パスワードを表示"
+      new: "新しいパスワード"
+      list: "パスワード一覧"
+
+    project_not_exist: "ID %{id} のプロジェクトは存在しません"
+    project_id: "ID:"
+
+    btn:
+      new: "新しいパスワード"
+      actions: "アクション"
+      clipboard: "クリップボードにコピー"
+      generate: "生成"
+      find: "検索"
+      move: "プロジェクトに割り当て"
+      edit_tags: "タグを編集"
+
+    attr:
+      lock: "ロック"
+      owner: "所有者"
+      body: "パスワード"
+      name: "名前"
+      login: "ログイン"
+      url: "URL"
+      type: "種類"
+      project: "プロジェクト"
+      tags: "タグ"
+      file: "パスワードファイル"
+      comment: "コメント"
+      whitelist: "アクセスリスト"
+      created_at: "作成日時"
+      updated_at: "更新日時"
+
+    whitelist:
+      selected_members: "選択済みメンバー"
+      available_members: "利用可能なメンバー"
+
+    audit_log:
+      title: "監査ログ"
+      action: "操作"
+      user: "ユーザー"
+      fields: "変更フィールド"
+      timestamp: "タイムスタンプ"
+      no_entries: "監査エントリなし"
+      ago: "前"
+
+  context_menu:
+    copy_key: "パスワードをコピー"
+    copy_url: "URLをコピー"
+    copy_login: "ログインをコピー"
+    delete: "パスワードを削除"
+    edit: "パスワードを編集"
+    clone: "パスワードをクローン"
+
+  alert:
     key:
-      title:
-        delete: "Delete Key"
-        edit: "Editing Key"
-        copy: "Copy Key"
-        clone: "Clone Key"
-        show: "Showing Key"
-        new: "New Key"
-        list: "Listing Keys"
+      not_found: "パスワードが見つかりません"
 
-        btn:
-          new: "New Key"
-          actions: "Actions"
-          clipboard: "Copy to clipboard"
-          generate: "Generate"
-          find: "Find"
+  confirm:
+    key:
+      delete: "このパスワードを削除しますか？"
 
-        attr:
-          lock: "Lock"
-          owner: "Owner"
-          body: "Key"
-          name: "Name"
-          login: "Login"
-          url: "URL"
-          type: "Type"
-          tags: "Tags"
-          file: "Key File"
-          comment: "Comment"
-          whitelist: "Access list"
+  notice:
+    settings:
+      saved: "設定を保存しました"
+      keys_restore: "パスワードを復元しました"
+      encrypt_files_enabled: "設定を保存しました。ファイルの暗号化を有効にしています。ファイル数によっては時間がかかる場合があります。"
+      encrypt_files_disabled: "設定を保存しました。ファイルの暗号化を無効にしています。すべてのファイルが復号化されます。ファイル数によっては時間がかかる場合があります。"
+    key:
+      update:
+        success: "パスワードを正常に更新しました"
+      delete:
+        success: "パスワードを正常に削除しました"
+      create:
+        success: "パスワードを正常に作成しました"
 
-        whitelist:
-          selected_members: "Selected Members"
-          available_members: "Available Members"
-
-    context_menu:
-      copy_key: "Copy Key"
-      copy_url: "Copy URL"
-      copy_login: "Copy Login"
-      delete: "Delete Key"
-      edit: "Edit Key"
-      clone: "Clone Key"
-
-    alert:
-      key:
-        not_found: "Key not found"
-
-    confirm:
-      key:
-        delete: "Do you want to delete this key?"
-
-    notice:
-      settings:
-        saved: "Settings saved"
-        keys_restore: "Keys restored"
-        encrypt_files_enabled: "Settings saved. File encryption is being enabled. This may take a moment depending on the number of files."
-        encrypt_files_disabled: "Settings saved. File encryption is being disabled and all files will be decrypted. This may take a moment depending on the number of files."
-      key:
-        update:
-          success: "Key was successfully modified"
-        delete:
-          success: "Key was successfully deleted"
-        create:
-          success: "Key was successfully created"
-
-    error:
-      key:
-        not_set: "The encryption key is not set in the settings"
-        not_whitelisted: "Key not allowed for you"
-      user:
-        not_allowed: "You are not allowed to view this passwords"
+  error:
+    key:
+      not_set: "設定で暗号化キーが設定されていません"
+      not_whitelisted: "このパスワードへのアクセスは許可されていません"
+      length: "暗号化キーはちょうど16文字である必要があります"
+      not_orphaned: "このキーは孤立していません"
+    project:
+      required: "プロジェクトは必須です"
+    user:
+      not_allowed: "このパスワードを閲覧する権限がありません"
 
   permission_export_keys: "パスワードをエクスポート"
   permission_keys_all: "全パスワードを表示"

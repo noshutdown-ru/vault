@@ -1,6 +1,10 @@
 de:
+  button_view: 'Ansehen'
   label_vault: 'Vault'
   label_module: 'Passwörter'
+  field_has_url: 'Hat URL'
+  field_has_login: 'Hat Login'
+  field_body: 'Passwort'
   settings:
     title: "Vault Einstellungen"
     vault_title_encription_key: "Encryption key"
@@ -27,6 +31,7 @@ de:
     models:
       password: "Passwört"
       sftp: "SFTP"
+      key_file: "Passwortdatei"
 
   backups:
     title: "Passwortbackup "
@@ -55,12 +60,17 @@ de:
       new: "neues Passwort"
       list: "Passwörter"
 
+    project_not_exist: "Projekt mit ID %{id} existiert nicht"
+    project_id: "ID:"
+
     btn:
       new: "neues Passwort"
       actions: "Aktionen"
       clipboard: "In die Zwischenablage kopieren"
       generate: "Generieren"
       find: "Suchen"
+      move: "Projekt zuweisen"
+      edit_tags: "Tags bearbeiten"
 
     attr:
       lock: "Lock"
@@ -70,14 +80,26 @@ de:
       login: "Benutzername"
       url: "URL"
       type: "Typ"
+      project: "Projekt"
       tags: "Tags"
       file: "Schlüsseldatei"
       comment: "Kommentar"
       whitelist: "Zugriffsliste"
+      created_at: "Erstellt"
+      updated_at: "Aktualisiert"
 
     whitelist:
       selected_members: "Benutzer mit Zugriff"
       available_members: "verfügbare Benutzer"
+
+    audit_log:
+      title: "Auditprotokoll"
+      action: "Aktion"
+      user: "Benutzer"
+      fields: "Geänderte Felder"
+      timestamp: "Zeitstempel"
+      no_entries: "Keine Einträge"
+      ago: "vor"
 
   context_menu:
     copy_key: "Passwort kopieren"
@@ -113,6 +135,10 @@ de:
     key:
       not_set: "Encryption key wurde nicht in den Einstellungen hinterlegt"
       not_whitelisted: "Kein Zugriff auf das Passwort"
+      length: "Verschlüsselungsschlüssel muss genau 16 Zeichen lang sein"
+      not_orphaned: "Dieser Schlüssel ist nicht verwaist"
+    project:
+      required: "Projekt ist erforderlich"
     user:
       not_allowed: "Sie sind nicht berechtigt, diese Passwörter anzusehen"
 
