@@ -65,7 +65,7 @@
 
     <p class="buttons hide-when-print">
       <%= link_to_function sprite_icon('checked', l(:button_apply)), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
-      <%= link_to sprite_icon('reload', l(:button_clear)), clear_filters_action, :class => 'icon icon-reload' %>
+      <%= link_to sprite_icon('reload', l(:button_clear)), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload' %>
     </p>
   </div>
 <% end %>
