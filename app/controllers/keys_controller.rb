@@ -11,54 +11,8 @@ class KeysController < ApplicationController
   include QueriesHelper
 
   def index
-    unless Setting.plugin_vault['use_redmine_encryption'] ||
-      Setting.plugin_vault['use_null_encryption']
-      if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
-        render_error t("error.key.not_set")
-        return
-      end
-    end
-
-    retrieve_query(Vault::KeyQuery)
-    sort_init(@query.sort_criteria.empty? ? [['name', 'asc']] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-    @query.sort_criteria = sort_criteria.to_a
-    @search = params[:search].to_s
-
-    if @query.valid?
-      @limit = per_page_option
-
-      scoped_keys = @query.results_scope(
-        search: @search,
-        order: sort_clause
-      )
-
-      all_visible_keys = scoped_keys.to_a.select { |key| key.whitelisted?(User.current, @project) }
-      @key_count = all_visible_keys.size
-      @key_pages = Paginator.new(@key_count, @limit, params[:page])
-      @offset ||= @key_pages.offset
-      @keys = all_visible_keys.drop(@offset).first(@limit)
-      @keys.each(&:decrypt!)
-
-      respond_to do |format|
-        format.html do
-          render partial: 'list', layout: false if request.xhr?
-        end
-        format.pdf do
-          unless User.current.allowed_to?(:export_keys, @project)
-            render_error t("error.user.not_allowed")
-            return
-          end
-        end
-        format.json { render json: { keys: @keys } }
-      end
-    else
-      respond_to do |format|
-        format.html { render template: 'keys/index', layout: !request.xhr? }
-        format.any(:pdf) { render plain: '' }
-        format.json { render_validation_errors(@query) }
-      end
-    end
+    return unless prepare_query
+    render_query
   end
 
   def all
@@ -67,51 +21,10 @@ class KeysController < ApplicationController
       return
     end
 
-    unless Setting.plugin_vault['use_redmine_encryption'] or Setting.plugin_vault['use_null_encryption']
-      if not Setting.plugin_vault['encryption_key'] or Setting.plugin_vault['encryption_key'].empty?
-        render_error t("error.key.not_set")
-        return
-      end
-    end
+    @project = nil
 
-    if User.current.admin?
-      @projects = Project.active
-    else
-      @projects = projects_for_jump_box(User.current)
-    end
-
-    sort_init 'name', 'asc'
-    sort_update 'name' => "#{Vault::Key.table_name}.name"
-
-    @keys = Vault::Key.all
-    @keys = @keys.order(sort_clause)
-    @keys = @keys.select { |key| key.whitelisted?(User.current, key.project) }
-    @keys = [] if @keys.nil? # hack for decryption
-
-    # Filter by tag if query parameter contains #tagname
-    @query = params[:query]
-    if @query && !@query.empty? && @query.match(/#/)
-      tag_string = (@query.match(/(#)([^,]+)/))[2]
-      tag = Vault::Tag.find_by_name(tag_string)
-      @keys = tag.nil? ? [] : @keys.select { |key| key.tags.include?(tag) }
-    end
-
-    @limit = per_page_option
-    @key_count = @keys.count
-    @key_pages = Paginator.new @key_count, @limit, params[:page]
-    @offset ||= @key_pages.offset
-
-    if @key_count > 0
-      @keys = @keys.drop(@offset).first(@limit)
-    end
-
-    @keys.map(&:decrypt!)
-
-    respond_to do |format|
-      format.html
-      format.pdf
-      format.json { render json: { keys: @keys } }
-    end
+    return unless prepare_query
+    render_query
   end
 
   def new
@@ -338,6 +251,74 @@ class KeysController < ApplicationController
   # ===================== End Orphaned Key Operations =====================
 
   private
+
+  def prepare_query
+    unless Setting.plugin_vault['use_redmine_encryption'] || Setting.plugin_vault['use_null_encryption'] || Setting.plugin_vault['encryption_key'].present?
+      render_error t("error.key.not_set")
+      return false
+    end
+
+    retrieve_query(Vault::KeyQuery)
+    sort_init(@query.sort_criteria.empty? ? [['name', 'asc']] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+    @query.sort_criteria = sort_criteria.to_a
+    @search = params[:search].to_s
+
+    return unless @query.valid?
+
+    @limit = per_page_option
+
+    scoped_keys = @query.results_scope(
+      search: @search,
+      order: sort_clause
+    )
+
+    all_visible_keys = scoped_keys.to_a.select do |key|
+      key.whitelisted?(User.current, @project || key.project)
+    end
+
+    @key_count = all_visible_keys.size
+    @key_pages = Paginator.new(@key_count, @limit, params[:page])
+    @offset ||= @key_pages.offset
+    @keys = all_visible_keys.drop(@offset).first(@limit)
+    @keys.each(&:decrypt!)
+
+    true
+  end
+
+  def render_query
+    if @query.valid?
+      respond_to do |format|
+        format.html do
+          if request.xhr?
+            render partial: 'list', layout: false
+          elsif @project.blank?
+            render template: 'keys/index'
+          end
+        end
+        format.pdf do
+          if @project.present?
+            unless User.current.allowed_to?(:export_keys, @project)
+              render_error t("error.user.not_allowed")
+              return
+            end
+          elsif !User.current.allowed_to?({ :controller => 'keys', :action => 'all' }, nil, :global => true)
+            render_error t("error.user.not_allowed")
+            return
+          end
+
+          render template: 'keys/index' if @project.blank?
+        end
+        format.json { render json: { keys: @keys } }
+      end
+    else
+      respond_to do |format|
+        format.html { render template: 'keys/index', layout: !request.xhr? }
+        format.any(:pdf) { render plain: '' }
+        format.json { render_validation_errors(@query) }
+      end
+    end
+  end
 
   def set_audit_user
     # Placeholder for audit user - actual assignment happens in each action

@@ -109,27 +109,27 @@
         <table class='whitelist_users'>
           <tr>
             <td style='padding-left:0'>
-              <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "no-css" %>
-              <br />
-              <%= select_tag 'available_users',
-                options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
-                id: 'available_users', multiple: true, size: 10,
-                ondblclick: "moveOptions(this.form.available_users, this.form.selected_users)" %>
-            </td>
-            <td class="buttons">
-              <input type="button" value="&#8594;"
-                onclick="moveOptions(this.form.available_users, this.form.selected_users);" />
-              <input type="button" value="&#8592;"
-                onclick="moveOptions(this.form.selected_users, this.form.available_users);" /><br />
-            </td>
-
-            <td>
               <%= label_tag 'selected_users', t('key.whitelist.selected_members'), class: "no-css" %>
               <br />
               <%= select_tag 'whitelist',
                 options_for_select(all_users.select {|u| whitelisted.include?(u[1])}),
                 id: 'selected_users', multiple: true, size: 10,
                 ondblclick: "moveOptions(this.form.selected_users, this.form.available_users)" %>
+            </td>
+            <td class="buttons">
+              <input type="button" value="&#8594;"
+                onclick="moveOptions(this.form.selected_users, this.form.available_users);" /><br />
+              <input type="button" value="&#8592;"
+                onclick="moveOptions(this.form.available_users, this.form.selected_users);" />
+            </td>
+
+            <td>
+              <%= label_tag 'available_users', t('key.whitelist.available_members'), class: "no-css" %>
+              <br />
+              <%= select_tag 'available_users',
+                options_for_select(all_users.select {|u| not whitelisted.include?(u[1])}),
+                id: 'available_users', multiple: true, size: 10,
+                ondblclick: "moveOptions(this.form.available_users, this.form.selected_users)" %>
             </td>
           </tr>
         </table>

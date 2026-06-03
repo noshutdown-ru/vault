@@ -1,25 +1,35 @@
 de:
-  button_view: "Anzeigen"
   label_vault: 'Vault'
   label_module: 'Passwörter'
-  field_has_url: 'Hat URL'
-  field_has_login: 'Hat Login'
-  field_body: 'Passwort'
   settings:
     title: "Vault Einstellungen"
-    vault_title_encription_key: "Verschlüsselungsschlüssel"
+    vault_title_encription_key: "Encryption key"
     redmine_title_encription_key: "Verschlüsselung von Redmine verwenden"
     vault_encription_notice: "Vault-eigene Verschlüsselung verwenden"
     redmine_encryption_notice: "Empfohlen. Der Schlüssel muss unter 'database_cipher_key' in der Konfiguration config/configuration.yml hinterlegt werden. WICHTIG: führe danach »rake redmine:plugins:vault:convert« aus."
+    show_top_menu: "Im Top-Menü anzeigen"
+    show_top_menu_notice: "Zeigt den Vault-Link in der oberen Redmine-Navigation an."
+    encrypt_files: "Dateien verschlüsseln"
+    encrypt_files_notice: "Wenn aktiviert, werden alle hochgeladenen Dateien auf dem Datenträger verschlüsselt. Wenn deaktiviert, werden alle Dateien entschlüsselt."
+    encrypt_files_warning_title: "Wichtig: Backup vor dem Aktivieren/Deaktivieren"
+    encrypt_files_warning_body_html: "Bevor Sie diese Einstellung umschalten, erstellen Sie manuell eine Sicherung Ihrer Dateien, indem Sie das Verzeichnis <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> an einen anderen Ort auf dem Server kopieren. Dies schützt vor Datenverlust, falls beim Ver- oder Entschlüsseln Fehler auftreten."
+    encrypt_files_backup_howto: "Backup erstellen (im Terminal aus dem Rails-Root ausführen):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = Backup-Ordner erstellen"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = nächsten Befehl nur ausführen, wenn der erste erfolgreich war"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = alle Dateien kopieren"
+    generate_key_confirm: "Möchten Sie den Verschlüsselungsschlüssel wirklich neu generieren? Der aktuelle Schlüssel wird ersetzt."
+    admin_tools:
+      title: "Admin-Werkzeuge"
+      permissions_audit: "Berechtigungs-Audit"
+      description: "Prüfen Sie, welche Benutzer Zugriff auf welche Schlüssel haben und warum. Nützlich zur Fehleranalyse von Berechtigungen und für die Planung einer Migration zu tagbasierten Berechtigungen."
 
   activerecord:
     models:
       password: "Passwört"
       sftp: "SFTP"
-      key_file: "Passwortdatei"
 
   backups:
-    title: "Passwortbackup"
+    title: "Passwortbackup "
     title_restore: "aus Backup wiederherstellen"
     btn:
       download_backup: "Backup erstellen"
@@ -33,7 +43,7 @@ de:
 
   tag:
     title:
-      popular: "Beliebte Tags"
+      popular: "beliebte Tags"
 
   key:
     title:
@@ -42,20 +52,15 @@ de:
       copy: "Passwort kopieren"
       clone: "Passwort duplizieren"
       show: "Passwort anzeigen"
-      new: "Neues Passwort"
+      new: "neues Passwort"
       list: "Passwörter"
 
-    project_not_exist: "Projekt mit ID %{id} existiert nicht"
-    project_id: "ID:"
-
     btn:
-      new: "Neues Passwort"
+      new: "neues Passwort"
       actions: "Aktionen"
       clipboard: "In die Zwischenablage kopieren"
       generate: "Generieren"
       find: "Suchen"
-      move: "Projekt zuweisen"
-      edit_tags: "Tags bearbeiten"
 
     attr:
       lock: "Lock"
@@ -65,26 +70,14 @@ de:
       login: "Benutzername"
       url: "URL"
       type: "Typ"
-      project: "Projekt"
       tags: "Tags"
       file: "Schlüsseldatei"
       comment: "Kommentar"
       whitelist: "Zugriffsliste"
-      created_at: "Erstellt"
-      updated_at: "Geändert"
 
     whitelist:
       selected_members: "Benutzer mit Zugriff"
-      available_members: "Verfügbare Benutzer"
-
-    audit_log:
-      title: "Audit-Log"
-      action: "Aktion"
-      user: "Benutzer"
-      fields: "Geänderte Felder"
-      timestamp: "Zeitstempel"
-      no_entries: "Keine Einträge"
-      ago: "vor"
+      available_members: "verfügbare Benutzer"
 
   context_menu:
     copy_key: "Passwort kopieren"
@@ -106,6 +99,8 @@ de:
     settings:
       saved: "Einstellungen gespeichert"
       keys_restore: "Passwörter wiederhergestellt"
+      encrypt_files_enabled: "Einstellungen gespeichert. Dateiverschlüsselung wird aktiviert. Dies kann je nach Anzahl der Dateien etwas dauern."
+      encrypt_files_disabled: "Einstellungen gespeichert. Dateiverschlüsselung wird deaktiviert und alle Dateien werden entschlüsselt. Dies kann je nach Anzahl der Dateien etwas dauern."
     key:
       update:
         success: "Passwort wurde geändert"
@@ -118,10 +113,6 @@ de:
     key:
       not_set: "Encryption key wurde nicht in den Einstellungen hinterlegt"
       not_whitelisted: "Kein Zugriff auf das Passwort"
-      length: "Der Verschlüsselungsschlüssel muss genau 16 Zeichen lang sein"
-      not_orphaned: "Dieses Passwort ist nicht verwaist"
-    project:
-      required: "Projekt ist erforderlich"
     user:
       not_allowed: "Sie sind nicht berechtigt, diese Passwörter anzusehen"
 

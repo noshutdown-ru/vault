@@ -13,6 +13,21 @@ pt-BR:
     redmine_title_encription_key: "Use Criptografia Redmine"
     vault_encription_notice: "Usado apenas pelo método de criptografia do Vault"
     redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config/configuration.yml. IMPORTANTE: execute o rake redmine:plugins:vault:convert depois de mudar este interruptor."
+    show_top_menu: "Mostrar no menu superior"
+    show_top_menu_notice: "Exibir o link no menu superior."
+    encrypt_files: "Criptografar arquivos"
+    encrypt_files_notice: "Quando habilitado, todos os arquivos enviados serão criptografados em disco. Quando desabilitado, todos os arquivos serão descriptografados."
+    encrypt_files_warning_title: "Importante: faça backup antes de habilitar/desabilitar"
+    encrypt_files_warning_body_html: "Antes de alterar esta configuração, faça backup manual dos seus arquivos copiando o diretório <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> para outro local no servidor. Isso protege contra perda de dados caso ocorram erros no processo de criptografia/descriptografia."
+    encrypt_files_backup_howto: "Como fazer backup (execute no terminal a partir da raiz do Rails):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = criar pasta de backup"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = executar próximo comando se o primeiro tiver sucesso"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = copiar todos os arquivos"
+    generate_key_confirm: "Tem certeza de que deseja regenerar a chave de criptografia? Isso substituirá a chave atual."
+    admin_tools:
+      title: "Ferramentas administrativas"
+      permissions_audit: "Auditoria de permissões"
+      description: "Verifique quais usuários têm acesso a quais chaves e por quê. Útil para depurar permissões e planejar a migração para permissões baseadas em tags."
 
   activerecord:
     models:
@@ -108,6 +123,8 @@ pt-BR:
     settings:
       saved: "Configurações salvas com sucesso"
       keys_restore: "Acesso restaurados"
+      encrypt_files_enabled: "Configurações salvas. A criptografia de arquivos está sendo habilitada. Isso pode levar um momento dependendo da quantidade de arquivos."
+      encrypt_files_disabled: "Configurações salvas. A criptografia de arquivos está sendo desabilitada e todos os arquivos serão descriptografados. Isso pode levar um momento dependendo da quantidade de arquivos."
     key:
       update:
         success: "O acesso foi modificado com sucesso"
