@@ -1,8 +1,8 @@
 # Italian strings go here for Rails i18n
 it:
-  button_view: "Visualizza"
+  button_view: 'Visualizza'
   label_vault: 'Vault'
-  label_module: 'Chiavi'
+  label_module: 'Keys'
   field_has_url: 'Ha URL'
   field_has_login: 'Ha login'
   field_body: 'Password'
@@ -12,25 +12,40 @@ it:
     redmine_title_encription_key: "Utilizzare la crittografia di Redmine"
     vault_encription_notice: "Usata solo con il metodo di cifratura Vault"
     redmine_encryption_notice: "Consigliato. Non dimenticare di inserire la tua chiave nella riga \"database_cipher_key\" in \"config/configuration.yml\". IMPORTANTE: eseguire \"rake redmine:plugins:vault:convert\" dopo aver cambiato questa impostazione."
+    show_top_menu: "Mostra nel menu superiore"
+    show_top_menu_notice: "Mostra il collegamento Vault nella navigazione superiore di Redmine."
+    encrypt_files: "Cripta file"
+    encrypt_files_notice: "Quando abilitato, tutti i file caricati verranno crittografati su disco. Quando disabilitato, tutti i file verranno decrittografati."
+    encrypt_files_warning_title: "Importante: eseguire un backup prima di abilitare/disabilitare"
+    encrypt_files_warning_body_html: "Prima di cambiare questa impostazione, esegui manualmente il backup dei file copiando la directory <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> in un'altra posizione sul server. Questo protegge dalla perdita di dati in caso di errori durante la cifratura/decifratura."
+    encrypt_files_backup_howto: "Come eseguire il backup (eseguire nel terminale dalla root Rails):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = crea cartella di backup"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = esegui il comando successivo se il primo ha successo"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = copia tutti i file"
+    generate_key_confirm: "Sei sicuro di voler rigenerare la chiave di crittografia? La chiave attuale verrà sostituita."
+    admin_tools:
+      title: "Strumenti amministratore"
+      permissions_audit: "Audit permessi"
+      description: "Controlla quali utenti hanno accesso a quali chiavi e perché. Utile per analizzare i permessi e pianificare la migrazione a permessi basati su tag."
 
   activerecord:
     models:
       password: "Chiavi"
       sftp: "SFTP"
-      key_file: "File chiave"
+      key_file: "File password"
 
   backups:
     title: "Backup chiavi"
     title_restore: "Ripristinare dal backup"
     btn:
       download_backup: "Download backup"
-      upload_backup: "Ripristina dal backup"
+      upload_backup: "Restore from backup"
 
   export:
     title:
       pdf: "PDF"
     pdf:
-      title: "Chiavi"
+      title: "chiavi"
 
   tag:
     title:
@@ -44,7 +59,7 @@ it:
       clone: "Clona Chiave"
       show: "Mostra la chiave"
       new: "Nuova Chiave"
-      list: "Chiavi"
+      list: "Chiave"
 
     project_not_exist: "Il progetto con ID %{id} non esiste"
     project_id: "ID:"
@@ -55,8 +70,8 @@ it:
       clipboard: "Copia negli appunti"
       generate: "Genera"
       find: "Ricerca"
-      move: "Assegna al Progetto"
-      edit_tags: "Modifica Tag"
+      move: "Assegna al progetto"
+      edit_tags: "Modifica tag"
 
     attr:
       lock: "Blocca"
@@ -74,18 +89,18 @@ it:
       created_at: "Creato"
       updated_at: "Aggiornato"
 
-    whitelist:
-      selected_members: "Membri selezionati"
-      available_members: "Membri disponibili"
-
     audit_log:
-      title: "Log di audit"
+      title: "Registro audit"
       action: "Azione"
       user: "Utente"
       fields: "Campi modificati"
-      timestamp: "Data/Ora"
+      timestamp: "Timestamp"
       no_entries: "Nessuna voce di audit"
       ago: "fa"
+
+    whitelist:
+      selected_members: "Membri selezionati"
+      available_members: "Membri disponibili"
 
   context_menu:
     copy_key: "Copia Chiave"
@@ -107,6 +122,8 @@ it:
     settings:
       saved: "Impostazioni salvate"
       keys_restore: "Chiave ripristinati"
+      encrypt_files_enabled: "Impostazioni salvate. La crittografia dei file sta per essere abilitata. Potrebbe richiedere un po' di tempo in base al numero di file."
+      encrypt_files_disabled: "Impostazioni salvate. La crittografia dei file sta per essere disabilitata e tutti i file verranno decrittografati. Potrebbe richiedere un po' di tempo in base al numero di file."
     key:
       update:
         success: "La Chiave è stata modificata con successo"
@@ -119,7 +136,7 @@ it:
     key:
       not_set: "La chiave crittografata non è definita nelle impostazioni"
       not_whitelisted: "Chiave non consentita per te"
-      length: "La chiave crittografica deve essere di esattamente 16 caratteri"
+      length: "La chiave di crittografia deve essere di esattamente 16 caratteri"
       not_orphaned: "Questa chiave non è orfana"
     project:
       required: "Il progetto è obbligatorio"

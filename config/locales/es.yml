@@ -1,17 +1,32 @@
 # Spanish strings go here for Rails i18n
 es:
-  button_view: "Ver"
+  button_view: 'Ver'
   label_vault: 'Vault'
   label_module: 'Claves'
   field_has_url: 'Tiene URL'
-  field_has_login: 'Tiene usuario'
-  field_body: 'Clave'
+  field_has_login: 'Tiene login'
+  field_body: 'Contraseña'
   settings:
     title: "Configuración de Vault"
     vault_title_encription_key: "Clave de encriptación"
     redmine_title_encription_key: "Usar criptografía de Redmine"
     vault_encription_notice: "Solo utilizada por el método criptográfico de Vault"
     redmine_encryption_notice: "Recomendado. No olvide de colocar su clave criptográfica en database_cipher_key en config/configuration.yml. IMPORTANTE: ejecute rake redmine:plugins:vault:convert después de cambiar esta opción."
+    show_top_menu: "Mostrar en el menú superior"
+    show_top_menu_notice: "Mostrar el enlace de Vault en la navegación superior de Redmine."
+    encrypt_files: "Cifrar archivos"
+    encrypt_files_notice: "Cuando está habilitado, todos los archivos subidos se cifrarán en disco. Cuando está deshabilitado, todos los archivos se descifrarán."
+    encrypt_files_warning_title: "Importante: haga una copia de seguridad antes de habilitar/deshabilitar"
+    encrypt_files_warning_body_html: "Antes de cambiar esta opción, haga una copia de seguridad manual de sus archivos copiando el directorio <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> a otra ubicación en el servidor. Esto protege contra la pérdida de datos si se producen errores durante el cifrado/descifrado."
+    encrypt_files_backup_howto: "Cómo hacer copia de seguridad (ejecute en terminal desde la raíz de Rails):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = crear carpeta de copia de seguridad"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = ejecutar el siguiente comando si el primero tuvo éxito"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = copiar todos los archivos"
+    generate_key_confirm: "¿Está seguro de que desea regenerar la clave de cifrado? Esto reemplazará la clave actual."
+    admin_tools:
+      title: "Herramientas de administrador"
+      permissions_audit: "Auditoría de permisos"
+      description: "Compruebe qué usuarios tienen acceso a qué claves y por qué. Útil para depurar permisos y planificar la migración a permisos basados en etiquetas."
 
   activerecord:
     models:
@@ -55,8 +70,8 @@ es:
       clipboard: "Copiar al portapapeles"
       generate: "Generar"
       find: "Buscar"
-      move: "Asignar al Proyecto"
-      edit_tags: "Editar Etiquetas"
+      move: "Asignar a proyecto"
+      edit_tags: "Editar etiquetas"
 
     attr:
       lock: "Bloquear"
@@ -107,6 +122,8 @@ es:
     settings:
       saved: "Configuración guardada"
       keys_restore: "Clave restaurada"
+      encrypt_files_enabled: "Configuración guardada. Se está habilitando el cifrado de archivos. Esto puede tardar un momento según la cantidad de archivos."
+      encrypt_files_disabled: "Configuración guardada. Se está deshabilitando el cifrado de archivos y todos los archivos serán descifrados. Esto puede tardar un momento según la cantidad de archivos."
     key:
       update:
         success: "La clave fue modificada exitosamente"
@@ -119,8 +136,8 @@ es:
     key:
       not_set: "Clave de encriptación no está configurada"
       not_whitelisted: "Usted no tiene acceso a esta clave"
-      length: "La clave de encriptación debe tener exactamente 16 símbolos"
-      not_orphaned: "Esta clave no es huérfana"
+      length: "La clave de cifrado debe tener exactamente 16 caracteres"
+      not_orphaned: "Esta clave no está huérfana"
     project:
       required: "El proyecto es obligatorio"
     user:

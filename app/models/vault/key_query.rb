@@ -59,7 +59,8 @@ module Vault
     end
 
     def base_scope
-      scope = queried_class.joins(:project).where(project_id: project&.id)
+      scope = queried_class.left_outer_joins(:project)
+      scope = scope.where(project_id: project.id) if project.present?
       scope = scope.where(statement) if statement.present?
       scope
     end
@@ -122,9 +123,13 @@ module Vault
     private
 
     def available_tag_values
-      return [] unless project
+      tag_names = if project.present?
+                    Vault::Tag.cloud_for_project(project.id)
+                  else
+                    Vault::Tag.order(:name).pluck(:name)
+                  end
 
-      Vault::Tag.cloud_for_project(project.id).map { |tag_name| [tag_name, tag_name] }
+      tag_names.map { |tag_name| [tag_name, tag_name] }
     end
 
     def apply_live_search(scope, raw_search)

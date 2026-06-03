@@ -1,23 +1,38 @@
 # Chinese strings go here for Rails i18n
 zh:
-  button_view: "查看"
+  button_view: '查看'
   label_vault: 'Vault'
-  label_module: '密钥'
-  field_has_url: '有URL'
+  label_module: '密鑰'
+  field_has_url: '有 URL'
   field_has_login: '有登录名'
-  field_body: '密钥'
+  field_body: '密码'
   settings:
     title: "Vault选项"
     vault_title_encription_key: "密钥"
     redmine_title_encription_key: "使用Redmine加密法"
     vault_encription_notice: "只用Vault加密法有效"
-    redmine_encryption_notice: "推荐选项。请记得设置密钥database_cipher_key在config/configuration.yml文件。注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
+    redmine_encryption_notice: "推荐选项。 请记得设置密钥database_cipher_key在config/configuration.yml文件。 注意: 修改这选项后，记得执行rake redmine:plugins:vault:convert。"
+    show_top_menu: "在顶部菜单显示"
+    show_top_menu_notice: "在 Redmine 顶部导航中显示 Vault 链接。"
+    encrypt_files: "加密文件"
+    encrypt_files_notice: "启用后，所有上传文件都会在磁盘上加密。禁用后，所有文件都会被解密。"
+    encrypt_files_warning_title: "重要：启用/禁用前请先备份"
+    encrypt_files_warning_body_html: "切换此设置前，请手动备份文件：将 <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> 目录复制到服务器上的其他位置。这样在加密/解密过程中发生错误时可避免数据丢失。"
+    encrypt_files_backup_howto: "备份方法（在 Rails 根目录终端执行）："
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = 创建备份目录"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = 如果上一条成功则执行下一条命令"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = 复制全部文件"
+    generate_key_confirm: "确定要重新生成加密密钥吗？这将替换当前密钥。"
+    admin_tools:
+      title: "管理员工具"
+      permissions_audit: "权限审计"
+      description: "检查哪些用户可访问哪些密钥以及原因。可用于排查权限问题并规划迁移到基于标签的权限模型。"
 
   activerecord:
     models:
       password: "密钥"
       sftp: "SFTP"
-      key_file: "密钥文件"
+      key_file: "密码文件"
 
   backups:
     title: "密钥备份"
@@ -29,13 +44,13 @@ zh:
   export:
     title:
       pdf: "PDF"
+
     pdf:
       title: "密钥"
 
   tag:
-    title:
-      popular: "常用标签"
-
+      title:
+        popular: "常用标签"
   key:
     title:
       delete: "删除密钥"
@@ -50,9 +65,9 @@ zh:
     project_id: "ID:"
 
     btn:
-      new: "新建密钥"
+      new: "新建密鑰"
       actions: "操作"
-      clipboard: "复制到剪贴板"
+      clipboard: "复制到剪贴板中"
       generate: "生成"
       find: "搜索"
       move: "分配到项目"
@@ -68,15 +83,11 @@ zh:
       type: "类型"
       project: "项目"
       tags: "标签"
-      file: "密钥文件"
+      file: "密鑰文件"
       comment: "备注"
       whitelist: "访问表"
       created_at: "创建时间"
       updated_at: "更新时间"
-
-    whitelist:
-      selected_members: "已选成员"
-      available_members: "可选成员"
 
     audit_log:
       title: "审计日志"
@@ -87,13 +98,17 @@ zh:
       no_entries: "无审计记录"
       ago: "前"
 
+    whitelist:
+      selected_members: "已选成员"
+      available_members: "可选成员"
+
   context_menu:
-    copy_key: "复制密钥"
-    copy_url: "复制URL"
-    copy_login: "复制用户名"
-    delete: "删除密钥"
-    edit: "修改密钥"
-    clone: "克隆密钥"
+      copy_key: "复制密钥"
+      copy_url: "复制URL"
+      copy_login: "复制用户名"
+      delete: "删除密钥"
+      edit: "修改密钥"
+      clone: "克隆密钥"
 
   alert:
     key:
@@ -107,9 +122,11 @@ zh:
     settings:
       saved: "选项已存储"
       keys_restore: "密钥已恢复"
+      encrypt_files_enabled: "设置已保存。正在启用文件加密。根据文件数量，这可能需要一些时间。"
+      encrypt_files_disabled: "设置已保存。正在禁用文件加密并解密所有文件。根据文件数量，这可能需要一些时间。"
     key:
       update:
-        success: "成功修改密钥"
+        success:  "成功修改密钥"
       delete:
         success: "成功删除密钥"
       create:
@@ -117,10 +134,10 @@ zh:
 
   error:
     key:
-      not_set: "选项未设置加密密钥"
-      not_whitelisted: "您无权访问此密钥"
-      length: "加密密钥必须恰好为16个字符"
-      not_orphaned: "此密钥不是孤立密钥"
+      not_set: "选项钥设置加密方法及密钥"
+      not_whitelisted: "关键不允许你"
+      length: "加密密鑰必须恰好是 16 个字符"
+      not_orphaned: "此密鑰不是孤儿记录"
     project:
       required: "项目是必填项"
     user:

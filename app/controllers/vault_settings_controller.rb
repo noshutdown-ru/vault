@@ -12,28 +12,31 @@ class VaultSettingsController < ApplicationController
   end
 
   def save
-    if params[:settings][:encryption_key].length != 16 and params[:settings][:encryption_key].length != 0
+    plugin_settings = params.fetch(:settings, {}).to_unsafe_h
+    encryption_key = plugin_settings['encryption_key'].to_s
+
+    if encryption_key.length != 16 && encryption_key.length != 0
       redirect_to vault_settings_path, :flash => { :error => t('error.key.length') }
       return
     end
 
     # Check if encryption setting is changing
-    old_encrypt_files = Setting.plugin_vault['encrypt_files']
-    new_encrypt_files = settings['encrypt_files']
+    old_encrypt_files = ActiveModel::Type::Boolean.new.cast(Setting.plugin_vault['encrypt_files'])
+    new_encrypt_files = ActiveModel::Type::Boolean.new.cast(plugin_settings['encrypt_files'])
 
     # Save settings first
-    Setting.send "plugin_vault=", settings
+    Setting.plugin_vault = plugin_settings
 
     # Handle encryption state change
     if old_encrypt_files != new_encrypt_files
       if new_encrypt_files
         # Enable encryption: encrypt all files
         EncryptFilesJob.perform_later
-        flash[:notice] = "Settings saved. File encryption is being enabled. This may take a moment depending on the number of files."
+        flash[:notice] = t('notice.settings.encrypt_files_enabled')
       else
         # Disable encryption: decrypt all files
         DecryptFilesJob.perform_later
-        flash[:notice] = "Settings saved. File encryption is being disabled and all files will be decrypted. This may take a moment depending on the number of files."
+        flash[:notice] = t('notice.settings.encrypt_files_disabled')
       end
     else
       flash[:notice] = t('notice.settings.saved')

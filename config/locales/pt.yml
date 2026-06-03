@@ -1,23 +1,38 @@
 # Portuguese - Portugal strings go here for Rails i18n
 pt:
-  button_view: "Ver"
+  button_view: 'Ver'
   label_vault: 'Senhas'
   label_module: 'Chaves'
   field_has_url: 'Tem URL'
   field_has_login: 'Tem login'
-  field_body: 'Chave'
+  field_body: 'Senha'
   settings:
     title: "Configuração de senhas"
     vault_title_encription_key: "Criptografia da chave"
     redmine_title_encription_key: "Use Criptografia Redmine"
     vault_encription_notice: "Usado apenas pelo método de criptografia do Vault"
-    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config/configuration.yml. IMPORTANTE: execute o rake redmine:plugins:vault:convert depois de mudar este interruptor."
+    redmine_encryption_notice: "Recomendado. Não esqueça de colocar sua chave em database_cipher_key em config / configuration.yml. IMPORTANTE: execute o rake redmine: plugins: vault: converte depois de mudar este interruptor."
+    show_top_menu: "Mostrar no menu superior"
+    show_top_menu_notice: "Mostrar o link do Vault na navegação superior do Redmine."
+    encrypt_files: "Encriptar ficheiros"
+    encrypt_files_notice: "Quando ativado, todos os ficheiros enviados serão encriptados em disco. Quando desativado, todos os ficheiros serão desencriptados."
+    encrypt_files_warning_title: "Importante: faça backup antes de ativar/desativar"
+    encrypt_files_warning_body_html: "Antes de alternar esta configuração, faça backup manual dos seus ficheiros copiando a pasta <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> para outro local no servidor. Isto protege contra perda de dados caso ocorram erros durante a encriptação/desencriptação."
+    encrypt_files_backup_howto: "Como fazer backup (executar no terminal a partir da raiz do Rails):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = criar pasta de backup"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = executar o próximo comando se o primeiro tiver sucesso"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = copiar todos os ficheiros"
+    generate_key_confirm: "Tem a certeza de que quer regenerar a chave de encriptação? A chave atual será substituída."
+    admin_tools:
+      title: "Ferramentas de administrador"
+      permissions_audit: "Auditoria de permissões"
+      description: "Verifique quais utilizadores têm acesso a quais chaves e por quê. Útil para depurar permissões e planear a migração para permissões baseadas em tags."
 
   activerecord:
     models:
       password: "Chave"
       sftp: "SFTP"
-      key_file: "Arquivo de chave"
+      key_file: "Ficheiro de senha"
 
   backups:
     title: "Backup Chaves"
@@ -42,7 +57,7 @@ pt:
       edit: "Editar Chave"
       copy: "Copiar Chave"
       clone: "Clonar Chave"
-      show: "Mostrar Chave"
+      show: "Mostar Chave"
       new: "Nova Chave"
       list: "Chaves"
 
@@ -55,8 +70,8 @@ pt:
       clipboard: "Copiar para clipboard"
       generate: "Gerar"
       find: "Procurar"
-      move: "Atribuir ao Projeto"
-      edit_tags: "Editar Tags"
+      move: "Atribuir ao projeto"
+      edit_tags: "Editar tags"
 
     attr:
       lock: "Bloqueado"
@@ -74,18 +89,18 @@ pt:
       created_at: "Criado"
       updated_at: "Atualizado"
 
+    audit_log:
+      title: "Registo de auditoria"
+      action: "Ação"
+      user: "Utilizador"
+      fields: "Campos alterados"
+      timestamp: "Data/hora"
+      no_entries: "Sem entradas de auditoria"
+      ago: "atrás"
+
     whitelist:
       selected_members: "Selecionar Membros"
       available_members: "Membros disponíveis"
-
-    audit_log:
-      title: "Log de Auditoria"
-      action: "Ação"
-      user: "Utilizador"
-      fields: "Campos Alterados"
-      timestamp: "Data/Hora"
-      no_entries: "Sem registos de auditoria"
-      ago: "atrás"
 
   context_menu:
     copy_key: "Copiar Chave"
@@ -97,7 +112,7 @@ pt:
 
   alert:
     key:
-      not_found: "Chave não encontrada"
+      not_found: "Chave não encotrada"
 
   confirm:
     key:
@@ -105,8 +120,10 @@ pt:
 
   notice:
     settings:
-      saved: "Configurações guardadas"
+      saved: "Salvar Configurações"
       keys_restore: "Chaves restauradas"
+      encrypt_files_enabled: "Configurações salvas. A encriptação de ficheiros está a ser ativada. Isto pode demorar um pouco, dependendo da quantidade de ficheiros."
+      encrypt_files_disabled: "Configurações salvas. A encriptação de ficheiros está a ser desativada e todos os ficheiros serão desencriptados. Isto pode demorar um pouco, dependendo da quantidade de ficheiros."
     key:
       update:
         success: "A chave foi modificada com sucesso"
@@ -119,10 +136,10 @@ pt:
     key:
       not_set: "A chave de criptografia não está definida nas configurações"
       not_whitelisted: "Chave não permitida para você"
-      length: "A chave de criptografia deve ter exatamente 16 caracteres"
-      not_orphaned: "Esta chave não está órfã"
+      length: "A chave de encriptação deve ter exatamente 16 caracteres"
+      not_orphaned: "Esta chave não é órfã"
     project:
-      required: "Projeto é obrigatório"
+      required: "O projeto é obrigatório"
     user:
       not_allowed: "Você não tem permissão para visualizar essas senhas"
 

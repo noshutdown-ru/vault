@@ -1,4 +1,8 @@
 # Changelog
+## Version: 0.11.1
+### Improvements
+- Prepare for next release
+
 
 ## Version: 0.11.0
 ### Improvements

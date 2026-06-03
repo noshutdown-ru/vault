@@ -12,6 +12,21 @@ en:
     redmine_title_encription_key: "Use Redmine Encryption"
     vault_encription_notice: "Used only by VaultEencryption Method"
     redmine_encryption_notice: "Recommended. Don't forget to put your key into database_cipher_key in config/configuration.yml. IMPORTANT: run rake redmine:plugins:vault:convert after changing this switch."
+    show_top_menu: "Show In Top Menu"
+    show_top_menu_notice: "Display the Vault link in Redmine top navigation."
+    encrypt_files: "Encrypt Files"
+    encrypt_files_notice: "When enabled, all uploaded files will be encrypted on disk. When disabled, all files will be decrypted."
+    encrypt_files_warning_title: "⚠️ Important: Backup Before Enabling/Disabling"
+    encrypt_files_warning_body_html: "Before toggling this setting, manually backup your files by copying the <code style='background-color: #f1e3cd; padding: 2px 6px; border-radius: 2px;'>./keys</code> directory to another location on the server. This protects against data loss if the encryption/decryption process encounters errors."
+    encrypt_files_backup_howto: "How to backup (run in terminal from Rails root):"
+    encrypt_files_backup_step_1_html: "• <code>mkdir keys.backup</code> = create backup folder"
+    encrypt_files_backup_step_2_html: "• <code>&&</code> = run next command if first succeeds"
+    encrypt_files_backup_step_3_html: "• <code>cp -r ./keys/* ./keys.backup/</code> = copy all files"
+    generate_key_confirm: "Are you sure you want to regenerate the encryption key? This will replace the current key."
+    admin_tools:
+      title: "Admin Tools"
+      permissions_audit: "🔍 Permissions Audit"
+      description: "Check which users have access to which keys and understand why. Useful for debugging permissions and planning migration to tag-based permissions."
 
   activerecord:
     models:
@@ -107,6 +122,8 @@ en:
     settings:
       saved: "Settings saved"
       keys_restore: "Passwords restored"
+      encrypt_files_enabled: "Settings saved. File encryption is being enabled. This may take a moment depending on the number of files."
+      encrypt_files_disabled: "Settings saved. File encryption is being disabled and all files will be decrypted. This may take a moment depending on the number of files."
     key:
       update:
         success: "Password was successfully modified"
