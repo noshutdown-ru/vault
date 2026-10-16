@@ -8,21 +8,27 @@ class VaultSettingsController < ApplicationController
   before_action :require_admin
 
   def index
-    @encryption_enabled = Setting.plugin_vault['encrypt_files']
+    @encryption_enabled = ActiveModel::Type::Boolean.new.cast(Setting.plugin_vault['encrypt_files'])
   end
 
   def save
-    if params[:settings][:encryption_key].length != 16 and params[:settings][:encryption_key].length != 0
+    values = params.require(:settings).permit(:encryption_key, :use_redmine_encryption, :use_null_encryption, :encrypt_files).to_h
+    values['encryption_key'] = Setting.plugin_vault['encryption_key'].to_s unless values.key?('encryption_key')
+    if ![0, 16].include?(values['encryption_key'].to_s.bytesize)
       redirect_to vault_settings_path, :flash => { :error => t('error.key.length') }
       return
     end
 
     # Check if encryption setting is changing
-    old_encrypt_files = Setting.plugin_vault['encrypt_files']
-    new_encrypt_files = params[:settings][:encrypt_files]
+    old_encrypt_files = !!ActiveModel::Type::Boolean.new.cast(Setting.plugin_vault['encrypt_files'])
+    new_encrypt_files = !!ActiveModel::Type::Boolean.new.cast(values['encrypt_files'].presence)
+    values['encrypt_files'] = new_encrypt_files ? true : nil
+    %w[use_redmine_encryption use_null_encryption].each do |key|
+      values[key] = ActiveModel::Type::Boolean.new.cast(values[key].presence) if values.key?(key)
+    end
 
     # Save settings first
-    Setting.send "plugin_vault=", params[:settings]
+    Setting.plugin_vault = Setting.plugin_vault.merge(values)
 
     # Handle encryption state change
     if old_encrypt_files != new_encrypt_files

@@ -10,7 +10,7 @@ Redmine::Plugin.register :vault do
   name 'Vault plugin'
   author 'noshutdown.ru'
   description 'Plugin for keep keys and passwords'
-  version '0.10.5'
+  version '0.10.7'
   url 'https://github.com/noshutdown-ru/vault'
   author_url 'https://noshutdown.ru/'
 
@@ -32,5 +32,5 @@ Redmine::Plugin.register :vault do
            },
            :partial => 'settings/vault_settings'
 
-  menu :admin_menu, :vault, {:controller => 'vault_settings', :action => 'index'}, :caption => :label_vault, :html => {:class => 'icon'}
+  menu :admin_menu, :vault, {:controller => 'vault_settings', :action => 'index'}, :caption => :label_vault, :icon => 'key', :html => {:class => 'icon'}
 end

@@ -31,3 +31,12 @@ module Vault
   end
 
 end
+
+# Keep shoulda's legacy rerun reporter compatible with Rails 8.
+if defined?(Rails::TestUnitReporter) && Rails::TestUnitReporter.respond_to?(:executable) && !Rails::TestUnitReporter.method_defined?(:executable)
+  Rails::TestUnitReporter.class_eval do
+    def executable
+      self.class.executable
+    end
+  end
+end

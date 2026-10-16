@@ -11,7 +11,7 @@ module Vault
 
     safe_attributes 'project_id', 'name', 'body', 'login', 'type', 'file', 'url', 'comment', 'whitelist'
 
-    before_create :log_creation
+    after_create :log_creation
     before_update :log_update
     before_destroy :log_deletion
 
@@ -118,7 +118,7 @@ module Vault
 
     # Check if file encryption is enabled
     def self.file_encryption_enabled?
-      Setting.plugin_vault['encrypt_files']
+      !!ActiveModel::Type::Boolean.new.cast(Setting.plugin_vault['encrypt_files'])
     end
 
     def whitelisted?(user, project)
@@ -142,7 +142,7 @@ module Vault
 
     # Automatically encrypt newly uploaded files if encryption is enabled
     def encrypt_file_if_needed
-      return unless file.present?
+      return unless file.present? && saved_change_to_file?
       return unless self.class.file_encryption_enabled?
 
       encrypt_file!
